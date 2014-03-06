@@ -6,89 +6,120 @@
     <script>
     	var stage;
     	var queue;
-		var recta = new createjs.Shape();
-            var text = new createjs.Text("Click the Circle", "bold 86px Arial", "#ff7700");
-            text.x = 177;
-            text.y = 150;
-        function init() {
+
+    	//---------------Button declarations---------------
+		var startButton = new createjs.Shape();
+		var readyButton = new createjs.Shape();
+		var buildButton = new createjs.Shape();
+		var loadBuildingButton = new createjs.Shape();
+		var attackButton = new createjs.Shape();
+
+		// Track Mouse Position - not working
+		var MousePostion = new createjs.Text("X: Y: ", "40px Arial", "black");
+
+        function init(){
             stage = new createjs.Stage("demoCanvas");
             queue = new createjs.LoadQueue(false);
             queue.installPlugin(createjs.Sound);
-            queue.addEventListener("complete", handleComplete);
+            queue.addEventListener("complete", loadTitle);
             queue.loadManifest([{id:"title", src:"title.jpg"}, {id:"lobby", src:"lobby.jpg"},
 			{id:"battle", src:"Battle.jpg"}, {id:"lobby", src:"lobby.jpg"}, {id:"menu", src:"Build menu.jpg"},
 			{id:"building", src:"Building.jpg"}, {id:"fort", src:"Fort layout.jpg"},
 			{id:"defense", src:"defense added.jpg"}])
+			//stage.addEventListener("mousedown", mouseDown);
         }
 
-        function handleComplete(event){
-        	
+        function loadTitle(event){
 			createjs.Ticker.addEventListener("tick", tick)
-            
-			console.log("LOAD TITLE"); 
 			
-			recta.removeAllEventListeners();
-            recta.addEventListener("click", loadLobby);
-			recta.graphics.beginFill("#000000").drawRect(740, 560, 520, 200);
-			stage.addChild(recta);
+
+			startButton.graphics.beginFill("#000000").drawRect(740, 560, 520, 200);
+            startButton.addEventListener("click", loadLobby);
+			stage.addChild(startButton);
 			
         	var bmp = new createjs.Bitmap(queue.getResult("title"));
         	stage.addChild(bmp);
-           
-        }
-
-        function loadTitle(event){ 
-			
-			
         }
 
 		function loadLobby(event){
 			console.log("LOAD LOBBY"); 
-			recta.removeAllEventListeners();
-            recta.addEventListener("click", loadFort);
-			recta.graphics.beginFill("#000000").drawRect(770, 835, 430, 120);
+			startButton.removeEventListener("click", loadLobby);
+
+            readyButton.addEventListener("click", loadFort);
+			readyButton.graphics.beginFill("#000000").drawRect(770, 835, 430, 120);
+			stage.addChild(readyButton);
 			
 			var bmp = new createjs.Bitmap(queue.getResult("lobby"));
-			stage.addChild(recta);
         	stage.addChild(bmp);
-			
 		}
 		
 		function loadFort(event){
 			console.log("LOAD FORT"); 
-			recta.removeAllEventListeners();
-            recta.addEventListener("click", loadMenu);
-			recta.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
-			
+			readyButton.removeEventListener("click", loadFort);
+
+            buildButton.addEventListener("click", loadMenu);
+			buildButton.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
+			stage.addChild(buildButton);
+
 			var bmp = new createjs.Bitmap(queue.getResult("fort"));
-			stage.addChild(recta);
         	stage.addChild(bmp);
 		}
 		
 		function loadMenu(event){
-			console.log("LOAD FORT"); 
-			recta.removeAllEventListeners();
-            recta.addEventListener("click", loadBuilding);
-			recta.graphics.beginFill("#000000").drawRect(355, 235, 1135, 300);
-			
+			console.log("LOAD MENU"); 
+			buildButton.removeEventListener("click", loadMenu);
+
+            loadBuildingButton.addEventListener("click", loadBuilding);
+			loadBuildingButton.graphics.beginFill("#000000").drawRect(355, 235, 1135, 300);
+			stage.addChild(loadBuildingButton);
+
 			var bmp = new createjs.Bitmap(queue.getResult("menu"));
-			stage.addChild(recta);
         	stage.addChild(bmp);
-			
 		}
 		
 		function loadBuilding(event){
-			console.log("LOAD FORT"); 
-			recta.removeAllEventListeners();
-            recta.addEventListener("click", loadMenu);
-			recta.graphics.beginFill("#000000").drawRect(945, 530, 535, 200);
-			stage.addChild(recta);
+			console.log("LOAD BUILDING"); 
+			loadBuildingButton.removeEventListener("click", loadBuilding);
+
+			attackButton.addEventListener("click", loadAttack);
+			attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
+			stage.addChild(attackButton);
+
 			var bmp = new createjs.Bitmap(queue.getResult("building"));
         	stage.addChild(bmp);
 		}
+
+		function loadAttack(event){
+			console.log("LOAD ATTACK"); 
+			loadBuildingButton.removeEventListener("click", loadAttack);
+
+			buildButton.addEventListener("click", loadMenu);
+			
+			var bmp = new createjs.Bitmap(queue.getResult("battle"));
+        	stage.addChild(bmp);
+		}
+
         function tick(event){
         	stage.update();
+        	
         }
+
+        document.onmousemove = function(e){
+			var x = e.pageX;
+			var y = e.pageY;
+			MousePostion.text = "X: "+x+"\nY: "+y;
+			stage.addChild(MousePostion);
+		};
+
+  //       function mouseDown(event) { 
+  //  			event.addEventListener("mousemove", handleMove);
+		// }
+
+		// function handleMove(event) {
+		// 	MousePostion.text = "X: " + stage.stageX + "	Y: " + stage.stageY;
+		// 	stage.addChild(MousePostion);
+		//     stage.update();
+		// }
 
     </script>
 </head>
