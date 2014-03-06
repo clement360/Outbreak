@@ -14,7 +14,7 @@
 		var loadBuildingButton = new createjs.Shape();
 		var attackButton = new createjs.Shape();
 
-		// Track Mouse Position - not working
+		// Track Mouse Position
 		var MousePostion = new createjs.Text("X: Y: ", "40px Arial", "black");
 
         function init(){
@@ -26,7 +26,6 @@
 			{id:"battle", src:"Battle.jpg"}, {id:"lobby", src:"lobby.jpg"}, {id:"menu", src:"Build menu.jpg"},
 			{id:"building", src:"Building.jpg"}, {id:"fort", src:"Fort layout.jpg"},
 			{id:"defense", src:"defense added.jpg"}])
-			//stage.addEventListener("mousedown", mouseDown);
         }
 
         function loadTitle(event){
@@ -94,7 +93,7 @@
 			loadBuildingButton.removeEventListener("click", loadAttack);
 
 			buildButton.addEventListener("click", loadMenu);
-			
+
 			var bmp = new createjs.Bitmap(queue.getResult("battle"));
         	stage.addChild(bmp);
 		}
@@ -110,16 +109,6 @@
 			MousePostion.text = "X: "+x+"\nY: "+y;
 			stage.addChild(MousePostion);
 		};
-
-  //       function mouseDown(event) { 
-  //  			event.addEventListener("mousemove", handleMove);
-		// }
-
-		// function handleMove(event) {
-		// 	MousePostion.text = "X: " + stage.stageX + "	Y: " + stage.stageY;
-		// 	stage.addChild(MousePostion);
-		//     stage.update();
-		// }
 
     </script>
 </head>
