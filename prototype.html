@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create JS workspace</title>
+    <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+    <script>
+    	var stage;
+    	var queue;
+		var recta = new createjs.Shape();
+            var text = new createjs.Text("Click the Circle", "bold 86px Arial", "#ff7700");
+            text.x = 177;
+            text.y = 150;
+        function init() {
+            stage = new createjs.Stage("demoCanvas");
+            queue = new createjs.LoadQueue(false);
+            queue.installPlugin(createjs.Sound);
+            queue.addEventListener("complete", handleComplete);
+            queue.loadManifest([{id:"title", src:"title.jpg"}, {id:"lobby", src:"lobby.jpg"},
+			{id:"battle", src:"Battle.jpg"}, {id:"lobby", src:"lobby.jpg"}, {id:"menu", src:"Build menu.jpg"},
+			{id:"building", src:"Building.jpg"}, {id:"fort", src:"Fort layout.jpg"},
+			{id:"defense", src:"defense added.jpg"}])
+        }
+
+        function handleComplete(event){
+        	
+			createjs.Ticker.addEventListener("tick", tick)
+            
+			console.log("LOAD TITLE"); 
+			
+			recta.removeAllEventListeners();
+            recta.addEventListener("click", loadLobby);
+			recta.graphics.beginFill("#000000").drawRect(740, 560, 520, 200);
+			stage.addChild(recta);
+			
+        	var bmp = new createjs.Bitmap(queue.getResult("title"));
+        	stage.addChild(bmp);
+           
+        }
+
+        function loadTitle(event){ 
+			
+			
+        }
+
+		function loadLobby(event){
+			console.log("LOAD LOBBY"); 
+			recta.removeAllEventListeners();
+            recta.addEventListener("click", loadFort);
+			recta.graphics.beginFill("#000000").drawRect(770, 835, 430, 120);
+			
+			var bmp = new createjs.Bitmap(queue.getResult("lobby"));
+			stage.addChild(recta);
+        	stage.addChild(bmp);
+			
+		}
+		
+		function loadFort(event){
+			console.log("LOAD FORT"); 
+			recta.removeAllEventListeners();
+            recta.addEventListener("click", loadMenu);
+			recta.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
+			
+			var bmp = new createjs.Bitmap(queue.getResult("fort"));
+			stage.addChild(recta);
+        	stage.addChild(bmp);
+		}
+		
+		function loadMenu(event){
+			console.log("LOAD FORT"); 
+			recta.removeAllEventListeners();
+            recta.addEventListener("click", loadBuilding);
+			recta.graphics.beginFill("#000000").drawRect(355, 235, 1135, 300);
+			
+			var bmp = new createjs.Bitmap(queue.getResult("menu"));
+			stage.addChild(recta);
+        	stage.addChild(bmp);
+			
+		}
+		
+		function loadBuilding(event){
+			console.log("LOAD FORT"); 
+			recta.removeAllEventListeners();
+            recta.addEventListener("click", loadMenu);
+			recta.graphics.beginFill("#000000").drawRect(945, 530, 535, 200);
+			stage.addChild(recta);
+			var bmp = new createjs.Bitmap(queue.getResult("building"));
+        	stage.addChild(bmp);
+		}
+        function tick(event){
+        	stage.update();
+        }
+
+    </script>
+</head>
+<body onLoad="init();">
+    <canvas id="demoCanvas" width="1920" height="980">
+        Alternative Content
+    </canvas>
+</body>
+</html>
