@@ -1,6 +1,7 @@
 var readyButton = new createjs.Shape();
-		
-function loadLobby(event){
+
+function loadLobby(event) {
+	var userName = document.getElementById("userName");
 	console.log("LOAD LOBBY"); 
 	startButton.removeEventListener("click", loadLobby);
 	readyButton.addEventListener("click", loadFort);
@@ -8,4 +9,7 @@ function loadLobby(event){
 	stage.addChild(readyButton);
 	var bmp = new createjs.Bitmap(queue.getResult("lobby"));
   	stage.addChild(bmp);
+	userName.style.display = "block";
+	userName.style.left = "175px";
+	userName.style.top = "210px";
 }

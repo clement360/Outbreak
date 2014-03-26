@@ -3,6 +3,8 @@ var loadBuildingButton = new createjs.Shape();
 var attackButton = new createjs.Shape();
 
 function loadFort(event){
+	var userName = document.getElementById("userName");
+	socket.emit('userName', userName.value);
 	console.log("LOAD FORT"); 
 	readyButton.removeEventListener("click", loadFort);
 	buildButton.addEventListener("click", loadMenu);

@@ -2,12 +2,16 @@ var stage;
 var queue;
 var socket = io.connect("http://compute.cs.tamu.edu:56644");
 
-socket.on('news', function(data) {
-		  console.log(data['hello']);
-		  });
+var newsFunction = function(data) {
+	console.log(data['hello']);
+}
+
+socket.on('news', newsFunction );
+socket.on('newUser', function(data) {
+	console.log("NEW USER CONNECTED: " + data);
+});
 
 function init(){
-	socket.emit('blarg', {what: 'is up'});
 	stage = new createjs.Stage("demoCanvas");
 	queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
