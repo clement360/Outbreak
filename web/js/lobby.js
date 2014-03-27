@@ -1,33 +1,50 @@
 var readyButton = new createjs.Shape();
-var playerNameText = new Array();;
+var playerNameText = new Array();
+var checkMarks = new Array();
 
 socket.on('userReady', function(data) {
 	setCheck(data);
+	usersReady[data] = true;
+	checkUsersReady();
 });
 
+function checkUsersReady() {
+	var userNotReady = false;
+	for(var x = 0; x < 4; ++x) {
+		if(!usersReady[x]) {
+			userNotReady = true;
+			break;
+		}
+	}
+	if(!userNotReady)
+		loadFort(this);
+}
+
 function setCheck(player) {
-	var bmp = new createjs.Bitmap(queue.getResult("readyCheck"));
-	bmp.x = 1750;
+	checkMarks[player] = new createjs.Bitmap(queue.getResult("readyCheck"));
+	checkMarks[player].x = 1750;
 	switch(player) {
 		case 0:
-			bmp.y = 180;
+			checkMarks[player].y = 180;
 			break;
 		case 1:
-			bmp.y = 340;
+			checkMarks[player].y = 340;
 			break;
 		case 2:
-			bmp.y = 500;
+			checkMarks[player].y = 500;
 			break;
 		case 3:
-			bmp.y = 670;
+			checkMarks[player].y = 670;
 			break;
 	}
-	stage.addChild(bmp);
+	stage.addChild(checkMarks[player]);
 }
 
 function readyUp(event) {
 	socket.emit('readyUp', myIndex);
 	setCheck(myIndex);
+	usersReady[myIndex] = true;
+	checkUsersReady();
 }
 
 function loadLobby(event) {

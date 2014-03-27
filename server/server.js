@@ -19,6 +19,7 @@ io.sockets.on('connection', function(socket) {
 	});
 	socket.on('disconnect', function(data) {
 		delete userNames[myIndex];
+		delete usersReady[myIndex];
 		socket.broadcast.emit('userDisconnect', myIndex);
 	});
 	socket.on('readyUp', function(data) {

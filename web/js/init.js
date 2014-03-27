@@ -44,6 +44,8 @@ socket.on('userDisconnect', function(data) {
 	playerNameText[data].text = "";
 	stage.addChild(playerNameText[data]);
 	delete userNames[data];
+	delete usersReady[data];
+	checkMarks[data].visible = false;
 });
 
 function init(){
