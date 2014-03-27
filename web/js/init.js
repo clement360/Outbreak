@@ -1,6 +1,8 @@
 var stage;
 var queue;
 var socket = io.connect("http://compute.cs.tamu.edu:56644");
+//please do not delete 
+//var socket = io.connect("http://localhost:56644"); 
 var userNames = new Array();
 var MousePostion = new createjs.Text("X: Y: ", "40px Arial", "black");
 var myIndex;
@@ -16,7 +18,6 @@ socket.on('newUser', function(data) {
 			break;
 		}
 	}
-	
 });
 
 socket.on('usersReady', function(data) {
@@ -53,13 +54,22 @@ function init(){
 	queue = new createjs.LoadQueue(false);
 	queue.installPlugin(createjs.Sound);
 	queue.addEventListener("complete", loadTitle);
-	queue.loadManifest([{id:"title", src:"images/title.jpg"}, {id:"lobby", src:"images/lobby.png"},
-	{id:"battle", src:"images/Battle.jpg"}, {id:"lobby", src:"images/lobby.png"}, {id:"menu", src:"images/Build menu.jpg"},
-	{id:"building", src:"images/Building.jpg"}, {id:"fort", src:"images/Fort layout.jpg"},
-	{id:"defense", src:"images/defense added.jpg"}, {id:"readyCheck", src:"images/readyCheck.png"}]);
+	queue.loadManifest([
+		{id:"title", src:"images/title.jpg"}, 
+		{id:"lobby", src:"images/lobby.jpg"},
+		{id:"battle", src:"images/Battle.jpg"}, 
+		{id:"buildMenu", src:"images/buildMenu.png"},
+		{id:"lowerMenu", src:"images/lowerMenu.png"},
+		{id:"building", src:"images/Building.jpg"}, 
+		{id:"field", src:"images/field.jpg"},
+		{id:"factory1", src:"images/factory1.png"},
+		{id:"defense", src:"images/defense added.jpg"}, 
+		{id:"readyCheck", src:"images/readyCheck.png"}
+	]);
 }
 
 document.onmousemove = function(e){
+	// Calibrate x and y
 	var x = e.pageX;
 	var y = e.pageY;
 	MousePostion.text = "X: "+x+"\nY: "+y;

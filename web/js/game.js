@@ -9,8 +9,13 @@ function loadFort(event){
 	buildButton.addEventListener("click", loadMenu);
 	buildButton.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
 	stage.addChild(buildButton);
-	var bmp = new createjs.Bitmap(queue.getResult("fort"));
-	stage.addChild(bmp);
+	var field = new createjs.Bitmap(queue.getResult("field"));
+	var lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
+
+	lowerMenu.y = 675;
+
+	stage.addChild(field);
+	stage.addChild(lowerMenu);
 }
 		
 function loadMenu(event){
@@ -19,8 +24,12 @@ function loadMenu(event){
 	loadBuildingButton.addEventListener("click", loadBuilding);
 	loadBuildingButton.graphics.beginFill("#000000").drawRect(355, 235, 1135, 300);
 	stage.addChild(loadBuildingButton);
-	var bmp = new createjs.Bitmap(queue.getResult("menu"));
-	stage.addChild(bmp);
+	var buildMenu = new createjs.Bitmap(queue.getResult("buildMenu"));
+
+	buildMenu.x = 310;
+	buildMenu.y = 90;
+
+	stage.addChild(buildMenu);
 }
 		
 function loadBuilding(event){

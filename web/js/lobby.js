@@ -28,10 +28,10 @@ function setCheck(player) {
 			checkMarks[player].y = 180;
 			break;
 		case 1:
-			checkMarks[player].y = 340;
+			checkMarks[player].y = 346;
 			break;
 		case 2:
-			checkMarks[player].y = 500;
+			checkMarks[player].y = 510;
 			break;
 		case 3:
 			checkMarks[player].y = 670;
