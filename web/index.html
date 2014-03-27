@@ -9,13 +9,37 @@
 	<script src="js/lobby.js"></script>
 	<script src="js/game.js"></script>
 	<style>
+		@font-face {
+		  font-family: 'Lithos';
+		  src: url(images/Lithos.ttf);
+		}
+
 		body {
 			background-color: #000;
 		}
+		form {
+			top: 50%;
+			left: 39%;
+			display: none;
+			position: absolute;
+			background-color: #996;
+			border: solid 3px #093;
+			padding: 50px;
+			z-index: 1;
+		}
+		canvas {
+			width: 100%;
+			top: 0;
+			position: absolute;
+			z-index: 0;
+		}
 	</style>
 </head>
-<body onLoad="init();">
-	<input id="userName" style="display: none; position: absolute; font-size: 60px;"/>
+<body>
+	<form id="newUserForm">
+		<input name="userName" id="userName" placeholder="Username" style="font-size: 30px;"/>
+		<input type="button" value="OK" onclick="loadLobby(this)" style="font-size: 30px;"/>
+	</form>
 	<canvas id="demoCanvas" width="1920" height="980" style="width: 100%;" />
 	
 </body>
