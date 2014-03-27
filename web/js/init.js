@@ -1,11 +1,10 @@
-var portNumber = 56644;
-
 var stage;
 var queue;
-var socket = io.connect("http://compute.cs.tamu.edu:" + portNumber);
+var socket = io.connect("http://compute.cs.tamu.edu:56644");
 var userNames = new Array();
 var MousePostion = new createjs.Text("X: Y: ", "40px Arial", "black");
 var myIndex;
+var usersReady = new Array();
 
 socket.on('newUser', function(data) {
 	console.log("NEW USER CONNECTED: " + data);
@@ -18,6 +17,10 @@ socket.on('newUser', function(data) {
 		}
 	}
 	
+});
+
+socket.on('usersReady', function(data) {
+	usersReady = data;
 });
 
 socket.on('userLobby', function(data) {

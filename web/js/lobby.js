@@ -1,9 +1,13 @@
 var readyButton = new createjs.Shape();
 var playerNameText = new Array();;
 
+socket.on('userReady', function(data) {
+	setCheck(data);
+});
+
 function setCheck(player) {
-	var bmp = createjs.Bitmap(queue.getResult("readyCheck"));
-	bmp.x = 1800;
+	var bmp = new createjs.Bitmap(queue.getResult("readyCheck"));
+	bmp.x = 1750;
 	switch(player) {
 		case 0:
 			bmp.y = 180;
@@ -21,9 +25,9 @@ function setCheck(player) {
 	stage.addChild(bmp);
 }
 
-function readyUp() {
+function readyUp(event) {
 	socket.emit('readyUp', myIndex);
-	var bmp = createjs.Bitmap(queue.getResult("readyCheck"));
+	setCheck(myIndex);
 }
 
 function loadLobby(event) {
@@ -53,9 +57,13 @@ function loadLobby(event) {
 	startButton.removeEventListener("click", loadLobby);
 	readyButton.addEventListener("click", readyUp);
 	readyButton.graphics.beginFill("#000000").drawRect(770, 835, 430, 120);
-	stage.addChild(readyButton);
 	var bmp = new createjs.Bitmap(queue.getResult("lobby"));
-  	stage.addChild(bmp);
+	stage.addChild(readyButton);
+	stage.addChild(bmp);
+	for(var x = 0; x < 4; ++x) {
+		if(usersReady[x])
+			setCheck(x);
+	}
 	stage.addChild(playerNameText[0]);
 	stage.addChild(playerNameText[1]);
 	stage.addChild(playerNameText[2]);
