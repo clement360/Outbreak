@@ -3,6 +3,7 @@ var loadBuildingButton = new createjs.Shape();
 var attackButton = new createjs.Shape();
 
 function loadFort(event){
+	currentState = state["game"];
 	var userName = document.getElementById("userName");
 	console.log("LOAD FORT"); 
 	readyButton.removeEventListener("click", loadFort);

@@ -3,9 +3,18 @@ var playerNameText = new Array();
 var checkMarks = new Array();
 
 socket.on('userReady', function(data) {
-	setCheck(data);
 	usersReady[data] = true;
-	checkUsersReady();
+	if(currentState == state["lobby"]) {
+		setCheck(data);
+		checkUsersReady();
+	}
+});
+
+socket.on("index", function(data) {
+	myIndex = data;
+	userNames[data] = userName.value;
+	playerNameText[data].text = userName.value;
+	stage.addChild(playerNameText[data]);
 });
 
 function checkUsersReady() {
@@ -48,17 +57,11 @@ function readyUp(event) {
 }
 
 function loadLobby(event) {
+	currentState = state["lobby"];
 	var newUserForm = document.getElementById("newUserForm");
 	newUserForm.style.display = "none";
 	stage.removeChild(startButton);
 	socket.emit('userName', userName.value);
-	for(var x = 0; x < 4; ++x) {
-		if(userNames[x] == null) {
-			userNames[x] = userName.value;
-			myIndex = x;
-			break;
-		}
-	}
 	playerNameText[0] = new createjs.Text(userNames[0], "bold 60px Lithos", "#00754f");
 	playerNameText[1] = new createjs.Text(userNames[1], "bold 60px Lithos", "#00754f");
 	playerNameText[2] = new createjs.Text(userNames[2], "bold 60px  Lithos", "#7d4a00");

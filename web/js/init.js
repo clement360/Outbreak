@@ -7,26 +7,26 @@ var userNames = new Array();
 var MousePostion = new createjs.Text("X: Y: ", "40px Arial", "black");
 var myIndex;
 var usersReady = new Array();
+var state = {
+	"splash" : 0,
+	"lobby" : 1,
+	"game" : 2
+};
+var currentState = 0;
 
 socket.on('newUser', function(data) {
 	console.log("NEW USER CONNECTED: " + data);
-	for(var x = 0; x < 4; ++x) {
-		if(userNames[x] == null) {
-			userNames[x] = userName.value;
-			playerNameText[x].text = data;
-			stage.addChild(playerNameText[x]);
-			break;
-		}
+	userNames[data["index"]] = data["userName"]
+	if(currentState == state["lobby"]) {
+		playerNameText[data["index"]].text = data["userName"];
+		stage.addChild(playerNameText[data["index"]]);
 	}
 });
 
-socket.on('usersReady', function(data) {
-	usersReady = data;
-});
-
-socket.on('userLobby', function(data) {
+socket.on('initialData', function(data) {
 	console.log(data);
-	userNames = data;
+	userNames = data["userNames"];
+	usersReady = data["usersReady"];
 	var full = true;
 	for(var x = 0; x < 4; ++x) {
 		if(userNames[x] == null) {
