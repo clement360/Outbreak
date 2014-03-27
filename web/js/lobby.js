@@ -50,6 +50,7 @@ function readyUp(event) {
 function loadLobby(event) {
 	var newUserForm = document.getElementById("newUserForm");
 	newUserForm.style.display = "none";
+	stage.removeChild(startButton);
 	socket.emit('userName', userName.value);
 	for(var x = 0; x < 4; ++x) {
 		if(userNames[x] == null) {
