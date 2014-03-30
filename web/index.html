@@ -28,15 +28,20 @@
 			z-index: 1;
 		}
 		canvas {
-			width: 100%;
+			width: 99%;
+            height: 100%; /* Remove line if you do not want vertical scaling */
 			top: 0;
 			position: absolute;
 			z-index: 0;
 		}
+        div {
+            margin:0 auto;
+        }
+
 	</style>
 </head>
 <body>
-	<div style="margin:0 auto" align=center>
+	<div align="center">
 	<form id="newUserForm">
 		<input name="userName" autofocus="autofocus" 
 				id="userName" placeholder="Username" 
@@ -47,7 +52,7 @@
 		<input type="button" value="OK" id="okBtn" onclick="loadLobby(this)" style="font-size: 30px;"/>
 	</form>
 	</div>
-	<canvas id="demoCanvas" width="1920" height="980" style="width: 100%;" />
+	<canvas id="demoCanvas" width="1920" height="980" />
 	
 </body>
 </html>
