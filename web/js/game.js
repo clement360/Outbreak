@@ -1,8 +1,14 @@
 var buildButton = new createjs.Shape();
 var loadBuildingButton = new createjs.Shape();
 var attackButton = new createjs.Shape();
+var users = new Array();
+
+socket.on('newUserData', function(data) {
+    users = data;
+});
 
 function loadFort(event){
+    socket.emit('requestUserData', 0);
 	currentState = state["game"];
 	var userName = document.getElementById("userName");
 	console.log("LOAD FORT"); 

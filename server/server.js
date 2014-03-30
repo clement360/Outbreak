@@ -1,6 +1,14 @@
 var io = require('socket.io').listen(56644);
 var userNames = new Array();
 var usersReady = new Array();
+var users = new Array();
+
+function User(userName) {
+    this.name = userName;
+    this.ready = false;
+    this.money = 0;
+}
+
 
 io.sockets.on('connection', function(socket) {
 	var myIndex;
@@ -10,6 +18,7 @@ io.sockets.on('connection', function(socket) {
 		for(var x = 0; x < 4; ++x) {
 			if(userNames[x] == null) {
 				userNames[x] = data;
+                users[x] = new User(data);
 				myIndex = x;
 				break;
 			}
@@ -23,12 +32,18 @@ io.sockets.on('connection', function(socket) {
 	socket.on('disconnect', function(data) {
 		delete userNames[myIndex];
 		delete usersReady[myIndex];
+        delete users[myIndex];
 		socket.broadcast.emit('userDisconnect', myIndex);
 	});
 	socket.on('readyUp', function(data) {
 		usersReady[data] = true;
 		socket.broadcast.emit('userReady', data);
 	});
+
+    socket.on('requestUserData', function(data) {
+        socket.emit('newUserData', users);
+    });
+
 });
 
 console.log("Server started.");
