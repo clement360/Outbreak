@@ -1,19 +1,10 @@
 var buildButton = new createjs.Shape();
 var loadBuildingButton = new createjs.Shape();
 var attackButton = new createjs.Shape();
+var buildMenu;
 var users = new Array();
 
-// A* Pathfinding Variables 
-// Reference: https://github.com/prettymuchbryce/easystarjs
-var easystar = new EasyStar.js();
 
-var grid = new Array(17);
-for (var i = 0; i < 17; i++) {
-	grid[i] = new Array(6);
-}
-
-easystar.setGrid(grid);
-easystar.enableDiagonals();
 
 socket.on('newUserData', function(data) {
     users = data;
@@ -43,7 +34,7 @@ function loadMenu(event){
 	loadBuildingButton.addEventListener("click", loadBuilding);
 	loadBuildingButton.graphics.beginFill("#000000").drawRect(355, 235, 1135, 300);
 	stage.addChild(loadBuildingButton);
-	var buildMenu = new createjs.Bitmap(queue.getResult("buildMenu"));
+    buildmenu = new createjs.Bitmap(queue.getResult("buildMenu"))
 
 	buildMenu.x = 310;
 	buildMenu.y = 90;

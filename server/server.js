@@ -3,6 +3,20 @@ var userNames = new Array();
 var usersReady = new Array();
 var users = new Array();
 
+// A* Pathfinding Variables
+// Reference: https://github.com/prettymuchbryce/easystarjs
+/*
+var easystar = new EasyStar.js();
+
+var grid = new Array(17);
+for (var i = 0; i < 17; i++) {
+    grid[i] = new Array(6);
+}
+
+easystar.setGrid(grid);
+easystar.enableDiagonals();
+*/
+
 function User(userName) {
     this.name = userName;
     this.ready = false;
