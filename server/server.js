@@ -2,6 +2,16 @@ var io = require('socket.io').listen(56644);
 var userNames = new Array();
 var usersReady = new Array();
 var users = new Array();
+var EasyStar = require('easystarjs');
+var easystar = new EasyStar.js();
+
+var grid = new Array(17);
+for (var i = 0; i < 17; i++) {
+	grid[i] = new Array(6);
+}
+
+easystar.setGrid(grid);
+easystar.enableDiagonals();
 
 function User(userName) {
     this.name = userName;
