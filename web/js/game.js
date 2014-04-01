@@ -10,21 +10,25 @@ var buildMenu;  //Made this global  --Sergio
 
 var users = new Array();
 
-// A* Pathfinding Variables 
-// Reference: https://github.com/prettymuchbryce/easystarjs
-// var easystar = new EasyStar.js();
+var moneyAmountText;
 
-var grid = new Array(17);
-for (var i = 0; i < 17; i++) {
-	grid[i] = new Array(6);
-}
+var money = 1000;
+var timerSecs = 30;
+var timerMins = 1;
 
-easystar.setGrid(grid);
-easystar.enableDiagonals();
 
 socket.on('newUserData', function(data) {
     users = data;
 });
+
+socket.on('buildingPlaced', function(data) {
+	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));
+	bmp1.x = data["x"];
+	bmp1.y = data["y"];
+	stage.addChild(bmp1);
+});
+
+
 
 function loadFort(event){
     socket.emit('requestUserData', 0);
@@ -42,6 +46,44 @@ function loadFort(event){
 
 	stage.addChild(field);
 	stage.addChild(lowerMenu);
+	
+	var playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
+	playerText.x = 100;
+	playerText.y = 840;
+	stage.addChild(playerText);
+	
+	var moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
+	moneyText.x = 690;
+	moneyText.y = 750;
+	stage.addChild(moneyText);
+	
+	moneyAmountText = new createjs.Text(money, "bold 80px Lithos", "#fff");
+	moneyAmountText.x = 1050;
+	moneyAmountText.y = 750;
+	stage.addChild(moneyAmountText);
+	
+	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
+	timerText.x = 495;
+	timerText.y = 855;
+	stage.addChild(timerText);
+	
+	setInterval(function() {
+		if(timerSecs == 0 && timerMins > 0) {
+			timerSecs = 59;
+			--timerMins;
+		} else if (timerMins <= 0 && timerSecs <= 0) {
+			timerMins = 1;
+			timerSecs = 30;
+			money += 250;
+			moneyAmountText.text = money;
+		} else {
+			--timerSecs
+		}
+		var timerSecsText = timerSecs;
+		if(timerSecs < 10)
+			timerSecsText = "0" + timerSecsText;
+		timerText.text = timerMins + ":" + timerSecsText;	
+	}, 1000);
 }
 		
 function loadMenu(event){
@@ -66,23 +108,14 @@ function loadMenu(event){
 	buildMenu.y = 90;
 
 	stage.addChild(buildMenu);
-	
-
-	
 }
 		
 function loadBuilding(event){
-
-
-////-----------------------Dont forget to REMOVE LISTENERS!!!!!!!! -----Sergio
-
-		stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
-		stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
-		stage.removeChild(loadDefenseButton); //Sergio
-		stage.removeChild(loadZombieButton); //Sergio
-		stage.removeChild(closeMenuButton);
-	//}
-	
+	stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
+	stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
+	stage.removeChild(loadDefenseButton); //Sergio
+	stage.removeChild(loadZombieButton); //Sergio
+	stage.removeChild(closeMenuButton);
 
 	console.log("LOAD BUILDING"); 
 	loadBuildingButton.removeEventListener("click", loadBuilding);
@@ -91,41 +124,43 @@ function loadBuilding(event){
 	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));  /////Start Sergio code for drag and drop~!
 	stage.addChild(bmp1);
 	
-	//bmp1.addEventListener("click", function(event) { alert("clicked"); })  
+	var offsetx = bmp1.image.width / 2;
+	var offsety = bmp1.image.height / 2;
 	
-	//Drag and Drop Function -Sergio
+	var buildingMove = function(evt){   		
+		bmp1.x = evt.stageX - offsetx;
+		bmp1.y = evt.stageY - offsety;
+	};
 	
-	bmp1.on("pressmove", function(evt) {   
-	
-			console.log(bmp1.x);
-			console.log(bmp1.y);
-		
-	if( (bmp1.x < 590) && (bmp1.y < 568) ) //Sets up basic primitive boundaries -- Sergio
-	{
-		evt.target.x = evt.stageX;
-		evt.target.y = evt.stageY;
-	}
+	var buildingPlace = function(evt) {
+		if((evt.target.x < 500) && (evt.target.y < 300) && money >= 250) //Sets up basic primitive boundaries -- Sergio
+		{
+			stage.removeEventListener("stagemousemove", buildingMove);
+			stage.removeEventListener("pressup", buildingPlace);
+			var buildingPlaceEvt = {
+				"x" : evt.target.x,
+				"y" : evt.target.y
+			}
 			
+			money -= 250;
+			moneyAmountText.text = money;
 			
-		});
-	bmp1.on("pressup", function(evt) {
+			socket.emit("buildingPlaced", buildingPlaceEvt);
+			buildButton.addEventListener("click", loadMenu);
+		}
+		else if (money < 250) {
+			alert("You are broke.");
+		} else {
+			alert("Invalid location.");
+		}
+	};
 	
-		console.log("up");
-		//bmp1.removeEventListener("click", function(event) { alert("clicked"); })
-		bmp1.mouseEnabled = false;
-	
-	})
-	
-
-	
-	
-	
-	/////End sergio code for drag and drop~!
+	stage.addEventListener("stagemousemove", buildingMove);
+	stage.addEventListener("pressup", buildingPlace);
 	
 	attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
 	stage.addChild(attackButton);
-	var bmp = new createjs.Bitmap(queue.getResult("building"));
-     //stage.addChild(bmp);
+	attackButton.alpha = 0.01;
 }
 
 function closeMenu(even){
@@ -146,6 +181,7 @@ function loadAttack(event){
 	loadBuildingButton.removeEventListener("click", loadAttack);
 	buildButton.addEventListener("click", loadMenu);
 	var bmp = new createjs.Bitmap(queue.getResult("battle"));
+	bmp.alpha = 0.5;
 	stage.addChild(bmp);
 }
 
