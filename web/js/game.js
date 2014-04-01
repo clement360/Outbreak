@@ -22,11 +22,17 @@ var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
+//Building menu images
+var factoryImage;
 
 //Grid Start
-var grid = new Array(17); ////Grid to be used for game  --Sergio
-for (var i = 0; i < 17; i++) {
-	grid[i] = new Array(6);
+
+var gridWidth = 17;
+var gridHeight = 6;
+
+var grid = new Array(gridWidth); ////Grid to be used for game  --Sergio
+for (var i = 0; i < gridWidth; i++) {
+	grid[i] = new Array(gridHeight);
 }
 
 var xPlacement = 9;  //Original x placement to populate the grid.
@@ -41,24 +47,17 @@ function Box(x,y) {
 
 var path = [];
 
-var grid = new Array(17);
-for (var i = 0; i < 17; i++) {
-	grid[i] = new Array(6);
-}
+grid[0][0] = new Box(xPlacement,yPlacement);
 
-grid[0][0] = new Box(9,11);
-
-for (var i = 0; i < 17; i++) {
-
+for (var i = 0; i < gridWidth; i++) {
 	if(i == 0)
-		for (var k = 1; k < 6; k++) {
-
+		for (var k = 1; k < gridHeight; k++) {
 			yPlacement = yPlacement + 111.25;
 			grid[i][k] = new Box(xPlacement, yPlacement);
-								 }	
+		}	
 	else
 	{
-		for (var k = 0; k < 6; k++) 
+		for (var k = 0; k < gridHeight; k++) 
 		{
 			if( k == 0 )
 			{
@@ -67,22 +66,28 @@ for (var i = 0; i < 17; i++) {
 				yPlacement = yPlacement + 111.25;
 				grid[i][k] = new Box(xPlacement, yPlacement);
 		}	
-
 	}
-			xPlacement = xPlacement + 111.25;
-			yPlacement = 11;
-	}
+	xPlacement = xPlacement + 111.25;
+	yPlacement = 11;
+}
 //Grid End
+function stageCoordToGrid(x, y) {
+	for(var i = 0; i < gridWidth; ++i) {
+		for(var j = 0; j < gridHeight; ++j) {
+			if(grid[i][j].x <= x && grid[i][j].y <= y && grid[i][j].x + 111.25 >= x && grid[i][j].y + 100.25 >= y)
+				return grid[i][j];
+		}
+	}
+}
+
+socket.on('pathUpdate', function(data) {
+	path = data;
+});
 
 
 socket.on('newUserData', function(data) {
     users = data;
 });
-
-socket.on('pathUpdate', function(data) {
-    path = data;
-});
-
 
 socket.on('buildingPlaced', function(data) {
 	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));
@@ -98,7 +103,7 @@ function loadFort(event){
 	currentState = state["game"];
 	var userName = document.getElementById("userName");
 	console.log("LOAD FORT"); 
-	readyButton.removeEventListener("click", loadFort);
+	readyButton.removeEventListener("click", readyUp);
 	buildButton.addEventListener("click", loadMenu);
 	buildButton.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
 	stage.addChild(buildButton);
@@ -125,7 +130,7 @@ function loadFort(event){
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
 	
-	timerText = new createjs.Text("1:30", "50px myriad pro", "#000");
+	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
 	timerText.x = 505;
 	timerText.y = 855;
 	stage.addChild(timerText);
@@ -173,9 +178,6 @@ function loadMenu(event){
 	buildMenu.y = 90;
 
 	stage.addChild(buildMenu);
-	
-
-	
 }
 
 function loadZombieMenu(event){
@@ -222,7 +224,120 @@ function loadDefenseMenu(event){
     defensesMenu.y = 659;
     stage.addChild(defensesMenu);
 }
+	
+function locationIsValid(x, y) {
+	switch(myIndex) {
+		case 0:
+			return (x < 565.25) && (y < 340);
+		case 1:
+			return (x < 565.25) && (y >= 340);
+		case 2:
+			return (x > 1343) && (y < 340);
+		case 3:
+			return (x > 1343) && (y >= 340);
+		default:
+			return false;
+	}
+}
+
+function handleBuilding(sprite) {
+	stage.addChild(sprite);
+	var offsetx = sprite.image.width / 2;
+	var offsety = sprite.image.height / 2;
+	
+	var evtListener = false;
+	var highlight = new createjs.Shape();
+	highlight.alpha = 0.4;
+	stage.addChild(highlight);
+	
+	var buildingMove = function(evt){ 
+		if(!evtListener) {
+			stage.addEventListener("pressup", buildingPlace);
+			evtListener = true;
+		}
+		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
+		highlight.graphics.clear();
 		
+		if(currentBox != null) {
+			if(locationIsValid(evt.stageX, evt.stageY) && !currentBox.occupied) 
+				highlight.graphics.beginFill("#0f0").drawRect(currentBox.x, currentBox.y, 111.25, 100.25);
+			else
+				highlight.graphics.beginFill("#f00").drawRect(currentBox.x, currentBox.y, 111.25, 100.25);
+		}
+		sprite.x = evt.stageX - offsetx;
+		sprite.y = evt.stageY - offsety;
+	};
+
+    var buildingPlace = function(evt) {
+		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
+        if(locationIsValid(evt.stageX, evt.stageY) && money >= 250 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
+        {
+			sprite.x = currentBox.x;
+			sprite.y = currentBox.y;
+			currentBox.occupied = true;
+			stage.removeChild(highlight);
+            stage.removeEventListener("stagemousemove", buildingMove);
+            stage.removeEventListener("pressup", buildingPlace);
+            var buildingPlaceEvt = {
+				"x" : currentBox.x,
+                "y" : currentBox.y
+            }
+
+            money -= 250;
+            moneyAmountText.text = money;
+
+            socket.emit("buildingPlaced", buildingPlaceEvt);
+            buildButton.addEventListener("click", loadMenu);
+			stage.removeChild(buildingsMenu);
+			stage.addChild(lowerMenu);
+			stage.addChild(moneyText);
+			stage.addChild(moneyAmountText);
+			stage.addChild(playerText);
+			stage.addChild(timerText);
+        }
+        else {
+			gameAlert("              Invalid location.");
+        }
+    };
+	
+	stage.addEventListener("stagemousemove", buildingMove);
+	
+}
+
+function gameAlert(text) {
+	var alertBg = new createjs.Shape();
+		var alertText = new createjs.Text(text, "bold 50px Lithos", "#fff");
+		alertText.x = 460;
+		alertText.y = 400;
+		alertBg.alpha = 0;
+		alertText.alpha = 0;
+		stage.addChild(alertBg);
+		alertBg.graphics.beginFill("#f00").drawRoundRect(460,400,1000,50,20);
+		stage.addChild(alertText);
+		createjs.Tween.get(alertBg).to({alpha:1}, 500);
+		createjs.Tween.get(alertText).to({alpha:1}, 500);
+		setTimeout(function() {
+			createjs.Tween.get(alertBg).to({alpha:0}, 500);
+			createjs.Tween.get(alertText).to({alpha:0}, 500);
+			setTimeout(function() {
+				stage.removeChild(alertBg);
+				stage.removeChild(alertText);
+			}, 500);
+		}, 2000)
+}
+
+function placeFactory(event) {
+	if (money >= 250) {
+		stage.removeChild(factoryImage);
+		stage.removeChild(event.target);
+		var factorySprite = new createjs.Bitmap(queue.getResult("factory1"));
+		handleBuilding(factorySprite);
+	}
+	else {
+		gameAlert("             Insufficient money.");
+	}
+}
+	
 function loadBuildingMenu(event){
     loadDefenseButton.removeEventListener("click", loadDefenseMenu);
     loadZombieButton.removeEventListener("click", loadZombieMenu);
@@ -245,58 +360,19 @@ function loadBuildingMenu(event){
 
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 659;
-
-	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));  /////Start Sergio code for drag and drop~!
-	stage.addChild(bmp1);
-    stage.addChild(buildingsMenu);
 	
-	var offsetx = bmp1.image.width / 2;
-	var offsety = bmp1.image.height / 2;
+	var factoryButton = new createjs.Shape();
+	factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
+	factoryButton.addEventListener("click", placeFactory);
+	factoryButton.alpha = 0.01;
 	
-	var buildingMove = function(evt){   		
-		bmp1.x = evt.stageX - offsetx;
-		bmp1.y = evt.stageY - offsety;
-	};
-
-    var buildingPlace = function(evt) {
-       // if( myIndex == 0 )
-       // {
-            if((evt.target.x < 565.25) && (evt.target.y < 233.5) && money >= 250) //Sets up basic primitive boundaries -- Sergio
-            {
-                stage.removeEventListener("stagemousemove", buildingMove);
-                stage.removeEventListener("pressup", buildingPlace);
-                var buildingPlaceEvt = {
-                    "x" : evt.target.x,
-                    "y" : evt.target.y
-                }
-
-                money -= 250;
-                moneyAmountText.text = money;
-
-                socket.emit("buildingPlaced", buildingPlaceEvt);
-                buildButton.addEventListener("click", loadMenu);
-				stage.removeChild(buildingsMenu);
-				stage.addChild(lowerMenu);
-				stage.addChild(moneyText);
-				stage.addChild(moneyAmountText);
-				stage.addChild(playerText);
-				stage.addChild(timerText);
-            }
-            else if (money < 250) {
-                alert("You are broke.");
-            } else {
-                alert("Invalid location.");
-            }
-       // }
-
-    };
+	factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
+	factoryImage.x = 400;
+	factoryImage.y = 800;
 	
-	stage.addEventListener("stagemousemove", buildingMove);
-	stage.addEventListener("pressup", buildingPlace);
-
-
-	
-	/////End sergio code for drag and drop~!
+	stage.addChild(factoryButton);
+	stage.addChild(buildingsMenu);
+	stage.addChild(factoryImage);
 	
 	attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
 	stage.addChild(attackButton);
