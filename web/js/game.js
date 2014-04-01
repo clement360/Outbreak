@@ -16,6 +16,55 @@ var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
+//Grid Start
+var grid = new Array(17); ////Grid to be used for game  --Sergio
+for (var i = 0; i < 17; i++) {
+	grid[i] = new Array(6);
+}
+
+var xPlacement = 9;  //Original x placement to populate the grid.
+var yPlacement = 11;  //    "    y    "
+
+//Box class for grid
+function Box(x,y) {
+    this.x = x;
+    this.y = y;
+    this.occupied = false;
+}
+
+var grid = new Array(17);
+for (var i = 0; i < 17; i++) {
+	grid[i] = new Array(6);
+}
+
+grid[0][0] = new Box(9,11);
+
+for (var i = 0; i < 17; i++) {
+
+	if(i == 0)
+		for (var k = 1; k < 6; k++) {
+
+			yPlacement = yPlacement + 111.25;
+			grid[i][k] = new Box(xPlacement, yPlacement);
+								 }	
+	else
+	{
+		for (var k = 0; k < 6; k++) 
+		{
+			if( k == 0 )
+			{
+				yPlacement = -100.25;
+			}
+				yPlacement = yPlacement + 111.25;
+				grid[i][k] = new Box(xPlacement, yPlacement);
+		}	
+
+	}
+			xPlacement = xPlacement + 111.25;
+			yPlacement = 11;
+	}
+//Grid End
+
 
 socket.on('newUserData', function(data) {
     users = data;
