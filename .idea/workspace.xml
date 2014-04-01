@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="socket switch">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/game.js" afterPath="$PROJECT_DIR$/web/js/game.js" />
+    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/images/exit.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/images/noticeBox.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/init.js" afterPath="$PROJECT_DIR$/web/js/init.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Outbreak.iws" />
@@ -67,7 +67,7 @@
       <file leaf-file-name="init.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.07112971" vertical-offset="0" max-vertical-offset="1326">
+            <state line="4" column="0" selection-start="109" selection-end="109" vertical-scroll-proportion="0.14225942" vertical-offset="0" max-vertical-offset="1326">
               <folding />
             </state>
           </provider>
@@ -525,7 +525,11 @@
       <created>1396334032330</created>
       <updated>1396334032330</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="path finding grid and reference coordinate grid created on server">
+      <created>1396393336477</created>
+      <updated>1396393336477</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -567,7 +571,8 @@
     <MESSAGE value="removed psd folder" />
     <MESSAGE value="Press alt to skip lobby." />
     <MESSAGE value="socket switch" />
-    <option name="LAST_COMMIT_MESSAGE" value="socket switch" />
+    <MESSAGE value="path finding grid and reference coordinate grid created on server" />
+    <option name="LAST_COMMIT_MESSAGE" value="path finding grid and reference coordinate grid created on server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -682,7 +687,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.07112971" vertical-offset="0" max-vertical-offset="1326">
+        <state line="4" column="0" selection-start="109" selection-end="109" vertical-scroll-proportion="0.14225942" vertical-offset="0" max-vertical-offset="1326">
           <folding />
         </state>
       </provider>
