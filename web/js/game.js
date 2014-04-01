@@ -7,6 +7,10 @@ var loadDefenseButton = new createjs.Shape();
 
 var attackButton = new createjs.Shape();
 var buildMenu;  //Made this global  --Sergio
+var lowerMenu;
+var zombiesMenu;
+var defensesMenu;
+var buildingsMenu;
 
 var users = new Array();
 
@@ -89,7 +93,7 @@ function loadFort(event){
 	buildButton.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
 	stage.addChild(buildButton);
 	var field = new createjs.Bitmap(queue.getResult("field"));
-	var lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
+	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
 
 	lowerMenu.y = 675;
 
@@ -138,11 +142,13 @@ function loadFort(event){
 function loadMenu(event){
 	console.log("LOAD MENU"); 
 	buildButton.removeEventListener("click", loadMenu);
-	loadBuildingButton.addEventListener("click", loadBuilding);
+	loadBuildingButton.addEventListener("click", loadBuildingMenu);
 	loadBuildingButton.graphics.beginFill("#0000F").drawRect(812, 229, 310, 288);
 	
 	loadZombieButton.graphics.beginFill("#0000F").drawRect(422, 229, 310, 288);   ////Added zombie button to build menu
+    loadZombieButton.addEventListener("click", loadZombieMenu);
 	loadDefenseButton.graphics.beginFill("#0000F").drawRect(1183, 229, 310, 288);  //// "   Defense "
+    loadDefenseButton.addEventListener("click", loadDefenseMenu);
 	closeMenuButton.graphics.beginFill("#0000F").drawRect(1548, 110, 46, 46);  //// X close button was built!!
 	closeMenuButton.addEventListener("click", closeMenu); //Added button Listener to close
 	
@@ -157,21 +163,72 @@ function loadMenu(event){
 	buildMenu.y = 90;
 
 	stage.addChild(buildMenu);
+	
+
+	
+}
+
+function loadZombieMenu(event){
+    loadDefenseButton.removeEventListener("click", loadDefenseMenu);
+    loadZombieButton.removeEventListener("click", loadZombieMenu);
+    loadBuildingButton.removeEventListener("click", loadBuildingMenu);
+    closeMenuButton.removeEventListener("click", closeMenu);
+
+    stage.removeChild(buildMenu);
+    stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
+    stage.removeChild(loadDefenseButton); //Sergio
+    stage.removeChild(loadZombieButton); //Sergio
+    stage.removeChild(closeMenuButton);
+    stage.removeChild(attackButton);
+    stage.removeChild(lowerMenu);
+
+    zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
+    zombiesMenu.y = 659;
+    stage.addChild(zombiesMenu);
+}
+
+function loadDefenseMenu(event){
+    loadDefenseButton.removeEventListener("click", loadDefenseMenu);
+    loadZombieButton.removeEventListener("click", loadZombieMenu);
+    loadBuildingButton.removeEventListener("click", loadBuildingMenu);
+    closeMenuButton.removeEventListener("click", closeMenu);
+
+    stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
+    stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
+    stage.removeChild(loadDefenseButton); //Sergio
+    stage.removeChild(loadZombieButton); //Sergio
+    stage.removeChild(closeMenuButton);
+    stage.removeChild(attackButton);
+    stage.removeChild(lowerMenu);
+
+    defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
+    defensesMenu.y = 659;
+    stage.addChild(defensesMenu);
 }
 		
-function loadBuilding(event){
+function loadBuildingMenu(event){
+    loadDefenseButton.removeEventListener("click", loadDefenseMenu);
+    loadZombieButton.removeEventListener("click", loadZombieMenu);
+    loadBuildingButton.removeEventListener("click", loadBuildingMenu);
+    closeMenuButton.removeEventListener("click", closeMenu);
+
 	stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
 	stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
 	stage.removeChild(loadDefenseButton); //Sergio
 	stage.removeChild(loadZombieButton); //Sergio
-	stage.removeChild(closeMenuButton);
+    stage.removeChild(closeMenuButton);
+    stage.removeChild(lowerMenu);
 
 	console.log("LOAD BUILDING"); 
-	loadBuildingButton.removeEventListener("click", loadBuilding);
-	attackButton.addEventListener("click", loadAttack);
-	
+
+	//attackButton.addEventListener("click", loadAttack);
+
+    buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
+    buildingsMenu.y = 659;
+
 	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));  /////Start Sergio code for drag and drop~!
 	stage.addChild(bmp1);
+    stage.addChild(buildingsMenu);
 	
 	var offsetx = bmp1.image.width / 2;
 	var offsety = bmp1.image.height / 2;
@@ -180,32 +237,42 @@ function loadBuilding(event){
 		bmp1.x = evt.stageX - offsetx;
 		bmp1.y = evt.stageY - offsety;
 	};
-	
-	var buildingPlace = function(evt) {
-		if((evt.target.x < 500) && (evt.target.y < 300) && money >= 250) //Sets up basic primitive boundaries -- Sergio
-		{
-			stage.removeEventListener("stagemousemove", buildingMove);
-			stage.removeEventListener("pressup", buildingPlace);
-			var buildingPlaceEvt = {
-				"x" : evt.target.x,
-				"y" : evt.target.y
-			}
-			
-			money -= 250;
-			moneyAmountText.text = money;
-			
-			socket.emit("buildingPlaced", buildingPlaceEvt);
-			buildButton.addEventListener("click", loadMenu);
-		}
-		else if (money < 250) {
-			alert("You are broke.");
-		} else {
-			alert("Invalid location.");
-		}
-	};
+
+    var buildingPlace = function(evt) {
+
+        if( myIndex == 0 )
+        {
+
+            if((evt.target.x < 565.25) && (evt.target.y < 233.5) && money >= 250) //Sets up basic primitive boundaries -- Sergio
+            {
+                stage.removeEventListener("stagemousemove", buildingMove);
+                stage.removeEventListener("pressup", buildingPlace);
+                var buildingPlaceEvt = {
+                    "x" : evt.target.x,
+                    "y" : evt.target.y
+                }
+
+                money -= 250;
+                moneyAmountText.text = money;
+
+                socket.emit("buildingPlaced", buildingPlaceEvt);
+                buildButton.addEventListener("click", loadMenu);
+            }
+            else if (money < 250) {
+                alert("You are broke.");
+            } else {
+                alert("Invalid location.");
+            }
+        }
+
+    };
 	
 	stage.addEventListener("stagemousemove", buildingMove);
 	stage.addEventListener("pressup", buildingPlace);
+
+
+	
+	/////End sergio code for drag and drop~!
 	
 	attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
 	stage.addChild(attackButton);
