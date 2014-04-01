@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/game.js" afterPath="$PROJECT_DIR$/web/js/game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/index.html" afterPath="$PROJECT_DIR$/web/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/init.js" afterPath="$PROJECT_DIR$/web/js/init.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -37,10 +35,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="21" selection-start="2946" selection-end="2946" vertical-scroll-proportion="0.71666664" vertical-offset="1713" max-vertical-offset="5576">
+            <state line="111" column="22" selection-start="2648" selection-end="2648" vertical-scroll-proportion="-69.888885" vertical-offset="0" max-vertical-offset="5576">
               <folding />
             </state>
           </provider>
@@ -64,10 +62,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="init.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="init.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="109" selection-end="109" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1309">
+            <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.06706114" vertical-offset="0" max-vertical-offset="1309">
               <folding />
             </state>
           </provider>
@@ -95,9 +93,9 @@
         <option value="$PROJECT_DIR$/web/js/User.js" />
         <option value="$PROJECT_DIR$/web/js/lobby.js" />
         <option value="$PROJECT_DIR$/server/server.js" />
-        <option value="$PROJECT_DIR$/web/js/init.js" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/js/game.js" />
+        <option value="$PROJECT_DIR$/web/js/init.js" />
       </list>
     </option>
   </component>
@@ -517,7 +515,11 @@
       <created>1396316611931</created>
       <updated>1396316611931</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Press alt to skip lobby.">
+      <created>1396330267071</created>
+      <updated>1396330267071</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -557,7 +559,8 @@
     <MESSAGE value="Added easyStar.js File and some related variables" />
     <MESSAGE value="added buildingsMenu.png" />
     <MESSAGE value="removed psd folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed psd folder" />
+    <MESSAGE value="Press alt to skip lobby." />
+    <option name="LAST_COMMIT_MESSAGE" value="Press alt to skip lobby." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -654,13 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="109" selection-end="109" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1309">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="40" selection-start="938" selection-end="938" vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="1088">
@@ -670,7 +666,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="21" selection-start="2946" selection-end="2946" vertical-scroll-proportion="0.71666664" vertical-offset="1713" max-vertical-offset="5576">
+        <state line="111" column="22" selection-start="2648" selection-end="2648" vertical-scroll-proportion="-69.888885" vertical-offset="0" max-vertical-offset="5576">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.06706114" vertical-offset="0" max-vertical-offset="1309">
           <folding />
         </state>
       </provider>
