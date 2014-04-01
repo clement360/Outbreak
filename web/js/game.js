@@ -15,13 +15,13 @@ var buildingsMenu;
 var users = new Array();
 
 var moneyAmountText;
+var playerText;
+var moneyText;
 
 var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
-var playerText;
-var moneyText;
 
 //Grid Start
 var grid = new Array(17); ////Grid to be used for game  --Sergio
@@ -118,8 +118,8 @@ function loadFort(event){
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
 	
-	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
-	timerText.x = 495;
+	timerText = new createjs.Text("1:30", "50px myriad pro", "#000");
+	timerText.x = 505;
 	timerText.y = 855;
 	stage.addChild(timerText);
 	
@@ -184,6 +184,10 @@ function loadZombieMenu(event){
     stage.removeChild(closeMenuButton);
     stage.removeChild(attackButton);
     stage.removeChild(lowerMenu);
+    stage.removeChild(lowerMenu);
+    stage.removeChild(moneyAmountText);
+    stage.removeChild(playerText);
+    stage.removeChild(moneyText);
 
     zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
     zombiesMenu.y = 659;
@@ -203,6 +207,9 @@ function loadDefenseMenu(event){
     stage.removeChild(closeMenuButton);
     stage.removeChild(attackButton);
     stage.removeChild(lowerMenu);
+    stage.removeChild(moneyAmountText);
+    stage.removeChild(playerText);
+    stage.removeChild(moneyText);
 
     defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
     defensesMenu.y = 659;
@@ -221,6 +228,9 @@ function loadBuildingMenu(event){
 	stage.removeChild(loadZombieButton); //Sergio
     stage.removeChild(closeMenuButton);
     stage.removeChild(lowerMenu);
+    stage.removeChild(moneyAmountText);
+    stage.removeChild(playerText);
+    stage.removeChild(moneyText);
 
 	console.log("LOAD BUILDING"); 
 
