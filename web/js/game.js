@@ -39,6 +39,8 @@ function Box(x,y) {
     this.occupied = false;
 }
 
+var path = [];
+
 var grid = new Array(17);
 for (var i = 0; i < 17; i++) {
 	grid[i] = new Array(6);
@@ -77,6 +79,11 @@ socket.on('newUserData', function(data) {
     users = data;
 });
 
+socket.on('pathUpdate', function(data) {
+    path = data;
+});
+
+
 socket.on('buildingPlaced', function(data) {
 	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));
 	bmp1.x = data["x"];
@@ -109,12 +116,12 @@ function loadFort(event){
 	stage.addChild(playerText);
 	
 	moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
-	moneyText.x = 690;
+	moneyText.x = 705;
 	moneyText.y = 750;
 	stage.addChild(moneyText);
 	
 	moneyAmountText = new createjs.Text(money, "bold 80px Lithos", "#fff");
-	moneyAmountText.x = 1050;
+	moneyAmountText.x = 1065;
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
 	

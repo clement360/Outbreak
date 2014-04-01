@@ -66,6 +66,7 @@ function init(){
         {id:"readyCheck", src:"images/readyCheck.png"},
         {id:"zombiesMenu", src:"images/zombiesMenu.png"},
         {id:"defensesMenu", src:"images/defensesMenu.png"},
-        {id:"buildingsMenu", src:"images/buildingsMenu.png"}
+        {id:"buildingsMenu", src:"images/buildingsMenu.png"},
+        {id:"exitButton", src:"images/exit.png"}
     ]);
 }

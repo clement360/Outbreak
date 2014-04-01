@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="">
+    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="socket switch">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/game.js" afterPath="$PROJECT_DIR$/web/js/game.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/init.js" afterPath="$PROJECT_DIR$/web/js/init.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Outbreak.iws" />
@@ -29,7 +31,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="40" selection-start="938" selection-end="938" vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="1088">
+            <state line="11" column="20" selection-start="394" selection-end="394" vertical-scroll-proportion="-1.3076923" vertical-offset="153" max-vertical-offset="1088">
               <folding />
             </state>
           </provider>
@@ -38,7 +40,7 @@
       <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="22" selection-start="2648" selection-end="2648" vertical-scroll-proportion="-69.888885" vertical-offset="0" max-vertical-offset="5576">
+            <state line="39" column="1" selection-start="1028" selection-end="1028" vertical-scroll-proportion="-5.037037" vertical-offset="527" max-vertical-offset="5695">
               <folding />
             </state>
           </provider>
@@ -47,7 +49,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="10" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="1190">
+            <state line="61" column="1" selection-start="1471" selection-end="1471" vertical-scroll-proportion="-9.28" vertical-offset="805" max-vertical-offset="2193">
               <folding />
             </state>
           </provider>
@@ -65,7 +67,7 @@
       <file leaf-file-name="init.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.06706114" vertical-offset="0" max-vertical-offset="1309">
+            <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.07112971" vertical-offset="0" max-vertical-offset="1326">
               <folding />
             </state>
           </provider>
@@ -92,9 +94,9 @@
       <list>
         <option value="$PROJECT_DIR$/web/js/User.js" />
         <option value="$PROJECT_DIR$/web/js/lobby.js" />
-        <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/js/game.js" />
+        <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/web/js/init.js" />
       </list>
     </option>
@@ -409,7 +411,7 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html">
+  <component name="RunManager" selected="JavaScript Debug.server.js">
     <configuration default="false" name="init.js" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true" temporary="true" uri="http://students.cse.tamu.edu/clement/Outbreak/web/js/init.js">
       <RunnerSettings RunnerId="JavascriptDebugRunner" />
       <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
@@ -461,8 +463,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
-        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.server.js" />
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.server.js" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
         <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.init.js" />
       </list>
     </recent_temporary>
@@ -519,7 +521,11 @@
       <created>1396330267071</created>
       <updated>1396330267071</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="socket switch">
+      <created>1396334032330</created>
+      <updated>1396334032330</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -528,13 +534,13 @@
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32673267" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24611032" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28712872" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14778645" sideWeight="0.7538897" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12565105" sideWeight="0.7128713" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3026874" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24611032" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47241867" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -560,10 +566,13 @@
     <MESSAGE value="added buildingsMenu.png" />
     <MESSAGE value="removed psd folder" />
     <MESSAGE value="Press alt to skip lobby." />
-    <option name="LAST_COMMIT_MESSAGE" value="Press alt to skip lobby." />
+    <MESSAGE value="socket switch" />
+    <option name="LAST_COMMIT_MESSAGE" value="socket switch" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/web/js/init.js">
@@ -650,30 +659,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="10" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="1190">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="40" selection-start="938" selection-end="938" vertical-scroll-proportion="-27.461538" vertical-offset="0" max-vertical-offset="1088">
+        <state line="11" column="20" selection-start="394" selection-end="394" vertical-scroll-proportion="-1.3076923" vertical-offset="153" max-vertical-offset="1088">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="22" selection-start="2648" selection-end="2648" vertical-scroll-proportion="-69.888885" vertical-offset="0" max-vertical-offset="5576">
+        <state line="39" column="1" selection-start="1028" selection-end="1028" vertical-scroll-proportion="-5.037037" vertical-offset="527" max-vertical-offset="5695">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="1" selection-start="1471" selection-end="1471" vertical-scroll-proportion="-9.28" vertical-offset="805" max-vertical-offset="2193">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.06706114" vertical-offset="0" max-vertical-offset="1309">
+        <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.07112971" vertical-offset="0" max-vertical-offset="1326">
           <folding />
         </state>
       </provider>
