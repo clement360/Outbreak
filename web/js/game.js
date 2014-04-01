@@ -20,6 +20,9 @@ var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
+var playerText;
+var moneyText;
+
 //Grid Start
 var grid = new Array(17); ////Grid to be used for game  --Sergio
 for (var i = 0; i < 17; i++) {
@@ -100,12 +103,12 @@ function loadFort(event){
 	stage.addChild(field);
 	stage.addChild(lowerMenu);
 	
-	var playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
+	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
 	playerText.y = 840;
 	stage.addChild(playerText);
 	
-	var moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
+	moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
 	moneyText.x = 690;
 	moneyText.y = 750;
 	stage.addChild(moneyText);
@@ -239,10 +242,8 @@ function loadBuildingMenu(event){
 	};
 
     var buildingPlace = function(evt) {
-
-        if( myIndex == 0 )
-        {
-
+       // if( myIndex == 0 )
+       // {
             if((evt.target.x < 565.25) && (evt.target.y < 233.5) && money >= 250) //Sets up basic primitive boundaries -- Sergio
             {
                 stage.removeEventListener("stagemousemove", buildingMove);
@@ -257,13 +258,19 @@ function loadBuildingMenu(event){
 
                 socket.emit("buildingPlaced", buildingPlaceEvt);
                 buildButton.addEventListener("click", loadMenu);
+				stage.removeChild(buildingsMenu);
+				stage.addChild(lowerMenu);
+				stage.addChild(moneyText);
+				stage.addChild(moneyAmountText);
+				stage.addChild(playerText);
+				stage.addChild(timerText);
             }
             else if (money < 250) {
                 alert("You are broke.");
             } else {
                 alert("Invalid location.");
             }
-        }
+       // }
 
     };
 	
