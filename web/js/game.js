@@ -12,7 +12,7 @@ var users = new Array();
 
 // A* Pathfinding Variables 
 // Reference: https://github.com/prettymuchbryce/easystarjs
-var easystar = new EasyStar.js();
+// var easystar = new EasyStar.js();
 
 var grid = new Array(17);
 for (var i = 0; i < 17; i++) {
