@@ -2,9 +2,6 @@ var io = require('socket.io').listen(56644);
 var userNames = new Array();
 var usersReady = new Array();
 var users = new Array();
-
-// A* Pathfinding Variables
-// Reference: https://github.com/prettymuchbryce/easystarjs
 var EasyStar = require('easystarjs');
 var easystar = new EasyStar.js();
 
@@ -21,7 +18,6 @@ function User(userName) {
     this.ready = false;
     this.money = 0;
 }
-
 
 io.sockets.on('connection', function(socket) {
 	var myIndex;
@@ -56,7 +52,13 @@ io.sockets.on('connection', function(socket) {
     socket.on('requestUserData', function(data) {
         socket.emit('newUserData', users);
     });
-
+	socket.on("buildingPlaced", function(data) {
+		socket.broadcast.emit('buildingPlaced', {
+			"index" : myIndex,
+			"x" : data["x"],
+			"y" : data["y"]
+		});
+	});
 });
 
 console.log("Server started.");
