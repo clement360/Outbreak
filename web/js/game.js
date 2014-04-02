@@ -296,7 +296,7 @@ function handleBuilding(sprite) {
 			stage.addChild(timerText);
         }
         else {
-			gameAlert("              Invalid location.");
+			gameAlert("               Alert", "\n  Invalid location.");
         }
     };
 	
@@ -304,26 +304,35 @@ function handleBuilding(sprite) {
 	
 }
 
-function gameAlert(text) {
-	var alertBg = new createjs.Shape();
-		var alertText = new createjs.Text(text, "bold 50px Lithos", "#fff");
-		alertText.x = 460;
-		alertText.y = 400;
-		alertBg.alpha = 0;
-		alertText.alpha = 0;
-		stage.addChild(alertBg);
-		alertBg.graphics.beginFill("#f00").drawRoundRect(460,400,1000,50,20);
-		stage.addChild(alertText);
-		createjs.Tween.get(alertBg).to({alpha:1}, 500);
-		createjs.Tween.get(alertText).to({alpha:1}, 500);
+function gameAlert(title, text) {
+	var alertBg = new createjs.Bitmap(queue.getResult("noticeBox"));
+	var alertText = new createjs.Text(text, "bold 50px Lithos", "#fff");
+	var alertTitle = new createjs.Text(title, "bold 50px Lithos", "#fff");
+	alertTitle.x = 643;
+	alertTitle.y = 270;
+	alertText.x = 650;
+	alertText.y = 370;
+	alertBg.x = 643;
+	alertBg.y = 265;
+	alertBg.alpha = 0;
+	alertText.alpha = 0;
+	alertTitle.alpha = 0;
+	stage.addChild(alertBg);
+	stage.addChild(alertText);
+	stage.addChild(alertTitle);
+	createjs.Tween.get(alertBg).to({alpha:1}, 500);
+	createjs.Tween.get(alertText).to({alpha:1}, 500);
+	createjs.Tween.get(alertTitle).to({alpha:1}, 500);
+	setTimeout(function() {
+		createjs.Tween.get(alertBg).to({alpha:0}, 500);
+		createjs.Tween.get(alertText).to({alpha:0}, 500);
+		createjs.Tween.get(alertTitle).to({alpha:0}, 500);
 		setTimeout(function() {
-			createjs.Tween.get(alertBg).to({alpha:0}, 500);
-			createjs.Tween.get(alertText).to({alpha:0}, 500);
-			setTimeout(function() {
-				stage.removeChild(alertBg);
-				stage.removeChild(alertText);
-			}, 500);
-		}, 2000)
+			stage.removeChild(alertBg);
+			stage.removeChild(alertText);
+			stage.removeChild(alertTitle);
+		}, 500);
+	}, 2000)
 }
 
 function placeFactory(event) {
@@ -334,7 +343,7 @@ function placeFactory(event) {
 		handleBuilding(factorySprite);
 	}
 	else {
-		gameAlert("             Insufficient money.");
+		gameAlert("               Alert", "\nInsufficient money.");
 	}
 }
 	
