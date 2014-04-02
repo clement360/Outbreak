@@ -52,14 +52,16 @@ for (var i = 0; i < 33; i++) {
 //coorGrid End
 
 
+
 // grid that is used for pathfinding with EasyStar 33 x 12
 var pathGrid = new Array(32);
 for (var i = 0; i <= 32; i++) {
-    pathGrid[i] = new Array(11);
+    pathGrid[i] = new Array(12);
     for(var j = 0; j <= 11; j++){
         pathGrid[i][j] = 0;
     }
 }
+
 easystar.setGrid(pathGrid);
 easystar.enableDiagonals();
 easystar.setAcceptableTiles([0]);
@@ -105,15 +107,21 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 
-
-    easystar.findPath(0, 0, 5, 4, function( path ) {
-        if (path === null) {
-            console.log("Path was not found.");
-        } else {
-            socket.emit('pathUpdate', path);
-            console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
-        }
+    socket.on("findPath", function(data) {
+        var startX = data["x1"];
+        var startY = data["y1"];
+        var destX = data["x2"];
+        var destY = data["y2"];
+        easystar.findPath(startX, startY, destX, destY, function( path ) {
+            if (path === null) {
+                console.log("Path was not found.");
+            } else {
+                socket.emit('pathUpdate', path);
+                console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
+            }
+        });
     });
+
 
     setInterval(function(){
         easystar.calculate();

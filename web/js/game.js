@@ -12,6 +12,7 @@ var zombiesMenu;
 var defensesMenu;
 var buildingsMenu;
 
+
 var users = new Array();
 
 var moneyAmountText;
@@ -38,14 +39,8 @@ for (var i = 0; i < gridWidth; i++) {
 var xPlacement = 9;  //Original x placement to populate the grid.
 var yPlacement = 11;  //    "    y    "
 
-//Box class for grid
-function Box(x,y) {
-    this.x = x;
-    this.y = y;
-    this.occupied = false;
-}
 
-var path = [];
+var path = new Array(17);
 
 grid[0][0] = new Box(xPlacement,yPlacement);
 
@@ -389,7 +384,6 @@ function loadBuildingMenu(event){
 }
 
 function closeMenu(even){
-
 ////-----------------------Dont forget to REMOVE LISTENERS!!!!!!!! -----Sergio
 		stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
 		stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
