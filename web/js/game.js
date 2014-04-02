@@ -255,9 +255,9 @@ function handleBuilding(sprite) {
 		
 		if(currentBox != null) {
 			if(locationIsValid(evt.stageX, evt.stageY) && !currentBox.occupied) 
-				highlight.graphics.beginFill("#0f0").drawRect(currentBox.x, currentBox.y, 111.25, 100.25);
+				highlight.graphics.beginFill("#0f0").drawRect(currentBox.x + 10, currentBox.y + 7, 111.25, 105.25);
 			else
-				highlight.graphics.beginFill("#f00").drawRect(currentBox.x, currentBox.y, 111.25, 100.25);
+				highlight.graphics.beginFill("#f00").drawRect(currentBox.x + 10, currentBox.y + 7, 111.25, 105.25);
 		}
 		sprite.x = evt.stageX - offsetx;
 		sprite.y = evt.stageY - offsety;
