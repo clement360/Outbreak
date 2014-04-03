@@ -2,16 +2,14 @@
  * Created by Miguel on 4/2/14.
  */
 
-
-
 //User Class
-function User(userName) {
+User = function(userName) {
     this.name = userName;
     this.ready = false;
     this.money = 0;
 }
 
-function Box(x,y) {
+Box = function(x,y) {
     this.x = x;
     this.y = y;
     this.occupied = false;
@@ -24,6 +22,7 @@ for (var i = 0; i <= 32; i++) {
     coorGrid[i] = new Array(12);
 }
 coorGrid[0][0] = new Box(38,33);
+
 var xPlacement = 38;  //Original x placement to populate the grid.
 var yPlacement = 33;
 for (var i = 0; i < 33; i++) {
@@ -50,15 +49,31 @@ for (var i = 0; i < 33; i++) {
 }
 //coorGrid End
 
-
-
-
+CoordToPathGrid = function(x, y) {
+    var xCoor;
+    var yCoor;
+    for(var i = 0; i < 33; ++i) {
+        if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 > x){
+            xCoor = i;
+            break;
+        }
+    }
+    for(var j = 0; j < 12; ++j) {
+        if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 > y){
+            yCoor = j;
+            return {
+                x: xCoor,
+                y: yCoor
+            }
+        }
+    }
+}
 
 //serverGrid Start
 var gridWidth = 17;
 var gridHeight = 6;
 
-var serverGrid = new Array(gridWidth); ////Grid to be used for game  --Sergio
+serverGrid = new Array(gridWidth); ////Grid to be used for game  --Sergio
 for (var i = 0; i < gridWidth; i++) {
     serverGrid[i] = new Array(gridHeight);
 }

@@ -85,4 +85,5 @@ function init(){
         {id:"turret", src:"images/turret.png"},
         {id:"orb", src:"images/orb.png"}
     ]);
+	createjs.Ticker.setFPS(60);
 }

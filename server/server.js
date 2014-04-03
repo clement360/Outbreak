@@ -1,3 +1,4 @@
+require('./pathfinding.js');
 var io = require('socket.io').listen(56644);
 var userNames = new Array();
 var usersReady = new Array();
@@ -24,7 +25,6 @@ easystar.setAcceptableTiles([0]);
 setInterval(function(){
     easystar.calculate();
 },100);
-
 //-----------------------End EasyStar.js-----------------------//
 
 io.sockets.on('connection', function(socket) {
@@ -62,6 +62,8 @@ io.sockets.on('connection', function(socket) {
     });
 	socket.on("buildingPlaced", function(data) {
         serverGrid[data["x"]][data["y"]].occupied = true;
+		var pathLoc = CoordToPathGrid(serverGrid[data["x"]] + 50, serverGrid[data["y"]] + 50);
+		pathGrid[pathLoc.x][pathLoc.y] = 1;
         console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
 		socket.broadcast.emit('buildingPlaced', {
 			"index" : myIndex,

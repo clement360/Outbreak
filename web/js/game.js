@@ -52,17 +52,22 @@ for (var i = 0; i < gridWidth; i++) {
 		for (var k = 1; k < gridHeight; k++) {
 			yPlacement = yPlacement + 111.25;
 			grid[i][k] = new Box(xPlacement, yPlacement);
+			grid[i][k].i = i;
+			grid[i][k].k = k;
 		}	
 	else
 	{
 		for (var k = 0; k < gridHeight; k++) 
 		{
+			
 			if( k == 0 )
 			{
 				yPlacement = -100.25;
 			}
-				yPlacement = yPlacement + 111.25;
-				grid[i][k] = new Box(xPlacement, yPlacement);
+			yPlacement = yPlacement + 111.25;
+			grid[i][k] = new Box(xPlacement, yPlacement);
+			grid[i][k].i = i;
+			grid[i][k].k = k;
 		}	
 	}
 	xPlacement = xPlacement + 111.25;
@@ -87,8 +92,9 @@ socket.on('newUserData', function(data) {
 
 socket.on('buildingPlaced', function(data) {
 	var bmp1 = new createjs.Bitmap(queue.getResult("factory1"));
-	bmp1.x = data["x"];
-	bmp1.y = data["y"];
+	var currentBox = grid[data["x"]][data["y"]];
+	bmp1.x = currentBox.x;
+	bmp1.y = currentBox.y;
 	stage.addChild(bmp1);
     //var placeBox = stageCoordToGrid(data["x"], data["y"]); NOT WORKING
     //placeBox.occupied = true;                              NOT WORKING
@@ -112,7 +118,7 @@ function loadFort(event){
 
 	stage.addChild(field);
 	stage.addChild(lowerMenu);
-
+	
 	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
 	playerText.y = 840;
@@ -315,10 +321,6 @@ function loadDefenseMenu(event){
 }
 	
 function locationIsValid(x, y) {
-    //for debugging case
-    if(typeof myIndex === "undefined")
-        return (x < 565.25) && (y < 340);
-
 	switch(myIndex) {
 		case 0:
 			return (x < 565.25) && (y < 340);
@@ -372,8 +374,8 @@ function handleBuilding(sprite) {
             stage.removeEventListener("stagemousemove", buildingMove);
             stage.removeEventListener("pressup", buildingPlace);
             var buildingPlaceEvt = {
-				"x" : currentBox.x,
-                "y" : currentBox.y
+				"x" : currentBox.i,
+                "y" : currentBox.k
             }
 
             money -= 250;
