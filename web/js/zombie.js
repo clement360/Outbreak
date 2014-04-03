@@ -84,7 +84,6 @@ function newPath(x2, y2){
 
 var iterations;
 function animate(){
-
     iterations = 0;
     //zombie.x = coorGrid[path[iterations].y][path[iterations].x].x;
     //zombie.y = coorGrid[path[iterations].y][path[iterations].x].y;
