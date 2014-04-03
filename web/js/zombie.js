@@ -85,18 +85,19 @@ var iterations;
 function animate(){
 
     iterations = 0;
-    zombie.x = coorGrid[path[iterations].y][path[iterations].x].x;
-    zombie.y = coorGrid[path[iterations].y][path[iterations].x].y;
+    //zombie.x = coorGrid[path[iterations].y][path[iterations].x].x;
+    //zombie.y = coorGrid[path[iterations].y][path[iterations].x].y;
     stage.addChild(zombie);
-    var interval = setInterval(move, 20);
+    var interval = setInterval(move, 300);
     function move() {
         iterations++;
         if (iterations >= path.length-1){
             clearInterval(interval);
             //stage.removeChild(zombie);
         }
-        zombie.x = coorGrid[path[iterations].y][path[iterations].x].x;
-        zombie.y = coorGrid[path[iterations].y][path[iterations].x].y;
+        var newX = coorGrid[path[iterations].y][path[iterations].x].x;
+        var newY = coorGrid[path[iterations].y][path[iterations].x].y;
+        createjs.Tween.get(zombie).to({x:newX, y:newY}, 300);
     }
 
 }
