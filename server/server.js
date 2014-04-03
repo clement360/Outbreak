@@ -24,6 +24,7 @@ easystar.setAcceptableTiles([0]);
 setInterval(function(){
     easystar.calculate();
 },100);
+
 //-----------------------End EasyStar.js-----------------------//
 
 io.sockets.on('connection', function(socket) {

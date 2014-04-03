@@ -112,7 +112,7 @@ function loadFort(event){
 
 	stage.addChild(field);
 	stage.addChild(lowerMenu);
-	
+
 	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
 	playerText.y = 840;
@@ -315,6 +315,10 @@ function loadDefenseMenu(event){
 }
 	
 function locationIsValid(x, y) {
+    //for debugging case
+    if(typeof myIndex === "undefined")
+        return (x < 565.25) && (y < 340);
+
 	switch(myIndex) {
 		case 0:
 			return (x < 565.25) && (y < 340);
