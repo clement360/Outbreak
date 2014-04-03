@@ -117,7 +117,6 @@ io.sockets.on('connection', function(socket) {
                 console.log("Path was not found.");
             } else {
                 socket.emit('pathUpdate', path);
-                console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
             }
         });
     });

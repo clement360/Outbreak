@@ -37,12 +37,13 @@ function CoordToPathGrid(x, y) {
     var xCoor;
     var yCoor;
     for(var i = 0; i < 33; ++i) {
-        if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 >= x)
+        if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 > x){
             xCoor = i;
-
+            break;
+        }
     }
     for(var j = 0; j < 12; ++j) {
-        if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 >= y){
+        if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 > y){
             yCoor = j;
             return {
                 x: xCoor,
@@ -69,7 +70,7 @@ function newPath(x2, y2){
     var cor = CoordToPathGrid(zombie.x, zombie.y);
 
     // make sure target is in bounds and not current position
-    if((y2 != 0 || x2 !=0) && (x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
+    if((x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
         socket.emit('findPath',  {
 
             "x1" : cor.y,
@@ -87,7 +88,7 @@ function animate(){
     zombie.x = coorGrid[path[iterations].y][path[iterations].x].x;
     zombie.y = coorGrid[path[iterations].y][path[iterations].x].y;
     stage.addChild(zombie);
-    var interval = setInterval(move, 200);
+    var interval = setInterval(move, 20);
     function move() {
         iterations++;
         if (iterations >= path.length-1){

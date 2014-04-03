@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="pathfinding works now">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/images/noticeBox.png" afterPath="$PROJECT_DIR$/web/images/noticeBox.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/game.js" afterPath="$PROJECT_DIR$/web/js/game.js" />
+    <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/init.js" afterPath="$PROJECT_DIR$/web/js/init.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/server.js" afterPath="$PROJECT_DIR$/server/server.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/zombie.js" afterPath="$PROJECT_DIR$/web/js/zombie.js" />
     </list>
     <ignored path="Outbreak.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +31,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="-3.9230769" vertical-offset="170" max-vertical-offset="1105">
+            <state line="16" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="1105">
               <folding />
             </state>
           </provider>
@@ -40,16 +40,16 @@
       <file leaf-file-name="lobby.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/lobby.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1683">
+            <state line="25" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="425" max-vertical-offset="1683">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="init.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="init.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.063432835" vertical-offset="0" max-vertical-offset="1547">
+            <state line="14" column="0" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1547">
               <folding />
             </state>
           </provider>
@@ -58,7 +58,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="7" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="2074" max-vertical-offset="2329">
+            <state line="118" column="48" selection-start="3030" selection-end="3030" vertical-scroll-proportion="0.0" vertical-offset="1776" max-vertical-offset="2312">
               <folding />
             </state>
           </provider>
@@ -67,16 +67,16 @@
       <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="242" column="28" selection-start="7114" selection-end="7114" vertical-scroll-proportion="-1.88" vertical-offset="4067" max-vertical-offset="7038">
+            <state line="243" column="0" selection-start="7115" selection-end="7115" vertical-scroll-proportion="0.0" vertical-offset="2171" max-vertical-offset="7038">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zombie.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="zombie.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="28" selection-start="1609" selection-end="1612" vertical-scroll-proportion="2.88" vertical-offset="1228" max-vertical-offset="1802">
+            <state line="70" column="0" selection-start="1662" selection-end="1662" vertical-scroll-proportion="0.6977612" vertical-offset="816" max-vertical-offset="1819">
               <folding />
             </state>
           </provider>
@@ -103,12 +103,12 @@
       <list>
         <option value="$PROJECT_DIR$/web/js/User.js" />
         <option value="$PROJECT_DIR$/web/js/lobby.js" />
-        <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/web/index.html" />
-        <option value="$PROJECT_DIR$/web/js/zombie.js" />
         <option value="$PROJECT_DIR$/node_modules/easystarjs/Gruntfile.js" />
         <option value="$PROJECT_DIR$/web/js/game.js" />
         <option value="$PROJECT_DIR$/web/js/init.js" />
+        <option value="$PROJECT_DIR$/server/server.js" />
+        <option value="$PROJECT_DIR$/web/js/zombie.js" />
       </list>
     </option>
   </component>
@@ -335,7 +335,11 @@
       <created>1396425446755</created>
       <updated>1396425446755</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="minor fixs">
+      <created>1396470787997</created>
+      <updated>1396470787997</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -420,7 +424,8 @@
     <MESSAGE value="socket switch" />
     <MESSAGE value="path finding grid and reference coordinate grid created on server" />
     <MESSAGE value="pathfinding works now" />
-    <option name="LAST_COMMIT_MESSAGE" value="pathfinding works now" />
+    <MESSAGE value="minor fixs" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor fixs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -498,44 +503,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="7" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="1972">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="-3.9230769" vertical-offset="170" max-vertical-offset="1105">
+        <state line="16" column="0" selection-start="500" selection-end="500" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="1105">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/easystarjs/Gruntfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="16" selection-start="317" selection-end="317" vertical-scroll-proportion="0.24091779" vertical-offset="78" max-vertical-offset="969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="28" selection-start="1609" selection-end="1612" vertical-scroll-proportion="2.88" vertical-offset="1228" max-vertical-offset="1802">
-          <folding />
-        </state>
+        <state line="12" column="16" selection-start="317" selection-end="317" vertical-scroll-proportion="0.24091779" vertical-offset="78" max-vertical-offset="969" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="242" column="28" selection-start="7114" selection-end="7114" vertical-scroll-proportion="-1.88" vertical-offset="4067" max-vertical-offset="7038">
+        <state line="243" column="0" selection-start="7115" selection-end="7115" vertical-scroll-proportion="0.0" vertical-offset="2171" max-vertical-offset="7038">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.063432835" vertical-offset="0" max-vertical-offset="1547">
+        <state line="14" column="0" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1547">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="48" selection-start="3030" selection-end="3030" vertical-scroll-proportion="0.0" vertical-offset="1776" max-vertical-offset="2312">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="1662" selection-end="1662" vertical-scroll-proportion="0.6977612" vertical-offset="816" max-vertical-offset="1819">
           <folding />
         </state>
       </provider>
