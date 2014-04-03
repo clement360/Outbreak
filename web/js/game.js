@@ -1,5 +1,5 @@
 var buildButton = new createjs.Shape();
-var closeMenuButton = new createjs.Shape();  //Sergio
+var closeBuildMenuButton = new createjs.Shape();  //Sergio
 
 var loadBuildingButton = new createjs.Shape();   //Made this Global to be able to be removed later -- Sergio
 var loadZombieButton = new createjs.Shape();  //Create this to separate one button intro three functional buttons that do different thing
@@ -11,7 +11,13 @@ var lowerMenu;
 var zombiesMenu;
 var defensesMenu;
 var buildingsMenu;
-
+var doneButton;
+var greenZombie;
+var blueZombie;
+var blueKing;
+var greenKing;
+var turret;
+var orb;
 
 var users = new Array();
 
@@ -38,9 +44,6 @@ for (var i = 0; i < gridWidth; i++) {
 
 var xPlacement = 9;  //Original x placement to populate the grid.
 var yPlacement = 11;  //    "    y    "
-
-
-var path = new Array(17);
 
 grid[0][0] = new Box(xPlacement,yPlacement);
 
@@ -75,9 +78,7 @@ function stageCoordToGrid(x, y) {
 	}
 }
 
-socket.on('pathUpdate', function(data) {
-	path = data;
-});
+
 
 
 socket.on('newUserData', function(data) {
@@ -89,6 +90,8 @@ socket.on('buildingPlaced', function(data) {
 	bmp1.x = data["x"];
 	bmp1.y = data["y"];
 	stage.addChild(bmp1);
+    //var placeBox = stageCoordToGrid(data["x"], data["y"]); NOT WORKING
+    //placeBox.occupied = true;                              NOT WORKING
 });
 
 
@@ -159,18 +162,20 @@ function loadMenu(event){
     loadZombieButton.addEventListener("click", loadZombieMenu);
 	loadDefenseButton.graphics.beginFill("#0000F").drawRect(1183, 229, 310, 288);  //// "   Defense "
     loadDefenseButton.addEventListener("click", loadDefenseMenu);
-	closeMenuButton.graphics.beginFill("#0000F").drawRect(1548, 110, 46, 46);  //// X close button was built!!
-	closeMenuButton.addEventListener("click", closeMenu); //Added button Listener to close
+	closeBuildMenuButton.graphics.beginFill("#0000F").drawRect(1548, 110, 46, 46);  //// X close button was built!!
+    closeBuildMenuButton.alpha = .1;
+	closeBuildMenuButton.addEventListener("click", closeBuildMenu); //Added button Listener to close
 	
 	stage.addChild(loadDefenseButton); //Sergio
 	stage.addChild(loadZombieButton); //Sergio
-	stage.addChild(closeMenuButton); //Sergio
+	stage.addChild(closeBuildMenuButton); //Sergio
 	stage.addChild(loadBuildingButton);
 	
 	buildMenu = new createjs.Bitmap(queue.getResult("buildMenu"));  //Declared as global now  --Sergio
 
 	buildMenu.x = 310;
 	buildMenu.y = 90;
+
 
 	stage.addChild(buildMenu);
 }
@@ -179,45 +184,134 @@ function loadZombieMenu(event){
     loadDefenseButton.removeEventListener("click", loadDefenseMenu);
     loadZombieButton.removeEventListener("click", loadZombieMenu);
     loadBuildingButton.removeEventListener("click", loadBuildingMenu);
-    closeMenuButton.removeEventListener("click", closeMenu);
+    closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
+
 
     stage.removeChild(buildMenu);
     stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
     stage.removeChild(loadDefenseButton); //Sergio
     stage.removeChild(loadZombieButton); //Sergio
-    stage.removeChild(closeMenuButton);
+    stage.removeChild(closeBuildMenuButton);
     stage.removeChild(attackButton);
     stage.removeChild(lowerMenu);
     stage.removeChild(lowerMenu);
     stage.removeChild(moneyAmountText);
     stage.removeChild(playerText);
     stage.removeChild(moneyText);
+    stage.removeChild(timerText);
 
     zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
-    zombiesMenu.y = 659;
+    doneButton = new createjs.Bitmap(queue.getResult("doneButton"));
+    greenZombie = new createjs.Bitmap(queue.getResult("greenZombie"));
+    blueZombie = new createjs.Bitmap(queue.getResult("blueZombie"));
+    blueKing = new createjs.Bitmap(queue.getResult("blueKing"));
+    greenKing = new createjs.Bitmap(queue.getResult("greenKing"));
+
+    doneButton.addEventListener("click", closeZombieMenu);
+
+    zombiesMenu.y = 674;
+    doneButton.x = 1525;
+    doneButton.y = 860;
+    greenZombie.x = 454;
+    greenZombie.y = 842;
+    blueZombie.x = 454;
+    blueZombie.y = 842;
+    blueKing.x = 953;
+    blueKing.y = 814;
+    greenKing.x = 953;
+    greenKing.y = 814;
+
     stage.addChild(zombiesMenu);
+    stage.addChild(doneButton);
+    if(myIndex != 1 || myIndex != 2){
+        stage.addChild(blueKing);
+        stage.addChild(blueZombie);
+    }
+    else{
+        stage.addChild(greenKing);
+        stage.addChild(greenZombie);
+    }
 }
 
-function loadDefenseMenu(event){
+function loadBuildingMenu(event){
     loadDefenseButton.removeEventListener("click", loadDefenseMenu);
     loadZombieButton.removeEventListener("click", loadZombieMenu);
     loadBuildingButton.removeEventListener("click", loadBuildingMenu);
-    closeMenuButton.removeEventListener("click", closeMenu);
+    closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
 
     stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
     stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
     stage.removeChild(loadDefenseButton); //Sergio
     stage.removeChild(loadZombieButton); //Sergio
-    stage.removeChild(closeMenuButton);
+    stage.removeChild(closeBuildMenuButton);
+    stage.removeChild(lowerMenu);
+    stage.removeChild(moneyAmountText);
+    stage.removeChild(playerText);
+    stage.removeChild(moneyText);
+    stage.removeChild(timerText);
+
+    console.log("LOAD BUILDING");
+
+    //attackButton.addEventListener("click", loadAttack);
+
+    buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
+    buildingsMenu.y = 659;
+
+    var factoryButton = new createjs.Shape();
+    factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
+    factoryButton.addEventListener("click", placeFactory);
+    factoryButton.alpha = 0.01;
+
+    factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
+    factoryImage.x = 400;
+    factoryImage.y = 800;
+
+    stage.addChild(factoryButton);
+    stage.addChild(buildingsMenu);
+    stage.addChild(factoryImage);
+
+    attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
+    stage.addChild(attackButton);
+    attackButton.alpha = 0.01;
+}
+
+function loadDefenseMenu(event){
+
+    loadDefenseButton.removeEventListener("click", loadDefenseMenu);
+    loadZombieButton.removeEventListener("click", loadZombieMenu);
+    loadBuildingButton.removeEventListener("click", loadBuildingMenu);
+    closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
+
+    stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
+    stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
+    stage.removeChild(loadDefenseButton); //Sergio
+    stage.removeChild(loadZombieButton); //Sergio
+    stage.removeChild(closeBuildMenuButton);
     stage.removeChild(attackButton);
     stage.removeChild(lowerMenu);
     stage.removeChild(moneyAmountText);
     stage.removeChild(playerText);
     stage.removeChild(moneyText);
+    stage.removeChild(timerText);
 
     defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
+    defensesDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
+    turret = new createjs.Bitmap(queue.getResult("turret"));
+    orb = new createjs.Bitmap(queue.getResult("orb"));
+    defensesDoneButton.addEventListener("click", closeDefensesMenu);
+
     defensesMenu.y = 659;
+    orb.x = 942;
+    orb.y = 805;
+    turret.x = 400;
+    turret.y = 804;
+    defensesDoneButton.x = 1525;
+    defensesDoneButton.y = 860;
+
     stage.addChild(defensesMenu);
+    stage.addChild(defensesDoneButton);
+    stage.addChild(orb);
+    stage.addChild(turret);
 }
 	
 function locationIsValid(x, y) {
@@ -342,57 +436,62 @@ function placeFactory(event) {
 	}
 }
 	
-function loadBuildingMenu(event){
-    loadDefenseButton.removeEventListener("click", loadDefenseMenu);
-    loadZombieButton.removeEventListener("click", loadZombieMenu);
-    loadBuildingButton.removeEventListener("click", loadBuildingMenu);
-    closeMenuButton.removeEventListener("click", closeMenu);
 
-	stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
-	stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
-	stage.removeChild(loadDefenseButton); //Sergio
-	stage.removeChild(loadZombieButton); //Sergio
-    stage.removeChild(closeMenuButton);
-    stage.removeChild(lowerMenu);
-    stage.removeChild(moneyAmountText);
-    stage.removeChild(playerText);
-    stage.removeChild(moneyText);
 
-	console.log("LOAD BUILDING"); 
-
-	//attackButton.addEventListener("click", loadAttack);
-
-    buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
-    buildingsMenu.y = 659;
-	
-	var factoryButton = new createjs.Shape();
-	factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
-	factoryButton.addEventListener("click", placeFactory);
-	factoryButton.alpha = 0.01;
-	
-	factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
-	factoryImage.x = 400;
-	factoryImage.y = 800;
-	
-	stage.addChild(factoryButton);
-	stage.addChild(buildingsMenu);
-	stage.addChild(factoryImage);
-	
-	attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
-	stage.addChild(attackButton);
-	attackButton.alpha = 0.01;
-}
-
-function closeMenu(even){
+function closeBuildMenu(even){
 ////-----------------------Dont forget to REMOVE LISTENERS!!!!!!!! -----Sergio
 		stage.removeChild(buildMenu); //Remove Old building menu image --Sergio
 		stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
 		stage.removeChild(loadDefenseButton); //Sergio
 		stage.removeChild(loadZombieButton); //Sergio
-		stage.removeChild(closeMenuButton);
+		stage.removeChild(closeBuildMenuButton);
 
 		loadBuildingButton.removeEventListener("click", loadBuilding);
-		closeMenuButton.removeEventListener("click", closeMenu);
+		closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
+
+        buildButton.addEventListener("click", loadMenu);
+}
+
+function closeZombieMenu(even){
+    stage.removeChild(zombiesMenu);
+    stage.removeChild(doneButton);
+
+    // Remember: Remove zombie creation event listeners
+
+    doneButton.removeEventListener("click", closeZombieMenu);
+    stage.addChild(lowerMenu);
+
+    buildButton.addEventListener("click", loadMenu);
+    stage.removeChild(buildingsMenu);
+    stage.addChild(lowerMenu);
+    stage.addChild(moneyText);
+    stage.addChild(moneyAmountText);
+    stage.addChild(playerText);
+    stage.addChild(timerText);
+    stage.removeChild(greenKing);
+    stage.removeChild(greenZombie);
+    stage.removeChild(blueKing);
+    stage.removeChild(blueZombie);
+}
+
+function closeDefensesMenu(even){
+    stage.removeChild(defensesMenu);
+    stage.removeChild(defensesDoneButton);
+    stage.removeChild(orb);
+    stage.removeChild(turret);
+
+    // Remember: Remove defense creation event listeners
+
+    defensesDoneButton.removeEventListener("click", closeDefensesMenu);
+    stage.addChild(lowerMenu);
+
+    buildButton.addEventListener("click", loadMenu);
+    stage.removeChild(buildingsMenu);
+    stage.addChild(lowerMenu);
+    stage.addChild(moneyText);
+    stage.addChild(moneyAmountText);
+    stage.addChild(playerText);
+    stage.addChild(timerText);
 }
 
 function loadAttack(event){

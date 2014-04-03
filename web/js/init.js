@@ -80,6 +80,9 @@ function init(){
         {id:"greenKing", src:"images/greenKing.png"},
         {id:"blueKing", src:"images/blueKing.png"},
         {id:"greenZombie", src:"images/greenZombie.png"},
-        {id:"blueZombie", src:"images/blueZombie.png"}
+        {id:"blueZombie", src:"images/blueZombie.png"},
+        {id:"doneButton", src:"images/doneButton.png"},
+        {id:"turret", src:"images/turret.png"},
+        {id:"orb", src:"images/orb.png"}
     ]);
 }

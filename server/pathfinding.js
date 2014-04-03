@@ -2,8 +2,7 @@
  * Created by Miguel on 4/2/14.
  */
 
-var EasyStar = require('easystarjs');
-var easystar = new EasyStar.js();
+
 
 //User Class
 function User(userName) {
@@ -53,15 +52,42 @@ for (var i = 0; i < 33; i++) {
 
 
 
-// grid that is used for pathfinding with EasyStar 33 x 12
-var pathGrid = new Array(32);
-for (var i = 0; i <= 32; i++) {
-    pathGrid[i] = new Array(12);
-    for(var j = 0; j <= 11; j++){
-        pathGrid[i][j] = 0;
-    }
+
+
+//serverGrid Start
+var gridWidth = 17;
+var gridHeight = 6;
+
+var serverGrid = new Array(gridWidth); ////Grid to be used for game  --Sergio
+for (var i = 0; i < gridWidth; i++) {
+    serverGrid[i] = new Array(gridHeight);
 }
 
-easystar.setGrid(pathGrid);
-easystar.enableDiagonals();
-easystar.setAcceptableTiles([0]);
+xPlacement = 9;  //Original x placement to populate the grid.
+yPlacement = 11;  //    "    y    "
+
+
+serverGrid[0][0] = new Box(xPlacement,yPlacement);
+
+for (var i = 0; i < gridWidth; i++) {
+    if(i == 0)
+        for (var k = 1; k < gridHeight; k++) {
+            yPlacement = yPlacement + 111.25;
+            serverGrid[i][k] = new Box(xPlacement, yPlacement);
+        }
+    else
+    {
+        for (var k = 0; k < gridHeight; k++)
+        {
+            if( k == 0 )
+            {
+                yPlacement = -100.25;
+            }
+            yPlacement = yPlacement + 111.25;
+            serverGrid[i][k] = new Box(xPlacement, yPlacement);
+        }
+    }
+    xPlacement = xPlacement + 111.25;
+    yPlacement = 11;
+}
+//serverGrid End

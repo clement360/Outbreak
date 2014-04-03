@@ -1,4 +1,5 @@
 var zombie;
+var path = [];
 
 // coorGrid is used as reference when converting
 // pixels to pathGrid Coordinates
