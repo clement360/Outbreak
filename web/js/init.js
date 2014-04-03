@@ -1,8 +1,8 @@
 var stage;
 var queue;
-var socket = io.connect("http://compute.cs.tamu.edu:56644");
+//var socket = io.connect("http://compute.cs.tamu.edu:56644");
 //please do not delete 
-//var socket = io.connect("http://localhost:56644");
+var socket = io.connect("http://localhost:56644");
 var userNames = new Array();
 var myIndex;
 var usersReady = new Array();
@@ -83,7 +83,8 @@ function init(){
         {id:"blueZombie", src:"images/blueZombie.png"},
         {id:"doneButton", src:"images/doneButton.png"},
         {id:"turret", src:"images/turret.png"},
-        {id:"orb", src:"images/orb.png"}
+        {id:"orb", src:"images/orb.png"},
+        {id:"highlightGrid", src:"images/highlightGrid.png"}
     ]);
 	createjs.Ticker.setFPS(60);
 }

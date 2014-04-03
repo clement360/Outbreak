@@ -9,9 +9,11 @@ var attackButton = new createjs.Shape();
 var buildMenu;  //Made this global  --Sergio
 var lowerMenu;
 var zombiesMenu;
+var factoryButton;
 var defensesMenu;
 var buildingsMenu;
 var doneButton;
+var buildingsDoneButton;
 var greenZombie;
 var blueZombie;
 var blueKing;
@@ -46,6 +48,8 @@ var xPlacement = 9;  //Original x placement to populate the grid.
 var yPlacement = 11;  //    "    y    "
 
 grid[0][0] = new Box(xPlacement,yPlacement);
+grid[0][0].i = 0;
+grid[0][0].k = 0;
 
 for (var i = 0; i < gridWidth; i++) {
 	if(i == 0)
@@ -157,7 +161,9 @@ function loadFort(event){
 		timerText.text = timerMins + ":" + timerSecsText;	
 	}, 1000);
 }
-		
+
+
+//This menu is the zombie, building, defense choice menu
 function loadMenu(event){
 	console.log("LOAD MENU"); 
 	buildButton.removeEventListener("click", loadMenu);
@@ -263,22 +269,30 @@ function loadBuildingMenu(event){
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 659;
 
-    var factoryButton = new createjs.Shape();
+    factoryButton = new createjs.Shape();
+    factoryImage = new createjs.Bitmap(queue.getResult("factory1"));
+
     factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
     factoryButton.addEventListener("click", placeFactory);
+
+    buildingsDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
+    buildingsDoneButton.addEventListener("click", closeBuildingsMenu);
+
+    attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
+    attackButton.alpha = 0.01;
     factoryButton.alpha = 0.01;
 
-    factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
     factoryImage.x = 400;
     factoryImage.y = 800;
+    buildingsMenu.y = 674;
+    buildingsDoneButton.x = 1687;
+    buildingsDoneButton.y = 874;
 
     stage.addChild(factoryButton);
     stage.addChild(buildingsMenu);
     stage.addChild(factoryImage);
-
-    attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
     stage.addChild(attackButton);
-    attackButton.alpha = 0.01;
+    stage.addChild(buildingsDoneButton);
 }
 
 function loadDefenseMenu(event){
@@ -320,20 +334,7 @@ function loadDefenseMenu(event){
     stage.addChild(turret);
 }
 	
-function locationIsValid(x, y) {
-	switch(myIndex) {
-		case 0:
-			return (x < 565.25) && (y < 340);
-		case 1:
-			return (x < 565.25) && (y >= 340);
-		case 2:
-			return (x > 1343) && (y < 340);
-		case 3:
-			return (x > 1343) && (y >= 340);
-		default:
-			return false;
-	}
-}
+
 
 function handleBuilding(sprite) {
 	stage.addChild(sprite);
@@ -399,36 +400,6 @@ function handleBuilding(sprite) {
 	
 }
 
-function gameAlert(title, text) {
-	var alertBg = new createjs.Bitmap(queue.getResult("noticeBox"));
-	var alertText = new createjs.Text(text, "bold 50px Lithos", "#fff");
-	var alertTitle = new createjs.Text(title, "bold 50px Lithos", "#fff");
-	alertTitle.x = 643;
-	alertTitle.y = 270;
-	alertText.x = 650;
-	alertText.y = 370;
-	alertBg.x = 643;
-	alertBg.y = 265;
-	alertBg.alpha = 0;
-	alertText.alpha = 0;
-	alertTitle.alpha = 0;
-	stage.addChild(alertBg);
-	stage.addChild(alertText);
-	stage.addChild(alertTitle);
-	createjs.Tween.get(alertBg).to({alpha:1}, 500);
-	createjs.Tween.get(alertText).to({alpha:1}, 500);
-	createjs.Tween.get(alertTitle).to({alpha:1}, 500);
-	setTimeout(function() {
-		createjs.Tween.get(alertBg).to({alpha:0}, 500);
-		createjs.Tween.get(alertText).to({alpha:0}, 500);
-		createjs.Tween.get(alertTitle).to({alpha:0}, 500);
-		setTimeout(function() {
-			stage.removeChild(alertBg);
-			stage.removeChild(alertText);
-			stage.removeChild(alertTitle);
-		}, 500);
-	}, 2000)
-}
 
 function placeFactory(event) {
 	if (money >= 250) {
@@ -441,7 +412,6 @@ function placeFactory(event) {
 		gameAlert("               Alert", "\nInsufficient money.");
 	}
 }
-	
 
 
 function closeBuildMenu(even){
@@ -500,6 +470,28 @@ function closeDefensesMenu(even){
     stage.addChild(timerText);
 }
 
+function closeBuildingsMenu(even){
+    stage.removeChild(defensesMenu);
+    stage.removeChild(buildingsDoneButton);
+    stage.removeChild(orb);
+    stage.removeChild(turret);
+    stage.removeChild(factoryButton);
+
+    // Remember: Remove buildings creation event listeners
+    factoryButton.removeEventListener("click", closeBuildingsMenu);
+
+    buildingsDoneButton.removeEventListener("click", placeFactory);
+    stage.addChild(lowerMenu);
+
+    buildButton.addEventListener("click", loadMenu);
+    stage.removeChild(buildingsMenu);
+    stage.addChild(lowerMenu);
+    stage.addChild(moneyText);
+    stage.addChild(moneyAmountText);
+    stage.addChild(playerText);
+    stage.addChild(timerText);
+}
+
 function loadAttack(event){
 	console.log("LOAD ATTACK"); 
 	loadBuildingButton.removeEventListener("click", loadAttack);
@@ -507,6 +499,52 @@ function loadAttack(event){
 	var bmp = new createjs.Bitmap(queue.getResult("battle"));
 	bmp.alpha = 0.5;
 	stage.addChild(bmp);
+}
+
+function locationIsValid(x, y) {
+    switch(myIndex) {
+        case 0:
+            return (x < 565.25) && (y < 340);
+        case 1:
+            return (x < 565.25) && (y >= 340);
+        case 2:
+            return (x > 1343) && (y < 340);
+        case 3:
+            return (x > 1343) && (y >= 340);
+        default:
+            return false;
+    }
+}
+
+function gameAlert(title, text) {
+    var alertBg = new createjs.Bitmap(queue.getResult("noticeBox"));
+    var alertText = new createjs.Text(text, "bold 50px Lithos", "#fff");
+    var alertTitle = new createjs.Text(title, "bold 50px Lithos", "#fff");
+    alertTitle.x = 643;
+    alertTitle.y = 270;
+    alertText.x = 650;
+    alertText.y = 370;
+    alertBg.x = 643;
+    alertBg.y = 265;
+    alertBg.alpha = 0;
+    alertText.alpha = 0;
+    alertTitle.alpha = 0;
+    stage.addChild(alertBg);
+    stage.addChild(alertText);
+    stage.addChild(alertTitle);
+    createjs.Tween.get(alertBg).to({alpha:1}, 500);
+    createjs.Tween.get(alertText).to({alpha:1}, 500);
+    createjs.Tween.get(alertTitle).to({alpha:1}, 500);
+    setTimeout(function() {
+        createjs.Tween.get(alertBg).to({alpha:0}, 500);
+        createjs.Tween.get(alertText).to({alpha:0}, 500);
+        createjs.Tween.get(alertTitle).to({alpha:0}, 500);
+        setTimeout(function() {
+            stage.removeChild(alertBg);
+            stage.removeChild(alertText);
+            stage.removeChild(alertTitle);
+        }, 500);
+    }, 2000)
 }
 
 function tick(event){
