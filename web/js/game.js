@@ -14,6 +14,7 @@ var defensesMenu;
 var buildingsMenu;
 var doneButton;
 var buildingsDoneButton;
+var highlightGrid;
 var greenZombie;
 var blueZombie;
 var blueKing;
@@ -127,6 +128,27 @@ function loadFort(event){
 	playerText.x = 100;
 	playerText.y = 840;
 	stage.addChild(playerText);
+
+    highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
+    switch (myIndex){
+        case 0:
+            highlightGrid.x = 6;
+            highlightGrid.y = 10;
+        case 1:
+            highlightGrid.x = 6;
+            highlightGrid.y = 348;
+        case 2:
+            highlightGrid.x = 1347;
+            highlightGrid.y = 9;
+        case 3:
+            highlightGrid.x = 1347;
+            highlightGrid.y = 347;
+        default:
+            highlightGrid.x = 6;
+            highlightGrid.y = 10;
+    }
+    highlightGrid.alpha = .38;
+    stage.addChild(highlightGrid);
 	
 	moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
 	moneyText.x = 705;
