@@ -62,7 +62,7 @@ io.sockets.on('connection', function(socket) {
     });
 	socket.on("buildingPlaced", function(data) {
         serverGrid[data["x"]][data["y"]].occupied = true;
-		var pathLoc = CoordToPathGrid(serverGrid[data["x"]] + 55.625, serverGrid[data["y"]] + 55.625);
+		var pathLoc = CoordToPathGrid(serverGrid[data["x"]][data["y"]].x + 55.625, serverGrid[data["x"]][data["y"]].y + 55.625);
 		pathGrid[pathLoc.x][pathLoc.y] = 1;
         console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
 		socket.broadcast.emit('buildingPlaced', {

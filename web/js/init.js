@@ -1,8 +1,8 @@
 var stage;
 var queue;
-var socket = io.connect("http://compute.cs.tamu.edu:56644");
+//var socket = io.connect("http://compute.cs.tamu.edu:56644");
 //please do not delete 
-//var socket = io.connect("http://localhost:56644");
+var socket = io.connect("http://localhost:56644");
 var userNames = new Array();
 var myIndex;
 var usersReady = new Array();
@@ -19,7 +19,6 @@ function Box(x,y) {
     this.y = y;
     this.occupied = false;
 }
-
 
 socket.on('newUser', function(data) {
     console.log("NEW USER CONNECTED: " + data);
@@ -67,10 +66,8 @@ function init(){
         {id:"battle", src:"images/Battle.jpg"},
         {id:"buildMenu", src:"images/buildMenu.png"},
         {id:"lowerMenu", src:"images/lowerMenu.png"},
-        {id:"building", src:"images/Building.jpg"},
         {id:"field", src:"images/field.jpg"},
         {id:"factory1", src:"images/factory1.png"},
-        {id:"defense", src:"images/defense added.jpg"},
         {id:"readyCheck", src:"images/readyCheck.png"},
         {id:"zombiesMenu", src:"images/zombiesMenu.png"},
         {id:"defensesMenu", src:"images/defensesMenu.png"},
@@ -84,7 +81,11 @@ function init(){
         {id:"doneButton", src:"images/doneButton.png"},
         {id:"turret", src:"images/turret.png"},
         {id:"orb", src:"images/orb.png"},
-		{id:"highlightGrid", src:"images/highlightGrid.png"}
+		{id:"highlightGrid", src:"images/highlightGrid.png"},
+        {id:"leftBase", src:"images/leftBase.png"},
+        {id:"rightBase", src:"images/rightBase.png"},
+        {id:"cage", src:"images/cage.png"},
+        {id:"bank", src:"images/bank.png"}
     ]);
 	createjs.Ticker.setFPS(60);
 }

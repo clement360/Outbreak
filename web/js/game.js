@@ -14,10 +14,14 @@ var buildingsMenu;
 var doneButton;
 var greenZombie;
 var blueZombie;
+var cage;
 var blueKing;
 var greenKing;
 var turret;
 var orb;
+var leftBase;
+var rightBase;
+var bank;
 
 var users = new Array();
 
@@ -124,10 +128,18 @@ function loadFort(event){
 	stage.addChild(buildButton);
 	var field = new createjs.Bitmap(queue.getResult("field"));
 	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
-
 	lowerMenu.y = 675;
 
-	stage.addChild(field);
+    leftBase = new createjs.Bitmap(queue.getResult("leftBase"));
+    rightBase = new createjs.Bitmap(queue.getResult("rightBase"));
+
+    leftBase.x = 14;
+    leftBase.y = 235;
+    rightBase.x = 1799;
+    rightBase.y = 235;
+
+    stage.addChild(field);
+
 	stage.addChild(lowerMenu);
 	
 	highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
@@ -153,9 +165,11 @@ function loadFort(event){
             highlightGrid.y = 10;
 			break;
     }
-    highlightGrid.alpha = .38;
+    highlightGrid.alpha = .4;
     stage.addChild(highlightGrid);
-	
+    stage.addChild(leftBase);
+    stage.addChild(rightBase);
+
 	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
 	playerText.y = 840;
@@ -193,6 +207,8 @@ function loadFort(event){
 			timerSecsText = "0" + timerSecsText;
 		timerText.text = timerMins + ":" + timerSecsText;	
 	}, 1000);
+
+
 }
 		
 function loadMenu(event){
@@ -300,6 +316,10 @@ function loadBuildingMenu(event){
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 674;
 
+    cage = new createjs.Bitmap(queue.getResult("cage"));
+    cage.x = 1467;
+    cage.y = 797;
+
     factoryButton = new createjs.Shape();
     factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
     factoryButton.addEventListener("click", placeFactory);
@@ -308,6 +328,10 @@ function loadBuildingMenu(event){
     factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
     factoryImage.x = 400;
     factoryImage.y = 800;
+
+    bank = new createjs.Bitmap(queue.getResult("bank"));
+    bank.x = 940;
+    bank.y = 804;
 
 	buildingsDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     buildingsDoneButton.addEventListener("click", closeBuildingsMenu);
@@ -320,6 +344,8 @@ function loadBuildingMenu(event){
 	
     stage.addChild(factoryButton);
     stage.addChild(buildingsMenu);
+    stage.addChild(bank);
+    stage.addChild(cage);
     stage.addChild(factoryImage);
     stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
@@ -484,7 +510,7 @@ function closeBuildMenu(even){
 		stage.removeChild(loadZombieButton); //Sergio
 		stage.removeChild(closeBuildMenuButton);
 
-		loadBuildingButton.removeEventListener("click", loadBuilding);
+		loadBuildingButton.removeEventListener("click", loadBuildingMenu);
 		closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
 
         buildButton.addEventListener("click", loadMenu);
@@ -510,6 +536,7 @@ function closeZombieMenu(even){
     stage.removeChild(greenZombie);
     stage.removeChild(blueKing);
     stage.removeChild(blueZombie);
+
 }
 
 function closeBuildingsMenu(even){
@@ -518,6 +545,8 @@ function closeBuildingsMenu(even){
 	stage.removeChild(orb);
 	stage.removeChild(turret);
 	stage.removeChild(factoryButton);
+    stage.removeChild(bank);
+    stage.removeChild(cage);
 	
 	// Remember: Remove buildings creation event listeners
 	factoryButton.removeEventListener("click", closeBuildingsMenu);
@@ -542,6 +571,7 @@ function closeDefensesMenu(even){
     stage.removeChild(turret);
 	stage.removeChild(orbButton);
 	stage.removeChild(turretButton);
+
 
     // Remember: Remove defense creation event listeners
 
