@@ -23,71 +23,72 @@ easystar.enableDiagonals();
 easystar.setAcceptableTiles([0]);
 
 setInterval(function(){
-    easystar.calculate();
-},100);
+			easystar.calculate();
+			},100);
 //-----------------------End EasyStar.js-----------------------//
 
 io.sockets.on('connection', function(socket) {
-	var myIndex;
-	socket.emit('initialData', {"userNames" :userNames, "usersReady" : usersReady});
-	socket.on('userName', function(data) {
-		console.log(data);
-		for(var x = 0; x < 4; ++x) {
-			if(userNames[x] == null) {
-				userNames[x] = data;
-                users[x] = new User(data);
-				myIndex = x;
-				break;
-			}
-		}
-		socket.emit("index", myIndex);
-		socket.broadcast.emit('newUser', {
-			"userName" : data,
-			"index" : myIndex
-		});
-	});
-	socket.on('disconnect', function(data) {
-		delete userNames[myIndex];
-		delete usersReady[myIndex];
-        delete users[myIndex];
-		socket.broadcast.emit('userDisconnect', myIndex);
-	});
-	socket.on('readyUp', function(data) {
-		usersReady[data] = true;
-		socket.broadcast.emit('userReady', data);
-	});
-
-    socket.on('requestUserData', function(data) {
-        socket.emit('newUserData', users);
-    });
-	socket.on("buildingPlaced", function(data) {
-        serverGrid[data["x"]][data["y"]].occupied = true;
-		var pathLoc = CoordToPathGrid(serverGrid[data["x"]][data["y"]].x + 55.625, serverGrid[data["x"]][data["y"]].y + 55.625);
-		pathGrid[pathLoc.x][pathLoc.y] = 1;
-        console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
-		socket.broadcast.emit('buildingPlaced', {
-			"index" : myIndex,
-			"x" : data["x"],
-			"y" : data["y"]
-		});
-	});
-
-    socket.on("findPath", function(data) {
-        var startX = data["x1"];
-        var startY = data["y1"];
-        var destX = data["x2"];
-        var destY = data["y2"];
-        easystar.findPath(startX, startY, destX, destY, function( path ) {
-            if (path === null) {
-                console.log("Path was not found.");
-            } else {
-                socket.emit('pathUpdate', path);
-            }
-        });
-    });
-
-
-
-});
+			  var myIndex;
+			  socket.emit('initialData', {"userNames" :userNames, "usersReady" : usersReady});
+			  socket.on('userName', function(data) {
+						console.log(data);
+						for(var x = 0; x < 4; ++x) {
+						if(userNames[x] == null) {
+						userNames[x] = data;
+						users[x] = new User(data);
+						myIndex = x;
+						break;
+						}
+						}
+						socket.emit("index", myIndex);
+						socket.broadcast.emit('newUser', {
+											  "userName" : data,
+											  "index" : myIndex
+											  });
+						});
+			  socket.on('disconnect', function(data) {
+						delete userNames[myIndex];
+						delete usersReady[myIndex];
+						delete users[myIndex];
+						socket.broadcast.emit('userDisconnect', myIndex);
+						});
+			  socket.on('readyUp', function(data) {
+						usersReady[data] = true;
+						socket.broadcast.emit('userReady', data);
+						});
+			  
+			  socket.on('requestUserData', function(data) {
+						socket.emit('newUserData', users);
+						});
+			  socket.on("buildingPlaced", function(data) {
+						console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
+						var pathLoc = CoordToPathGrid(serverGrid[data["x"]][data["y"]].x + 55.625, serverGrid[data["x"]][data["y"]].y + 55.625);
+						pathGrid[pathLoc.x][pathLoc.y] = 1;
+						socket.broadcast.emit('buildingPlaced', {
+											  "index" : myIndex,
+											  "x" : data["x"],
+											  "y" : data["y"],
+											  "name" : data["name"]
+											  });
+						
+						});
+			  
+			  socket.on("findPath", function(data) {
+						var startX = data["x1"];
+						var startY = data["y1"];
+						var destX = data["x2"];
+						var destY = data["y2"];
+						easystar.findPath(startX, startY, destX, destY, function( path ) {
+										  if (path === null) {
+										  console.log("Path was not found.");
+										  } else {
+										  socket.emit('pathUpdate', path);
+										  }
+										  });
+						});
+			  
+			  
+			  
+			  });
 
 console.log("Server started.");
