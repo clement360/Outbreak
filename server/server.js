@@ -74,7 +74,8 @@ io.sockets.on('connection', function(socket) {
 		socket.broadcast.emit('buildingPlaced', {
 			"index" : myIndex,
 			"x" : data["x"],
-			"y" : data["y"]
+			"y" : data["y"],
+			"name" : data["name"]
 		});
 	});
 
