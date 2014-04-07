@@ -1,6 +1,3 @@
-/**
- * Created by Miguel on 4/2/14.
- */
 
 //User Class
 User = function(userName) {
@@ -9,10 +6,19 @@ User = function(userName) {
     this.money = 0;
 }
 
+// to contain all structures placed on grids 1 & 2
+leftStructures = [];
+// to contain all structures placed on grids 3 & 4
+rightStructures = [];
+
 Box = function(x,y) {
     this.x = x;
     this.y = y;
     this.occupied = false;
+}
+
+distance = function(x1,y1,x2,y2){
+    return Math.sqrt((x2 - x1)^2+(y2 - y1)^2);
 }
 
 // coorGrid is used as reference when converting
