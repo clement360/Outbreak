@@ -33,6 +33,8 @@ var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
+//
+
 //Building menu images
 var factoryImage;
 
@@ -40,6 +42,7 @@ var factoryImage;
 
 var gridWidth = 17;
 var gridHeight = 6;
+
 
 var grid = new Array(gridWidth); ////Grid to be used for game  --Sergio
 for (var i = 0; i < gridWidth; i++) {
@@ -196,8 +199,6 @@ function loadFort(event){
 	moneyAmountText.x = 1065;
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
-
-
 	
 	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
 	timerText.x = 505;
@@ -446,49 +447,112 @@ function handleBuilding(sprite, name) {
 
     var buildingPlace = function(evt) {
 		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
-        if(locationIsValid(evt.stageX, evt.stageY) && money >= 250 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
-        {
-			sprite.x = currentBox.x;
-			sprite.y = currentBox.y;
-			currentBox.occupied = true;
+        //if(locationIsValid(evt.stageX, evt.stageY) && money >= 250 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
+       // {
+		//	sprite.x = currentBox.x;
+		//	sprite.y = currentBox.y;
+			//currentBox.occupied = true;
 
-			// TODO REMINDER
-			// *****************************************
-			// if (currentBox.i > 5 && evt.name == "turret"){
-			// *****************************************
-			// When implemented should only rotate turret,
-			// Currently rotates all buildings on right side
-			if (currentBox.i > 5){
-				sprite.regX = 120;
-				sprite.regY = 99;
-				sprite.rotation = 180;
 
+			if (name == "turret") //Set properties to handle only turret
+			{
+				if(locationIsValid(evt.stageX, evt.stageY) && money >= 500 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
+				{
+					sprite.x = currentBox.x;
+					sprite.y = currentBox.y;
+					currentBox.occupied = true;
+			
+					if (currentBox.i > 5){
+						sprite.regX = 120;
+						sprite.regY = 99;
+						sprite.rotation = 180;
+					}
+				
+					stage.removeChild(highlight);
+					stage.removeEventListener("stagemousemove", buildingMove);
+					stage.removeEventListener("pressup", buildingPlace);
+					var buildingPlaceEvt = {
+						"x" : currentBox.i,
+						"y" : currentBox.k,
+						"name" : name
+					}
+				
+					money -= 500;
+					moneyAmountText.text = money;
+
+					socket.emit("buildingPlaced", buildingPlaceEvt);
+					buildButton.addEventListener("click", loadMenu);
+				}
+				else {
+						gameAlert("               Alert", "\n  Invalid location.");
+					 }
 			}
-			// *****************************************
+	
+			if (name == "factory") //Handles Factory.
+			{
+				if(locationIsValid(evt.stageX, evt.stageY) && money >= 250 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
+				{
+					sprite.x = currentBox.x;
+					sprite.y = currentBox.y;
+					currentBox.occupied = true;
+				
+					stage.removeChild(highlight);
+					stage.removeEventListener("stagemousemove", buildingMove);
+					stage.removeEventListener("pressup", buildingPlace);
+					var buildingPlaceEvt = {
+						"x" : currentBox.i,
+						"y" : currentBox.k,
+						"name" : name
+					}
+				
+					money -= 250;
+					moneyAmountText.text = money;
 
-			stage.removeChild(highlight);
-            stage.removeEventListener("stagemousemove", buildingMove);
-            stage.removeEventListener("pressup", buildingPlace);
-            var buildingPlaceEvt = {
-				"x" : currentBox.i,
-                "y" : currentBox.k,
-				"name" : name
-            }
+					socket.emit("buildingPlaced", buildingPlaceEvt);
+					buildButton.addEventListener("click", loadMenu);
+				}
+				else {
+						gameAlert("               Alert", "\n  Invalid location.");
+					 }
+			}
+			
+			if (name == "orb") //Handles Orb.
+			{
+				if(locationIsValid(evt.stageX, evt.stageY) && money >= 1000 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
+				{
+					sprite.x = currentBox.x;
+					sprite.y = currentBox.y;
+					currentBox.occupied = true;
+					
+					stage.removeChild(highlight);
+					stage.removeEventListener("stagemousemove", buildingMove);
+					stage.removeEventListener("pressup", buildingPlace);
+					var buildingPlaceEvt = {
+						"x" : currentBox.i,
+						"y" : currentBox.k,
+						"name" : name
+					}
+				
+					money -= 1000;
+					moneyAmountText.text = money;
 
-            money -= 250;
-            moneyAmountText.text = money;
+					socket.emit("buildingPlaced", buildingPlaceEvt);
+					buildButton.addEventListener("click", loadMenu);
+				}
+				else {
+						gameAlert("               Alert", "\n  Invalid location.");
+					 }
+			}
 
-            socket.emit("buildingPlaced", buildingPlaceEvt);
-            buildButton.addEventListener("click", loadMenu);
+
+
 			/*stage.addChild(lowerMenu);
 			stage.addChild(moneyText);
 			stage.addChild(moneyAmountText);
 			stage.addChild(playerText);
 			stage.addChild(timerText);*/
-        }
-        else {
-			gameAlert("               Alert", "\n  Invalid location.");
-        }
+       // }
+        
     };
 	
 	stage.addEventListener("stagemousemove", buildingMove);
@@ -500,6 +564,7 @@ function placeFactory(event) {
 		stage.removeChild(factoryImage);
 		stage.removeChild(event.target);
 		var factorySprite = new createjs.Bitmap(queue.getResult("factory1"));
+		
 		handleBuilding(factorySprite, "factory");
 	}
 	else {
