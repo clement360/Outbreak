@@ -1,8 +1,8 @@
 var stage;
 var queue;
-//var socket = io.connect("http://compute.cs.tamu.edu:56644");
+var socket = io.connect("http://compute.cs.tamu.edu:56644");
 //please do not delete 
-var socket = io.connect("http://localhost:56644");
+//var socket = io.connect("http://localhost:56644");
 var userNames = new Array();
 var myIndex;
 var usersReady = new Array();
@@ -67,7 +67,7 @@ function init(){
         {id:"buildMenu", src:"images/buildMenu.png"},
         {id:"lowerMenu", src:"images/lowerMenu.png"},
         {id:"field", src:"images/field.jpg"},
-        {id:"factory1", src:"images/factory1.png"},
+        {id:"factory", src:"images/factory1.png"},
         {id:"readyCheck", src:"images/readyCheck.png"},
         {id:"zombiesMenu", src:"images/zombiesMenu.png"},
         {id:"defensesMenu", src:"images/defensesMenu.png"},
