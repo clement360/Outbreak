@@ -452,7 +452,7 @@ function handleBuilding(sprite, name) {
 
 			// TODO REMINDER
 			// *****************************************
-			// if (currentBox.i > 5 && name == turret){
+			// if (currentBox.i > 5 && evt.name == "turret"){
 			// *****************************************
 			// When implemented should only rotate turret,
 			// Currently rotates all buildings on right side
