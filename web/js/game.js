@@ -33,11 +33,22 @@ var timerMins = 1;
 
 //Building menu images
 var factoryImage;
+var bank;
+var cage;
+
+//Building menu buttons
+var factoryButton;
+var bankButton;
+var cageButton;
 
 //Grid Start
-
 var gridWidth = 17;
 var gridHeight = 6;
+
+//Building arrays
+var factories = new Array();
+var banks = new Array();
+var cages = new Array();
 
 var grid = new Array(gridWidth); ////Grid to be used for game  --Sergio
 for (var i = 0; i < gridWidth; i++) {
@@ -77,6 +88,12 @@ for (var i = 0; i < gridWidth; i++) {
 	xPlacement = xPlacement + 111.25;
 	yPlacement = 11;
 }
+
+grid[0][2].occupied = true;
+grid[0][3].occupied = true;
+grid[16][2].occupied = true;
+grid[16][3].occupied = true;
+
 //Grid End
 function stageCoordToGrid(x, y) {
 	for(var i = 0; i < gridWidth; ++i) {
@@ -87,9 +104,6 @@ function stageCoordToGrid(x, y) {
 	}
 }
 
-
-
-
 socket.on('newUserData', function(data) {
     users = data;
 });
@@ -98,7 +112,13 @@ socket.on('buildingPlaced', function(data) {
 	var sprite;
 	switch(data["name"]) {
 		case "factory":
-			sprite = new createjs.Bitmap(queue.getResult("factory1"));
+			sprite = new createjs.Bitmap(queue.getResult("factory"));
+			break;
+		case "bank":
+			sprite = new createjs.Bitmap(queue.getResult("bank"));
+			break;
+		case "cage":
+			sprite = new createjs.Bitmap(queue.getResult("cage"));
 			break;
 		case "turret":
 			sprite = new createjs.Bitmap(queue.getResult("turret"));
@@ -124,8 +144,6 @@ socket.on('buildingPlaced', function(data) {
 
 	stage.addChild(sprite);
 });
-
-
 
 function loadFort(event){
     socket.emit('requestUserData', 0);
@@ -194,8 +212,6 @@ function loadFort(event){
 	moneyAmountText.x = 1065;
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
-
-
 	
 	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
 	timerText.x = 505;
@@ -209,7 +225,7 @@ function loadFort(event){
 		} else if (timerMins <= 0 && timerSecs <= 0) {
 			timerMins = 1;
 			timerSecs = 30;
-			money += 250;
+			money += 250 + (250 * banks.length);
 			moneyAmountText.text = money;
 		} else {
 			--timerSecs
@@ -324,23 +340,39 @@ function loadBuildingMenu(event){
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 674;
 
-    cage = new createjs.Bitmap(queue.getResult("cage"));
-    cage.x = 1467;
-    cage.y = 797;
-
-    factoryButton = new createjs.Shape();
-    factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
-    factoryButton.addEventListener("click", placeFactory);
-    factoryButton.alpha = 0.01;
-
-    factoryImage = new createjs.Bitmap(queue.getResult("factory1"))
+    factoryImage = new createjs.Bitmap(queue.getResult("factory"))
     factoryImage.x = 400;
     factoryImage.y = 800;
 
+	factoryButton = new createjs.Shape();
+    factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
+    factoryButton.addEventListener("click", function(event) {
+		placeBuilding(event, 250, factoryImage, "factory");
+	});
+    factoryButton.alpha = 0.01;
+	
     bank = new createjs.Bitmap(queue.getResult("bank"));
     bank.x = 940;
     bank.y = 804;
-
+	
+	bankButton = new createjs.Shape();
+	bankButton.graphics.beginFill("#000").drawRect(880,740,235,225);
+	bankButton.addEventListener("click", function(event) {
+		placeBuilding(event, 250, bank, "bank");
+	});
+	bankButton.alpha = 0.01;
+	
+	cage = new createjs.Bitmap(queue.getResult("cage"));
+    cage.x = 1467;
+    cage.y = 797;
+	
+	cageButton = new createjs.Shape();
+	cageButton.graphics.beginFill("#000").drawRect(1400,740,235,225);
+	cageButton.addEventListener("click", function(event) {
+		placeBuilding(event, 250, cage, "cage");
+	});
+	cageButton.alpha = 0.01;
+	
 	buildingsDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     buildingsDoneButton.addEventListener("click", closeBuildingsMenu);
     buildingsDoneButton.x = 1687;
@@ -355,12 +387,13 @@ function loadBuildingMenu(event){
     stage.addChild(bank);
     stage.addChild(cage);
     stage.addChild(factoryImage);
+	stage.addChild(bankButton);
+	stage.addChild(cageButton);
     stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
 }
 
-function loadDefenseMenu(event){
-
+function loadDefenseMenu(event) {
     loadDefenseButton.removeEventListener("click", loadDefenseMenu);
     loadZombieButton.removeEventListener("click", loadZombieMenu);
     loadBuildingButton.removeEventListener("click", loadBuildingMenu);
@@ -395,12 +428,16 @@ function loadDefenseMenu(event){
 	turretButton = new createjs.Shape();
 	turretButton.graphics.beginFill("#000").drawRect(350,750,240,215);
 	turretButton.alpha = 0.01;
-	turretButton.addEventListener('click', placeTurret);
+	turretButton.addEventListener('click', function(event) {
+		placeBuilding(event, 500, turret, "turret");
+	});
 	
 	orbButton = new createjs.Shape();
 	orbButton.graphics.beginFill("#000").drawRect(870,750,240,215);
 	orbButton.alpha = 0.01;
-	orbButton.addEventListener('click', placeOrb);
+	orbButton.addEventListener('click', function(event) {
+		placeBuilding(event, 1000, orb, "orb");
+	});
 	
 	stage.addChild(turretButton);
 	stage.addChild(orbButton);
@@ -408,121 +445,6 @@ function loadDefenseMenu(event){
     stage.addChild(defensesDoneButton);
     stage.addChild(orb);
     stage.addChild(turret);
-}
-
-function handleBuilding(sprite, name) {
-	stage.addChild(sprite);
-	var offsetx = sprite.image.width / 2;
-	var offsety = sprite.image.height / 2;
-	
-	var evtListener = false;
-	var highlight = new createjs.Shape();
-	highlight.alpha = 0.4;
-	stage.addChild(highlight);
-	
-	var buildingMove = function(evt){ 
-		if(!evtListener) {
-			stage.addEventListener("pressup", buildingPlace);
-			evtListener = true;
-		}
-		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
-		highlight.graphics.clear();
-		
-		if(currentBox != null) {
-			if(locationIsValid(evt.stageX, evt.stageY) && !currentBox.occupied) 
-				highlight.graphics.beginFill("#0f0").drawRect(currentBox.x + 10, currentBox.y + 7, 111.25, 105.25);
-			else
-				highlight.graphics.beginFill("#f00").drawRect(currentBox.x + 10, currentBox.y + 7, 111.25, 105.25);
-		}
-		sprite.x = evt.stageX - offsetx;
-		sprite.y = evt.stageY - offsety;
-	};
-
-    var buildingPlace = function(evt) {
-		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
-        if(locationIsValid(evt.stageX, evt.stageY) && money >= 250 && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
-        {
-			sprite.x = currentBox.x;
-			sprite.y = currentBox.y;
-			currentBox.occupied = true;
-
-			// TODO REMINDER
-			// *****************************************
-			// if (currentBox.i > 5 && evt.name == "turret"){
-			// *****************************************
-			// When implemented should only rotate turret,
-			// Currently rotates all buildings on right side
-			if (currentBox.i > 5){
-				sprite.regX = 120;
-				sprite.regY = 99;
-				sprite.rotation = 180;
-
-			}
-			// *****************************************
-
-			stage.removeChild(highlight);
-            stage.removeEventListener("stagemousemove", buildingMove);
-            stage.removeEventListener("pressup", buildingPlace);
-            var buildingPlaceEvt = {
-				"x" : currentBox.i,
-                "y" : currentBox.k,
-				"name" : name
-            }
-
-            money -= 250;
-            moneyAmountText.text = money;
-
-            socket.emit("buildingPlaced", buildingPlaceEvt);
-            buildButton.addEventListener("click", loadMenu);
-			/*stage.addChild(lowerMenu);
-			stage.addChild(moneyText);
-			stage.addChild(moneyAmountText);
-			stage.addChild(playerText);
-			stage.addChild(timerText);*/
-        }
-        else {
-			gameAlert("               Alert", "\n  Invalid location.");
-        }
-    };
-	
-	stage.addEventListener("stagemousemove", buildingMove);
-	
-}
-
-function placeFactory(event) {
-	if (money >= 250) {
-		stage.removeChild(factoryImage);
-		stage.removeChild(event.target);
-		var factorySprite = new createjs.Bitmap(queue.getResult("factory1"));
-		handleBuilding(factorySprite, "factory");
-	}
-	else {
-		gameAlert("               Alert", "\nInsufficient money.");
-	}
-}
-	
-function placeTurret(event) {
-	if (money >= 500) {
-		stage.removeChild(turret);
-		stage.removeChild(event.target);
-		var turretSprite = new createjs.Bitmap(queue.getResult("turret"));
-		handleBuilding(turretSprite, "turret");
-	}
-	else {
-		gameAlert("               Alert", "\nInsufficient money.");
-	}
-}
-
-function placeOrb(event) {
-	if (money >= 1000) {
-		stage.removeChild(orb);
-		stage.removeChild(event.target);
-		var orbSprite = new createjs.Bitmap(queue.getResult("orb"));
-		handleBuilding(orbSprite, "orb");
-	}
-	else {
-		gameAlert("               Alert", "\nInsufficient money.");
-	}
 }
 
 function closeBuildMenu(even){
@@ -565,16 +487,17 @@ function closeZombieMenu(even){
 function closeBuildingsMenu(even){
 	stage.removeChild(defensesMenu);
 	stage.removeChild(buildingsDoneButton);
-	stage.removeChild(orb);
-	stage.removeChild(turret);
 	stage.removeChild(factoryButton);
+	stage.removeChild(bankButton);
+	stage.removeChild(cageButton);
+	stage.removeChild(factoryImage);
     stage.removeChild(bank);
     stage.removeChild(cage);
 	
 	// Remember: Remove buildings creation event listeners
-	factoryButton.removeEventListener("click", closeBuildingsMenu);
+	factoryButton.removeEventListener("click", factoryButton._onClick);
 	
-	buildingsDoneButton.removeEventListener("click", placeFactory);
+	buildingsDoneButton.removeEventListener("click", closeBuildingsMenu);
 	stage.addChild(lowerMenu);
 	
 	buildButton.addEventListener("click", loadMenu);
