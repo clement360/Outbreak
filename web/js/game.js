@@ -104,6 +104,12 @@ socket.on('buildingPlaced', function(data) {
 			break;
 		case "turret":
 			sprite = new createjs.Bitmap(queue.getResult("turret"));
+			if (data["x"] > 5){
+				sprite.regX = 49;
+				sprite.regY = 49;
+				sprite.rotation = 0;
+				createjs.Tween.get(sprite).to({rotation:180}, 500);
+			}
 			break;
 		case "orb":
 			sprite = new createjs.Bitmap(queue.getResult("orb"));
@@ -112,6 +118,12 @@ socket.on('buildingPlaced', function(data) {
 	var currentBox = grid[data["x"]][data["y"]];
 	sprite.x = currentBox.x;
 	sprite.y = currentBox.y;
+
+	if(data["x"] > 5 && data["name"] == "turret"){
+		sprite.x += 65;
+		sprite.y += 49;
+	}
+
 	stage.addChild(sprite);
 });
 
@@ -437,6 +449,21 @@ function handleBuilding(sprite, name) {
 			sprite.x = currentBox.x;
 			sprite.y = currentBox.y;
 			currentBox.occupied = true;
+
+			// TODO REMINDER
+			// *****************************************
+			// if (currentBox.i > 5 && name == turret){
+			// *****************************************
+			// When implemented should only rotate turret,
+			// Currently rotates all buildings on right side
+			if (currentBox.i > 5){
+				sprite.regX = 120;
+				sprite.regY = 99;
+				sprite.rotation = 180;
+
+			}
+			// *****************************************
+
 			stage.removeChild(highlight);
             stage.removeEventListener("stagemousemove", buildingMove);
             stage.removeEventListener("pressup", buildingPlace);
