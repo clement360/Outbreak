@@ -35,9 +35,15 @@ var timerMins = 1;
 
 //Building menu images
 var factoryImage;
+var bank;
+var cage;
+
+//Building menu buttons
+var factoryButton;
+var bankButton;
+var cageButton;
 
 //Grid Start
-
 var gridWidth = 17;
 var gridHeight = 6;
 
@@ -101,6 +107,12 @@ socket.on('buildingPlaced', function(data) {
 	switch(data["name"]) {
 		case "factory":
 			sprite = new createjs.Bitmap(queue.getResult("factory"));
+			break;
+		case "bank":
+			sprite = new createjs.Bitmap(queue.getResult("bank"));
+			break;
+		case "cage":
+			sprite = new createjs.Bitmap(queue.getResult("cage"));
 			break;
 		case "turret":
 			sprite = new createjs.Bitmap(queue.getResult("turret"));
@@ -330,10 +342,6 @@ function loadBuildingMenu(event){
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 674;
 
-    cage = new createjs.Bitmap(queue.getResult("cage"));
-    cage.x = 1467;
-    cage.y = 797;
-
     factoryImage = new createjs.Bitmap(queue.getResult("factory"))
     factoryImage.x = 400;
     factoryImage.y = 800;
@@ -348,7 +356,25 @@ function loadBuildingMenu(event){
     bank = new createjs.Bitmap(queue.getResult("bank"));
     bank.x = 940;
     bank.y = 804;
-
+	
+	bankButton = new createjs.Shape();
+	bankButton.graphics.beginFill("#000").drawRect(880,740,235,225);
+	bankButton.addEventListener("click", function(event) {
+		placeBuilding(event, 250, bank, "bank");
+	});
+	bankButton.alpha = 0.01;
+	
+	cage = new createjs.Bitmap(queue.getResult("cage"));
+    cage.x = 1467;
+    cage.y = 797;
+	
+	cageButton = new createjs.Shape();
+	cageButton.graphics.beginFill("#000").drawRect(1400,740,235,225);
+	cageButton.addEventListener("click", function(event) {
+		placeBuilding(event, 250, cage, "cage");
+	});
+	cageButton.alpha = 0.01;
+	
 	buildingsDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     buildingsDoneButton.addEventListener("click", closeBuildingsMenu);
     buildingsDoneButton.x = 1687;
@@ -363,6 +389,8 @@ function loadBuildingMenu(event){
     stage.addChild(bank);
     stage.addChild(cage);
     stage.addChild(factoryImage);
+	stage.addChild(bankButton);
+	stage.addChild(cageButton);
     stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
 }
@@ -554,6 +582,8 @@ function closeBuildingsMenu(even){
 	stage.removeChild(defensesMenu);
 	stage.removeChild(buildingsDoneButton);
 	stage.removeChild(factoryButton);
+	stage.removeChild(bankButton);
+	stage.removeChild(cageButton);
 	stage.removeChild(factoryImage);
     stage.removeChild(bank);
     stage.removeChild(cage);
