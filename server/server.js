@@ -79,25 +79,24 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 
-    socket.on("findPath", function(data) {
-        var startX = data["x1"];
-        var startY = data["y1"];
-        var destX = data["x2"];
-        var destY = data["y2"];
+	socket.on("findPath", function(data) {
+		var startX = data["x1"];
+		var startY = data["y1"];
+		var destX = data["x2"];
+		var destY = data["y2"];
 		var zombieIndex = data["zombieIndex"];
-        easystar.findPath(startX, startY, destX, destY, function( path ) {
-            if (path === null) {
-                console.log("Path was not found.");
-            } else {
+		easystar.findPath(startX, startY, destX, destY, function( path ) {
+			if (path === null) {
+				console.log("Path was not found.");
+			} else {
 				socket.emit('pathUpdate', {
 					"path" : path,
 					"pathIndex" : zombieIndex
 				});
-            }
+			}
 
-        });
-    });
-
+		});
+	});
 
 
 });

@@ -196,6 +196,8 @@ function loadFort(event){
 	moneyAmountText.x = 1065;
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
+
+
 	
 	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
 	timerText.x = 505;
