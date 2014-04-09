@@ -64,6 +64,14 @@ function Zombie (x, y, index, sprite){
 	this.sprite = new createjs.Bitmap(sprite.image);;
 	this.sprite.x = x; // subject to change
 	this.sprite.y = y;
+	this.sprite.alpha = .7;
+}
+
+zombies = [];
+function loadZombies() {
+	for (var x = 0; x < 10; x++) {
+		zombies.push(new Zombie(50, 98 * x, x, greenZombie));
+	}
 }
 
 

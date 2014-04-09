@@ -12,11 +12,8 @@ var zombiesMenu;
 var defensesMenu;
 var buildingsMenu;
 var doneButton;
-var greenZombie;
-var blueZombie;
+
 var cage;
-var blueKing;
-var greenKing;
 var turret;
 var orb;
 var leftBase;
@@ -289,12 +286,8 @@ function loadZombieMenu(event){
     stage.removeChild(moneyText);
     stage.removeChild(timerText);
 
+	doneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
-    doneButton = new createjs.Bitmap(queue.getResult("doneButton"));
-    greenZombie = new createjs.Bitmap(queue.getResult("greenZombie"));
-    blueZombie = new createjs.Bitmap(queue.getResult("blueZombie"));
-    blueKing = new createjs.Bitmap(queue.getResult("blueKing"));
-    greenKing = new createjs.Bitmap(queue.getResult("greenKing"));
 
     doneButton.addEventListener("click", closeZombieMenu);
 
