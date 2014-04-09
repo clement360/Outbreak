@@ -339,8 +339,19 @@ function loadZombieMenu(event){
 		placeZombie(event, king, 750, "king");
 	});
 	
+	smallZombieCost= new createjs.Text("$100", "bold 25px Lithos", "#fff");
+	smallZombieCost.x = 433;
+	smallZombieCost.y = 923;
+	
+	kingZombieCost= new createjs.Text("$750", "bold 25px Lithos", "#fff");
+	kingZombieCost.x = 961;
+	kingZombieCost.y = 923;
+	
 	stage.addChild(smallZombieButton);
 	stage.addChild(kingZombieButton);
+	stage.addChild(smallZombieCost);
+	stage.addChild(kingZombieCost);
+	
 }
 
 function loadBuildingMenu(event){
@@ -536,6 +547,8 @@ function closeZombieMenu(even){
     stage.removeChild(blueZombie);
 	stage.removeChild(smallZombieButton);
 	stage.removeChild(kingZombieButton);
+	stage.removeChild(smallZombieCost);
+	stage.removeChild(kingZombieCost);
 }
 
 function closeBuildingsMenu(even){
