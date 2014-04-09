@@ -70,6 +70,30 @@ function CoordToPathGrid(x, y) {
 }
 //coorGrid End
 
+socket.on("zombiePlaced", function(data) {
+	var sprite;
+	
+	if(data["index"] == 0 || data["index"] == 1) {
+		if(data["name"] == "small")
+			sprite = new createjs.Bitmap(queue.getResult("greenZombie"));
+		else
+			sprite = new createjs.Bitmap(queue.getResult("greenKing"));
+	}
+	else {
+		if(data["name"] == "small")
+			sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
+		else
+			sprite = new createjs.Bitmap(queue.getResult("blueKing"));
+	}
+	sprite.x = data["srcX"];
+	sprite.y = data["srcY"];
+	newZombie(data["dstX"], data["dstY"], data["name"]);
+	stage.addChild(sprite);
+	
+	createjs.Tween.get(sprite).to({x:data["dstX"], y:data["dstY"]}, 1000);
+
+});
+
 function Zombie (x, y, index, sprite, hp, speed, attack){
 	this.hp = hp;
 	this.speed = speed;
@@ -165,7 +189,7 @@ socket.on('pathUpdate', function(data) {
 
 
 
-function attack(){
+function attack() {
 	var x = 31;
 	var y = 7;
 	var i = 0;
@@ -181,6 +205,9 @@ function attack(){
 		}, 300)
 	}
 
+	for(var cage in cages){
+		cages[cage].available = 4;
+	}
 }
 
 var iterations;
@@ -259,10 +286,18 @@ function placeZombie(price, name) {
 				newZombie(factory.x, factory.y, "blueZombie");
 			else
 				newZombie(factory.x, factory.y, "blueKing");
-
+				
 			stage.addChild(zombies[zombies.length-1].sprite);
 			createjs.Tween.get(zombies[zombies.length-1].sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
-
+			
+			socket.emit("zombiePlaced", {
+				"index": myIndex,
+				"name": name,
+				"srcX": factory.x,
+				"srcY": factory.y,
+				"dstX": cage.x + xOffset,
+				"dstY": cage.y + yOffset
+			});
 		} else
 			gameAlert("  Can't Build Zombie", "   You do not have\n     enough zombie\n              cages.");
 	}

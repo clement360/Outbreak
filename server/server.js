@@ -98,7 +98,9 @@ io.sockets.on('connection', function(socket) {
 		});
 	});
 
-
+	socket.on("zombiePlaced", function(data) {
+		socket.broadcast.emit("zombiePlaced", data);
+	});
 });
 
 console.log("Server started.");
