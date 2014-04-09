@@ -51,27 +51,49 @@ function CoordToPathGrid(x, y) {
 			}
 		}
 	}
-	console.log("coordToPathGrid Error: X or Y not in range.");
+	console.log("coordToPathGrid Error: X: "+ x +" or Y: "+ y +" not in range.");
 	return 0;
 }
 //coorGrid End
 
-function Zombie (x, y, index, sprite){
-	this.hp = 20;
-	this.speed = 300;
+function Zombie (x, y, index, sprite, hp, speed){
+	this.hp = hp;
+	this.speed = speed;
 	this.iteration = 0;
 	this.index = index;
 	this.path = [];
-	this.sprite = new createjs.Bitmap(sprite.image);;
+	this.sprite = new createjs.Bitmap(sprite.image);
 	this.sprite.x = x; // subject to change
 	this.sprite.y = y;
-	this.sprite.alpha = .7;
+}
+
+function newZombie(x, y, name){
+	var xCoor = x;
+	var yCoor = y;
+	switch(name){
+		case "greenZombie":
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenZombie, 15, 400));
+			break;
+		case "blueZombie":
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueZombie, 15, 400));
+			break;
+		case "blueKing":
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueKing, 60, 800));
+			break;
+		case "greenKing":
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenKing, 60, 800));
+			break;
+		default:
+			console.log("Error: invalid newZombie name");
+	}
 }
 
 function loadZombies() {
 	for (var x = 0; x < 10; x++) {
-		zombies.push(new Zombie(50, 98 * x, x, greenZombie));
+		newZombie(50, 40, "blueZombie");
 	}
+	newZombie(50, 40, "greenKing");
+	newZombie(50, 40, "blueKing");
 }
 
 
@@ -126,9 +148,17 @@ socket.on('pathUpdate', function(data) {
 	animate(zombies[pathIndex]);
 });
 
-function attack(){
-	for(var x = 0; x < zombies.length-1; x++){
-		newPath(zombies[x], 32, x);
+
+
+function attack(x, y){
+	var i = 0;
+	loop();
+	function loop (){
+		setTimeout(function () {
+			newPath(zombies[i], x, y);
+			i++;
+			if (i < zombies.length) { loop(); }
+		}, 400)
 	}
 }
 
