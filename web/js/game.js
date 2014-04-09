@@ -140,6 +140,13 @@ socket.on('buildingPlaced', function(data) {
 	sprite.x = currentBox.x;
 	sprite.y = currentBox.y;
 
+	var building = new Building(currentBox.x, currentBox.y, 100);
+	
+	if(data["x"] > 11)
+		rightStructures.push(building);
+	else
+		leftStructures.push(building);
+	
 	if(data["x"] > 5 && data["name"] == "turret"){
 		sprite.x += 65;
 		sprite.y += 49;
@@ -351,7 +358,6 @@ function loadZombieMenu(event){
 	stage.addChild(kingZombieButton);
 	stage.addChild(smallZombieCost);
 	stage.addChild(kingZombieCost);
-	
 }
 
 function loadBuildingMenu(event){
@@ -547,8 +553,6 @@ function closeZombieMenu(even){
     stage.removeChild(blueZombie);
 	stage.removeChild(smallZombieButton);
 	stage.removeChild(kingZombieButton);
-	stage.removeChild(smallZombieCost);
-	stage.removeChild(kingZombieCost);
 }
 
 function closeBuildingsMenu(even){

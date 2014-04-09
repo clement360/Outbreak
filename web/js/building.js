@@ -1,3 +1,6 @@
+var leftStructures = new Array();
+var rightStructures = new Array();
+
 //x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;
@@ -41,20 +44,32 @@ function handleBuilding(sprite, name) {
 			sprite.y = currentBox.y;
 			currentBox.occupied = true;
 			
+			var building = new Building(currentBox.x, currentBox.y, 100);
+			
 			switch(name) {
 				case "factory":
-					factories.push(new Building(currentBox.x, currentBox.y, 100));
+					factories.push(building);
 					break;
 				case "bank":
-					banks.push(new Building(currentBox.x, currentBox.y, 100));
+					banks.push(building);
 					break;
 				case "cage":
-					var cage = new Building(currentBox.x, currentBox.y, 100);
-					cage.available = 4;
-					cages.push(cage);
+					building.available = 4;
+					cages.push(building);
 					break;
 			}
 			
+			//NOTICE: THIS WILL NEED TO GET MOVED TO SERVER
+			switch(myIndex) {
+				case 0:
+				case 1:
+					leftStructures.push(building);
+					break;
+				case 2:
+				case 3:
+					rightStructures.push(building);
+					break;
+			}
 			
 			if (name == "turret" && currentBox.i > 5){
 				sprite.regX = 120;
@@ -73,14 +88,9 @@ function handleBuilding(sprite, name) {
             }
 
             moneyAmountText.text = money;
-
+			
             socket.emit("buildingPlaced", buildingPlaceEvt);
             buildButton.addEventListener("click", loadMenu);
-			/*stage.addChild(lowerMenu);
-			stage.addChild(moneyText);
-			stage.addChild(moneyAmountText);
-			stage.addChild(playerText);
-			stage.addChild(timerText);*/
         }
         else {
 			gameAlert("               Alert", "\n  Invalid location.");
