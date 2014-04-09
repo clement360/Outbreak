@@ -309,24 +309,35 @@ function loadZombieMenu(event){
 
     stage.addChild(zombiesMenu);
     stage.addChild(doneButton);
+	
+	var small;
+	var king;
+	
     if(myIndex != 1 || myIndex != 2){
-        stage.addChild(blueKing);
-        stage.addChild(blueZombie);
+        king = blueKing;
+        small = blueZombie;
     }
     else{
-        stage.addChild(greenKing);
-        stage.addChild(greenZombie);
+        king = greenKing;
+        small = greenZombie;
     }
+	
+	stage.addChild(small);
+	stage.addChild(king);
 	
 	smallZombieButton = new createjs.Shape();
 	smallZombieButton.graphics.beginFill("#000").drawRect(350,740,235,225);
 	smallZombieButton.alpha = 0.01;
-	smallZombieButton.addEventListener("click", placeZombie);
+	smallZombieButton.addEventListener("click", function(event) {
+		placeZombie(event, small, 100, "small");
+	});
 	
 	kingZombieButton = new createjs.Shape();
 	kingZombieButton.graphics.beginFill("#000").drawRect(880,740,235,225);
 	kingZombieButton.alpha = 0.01;
-	kingZombieButton.addEventListener("click", placeZombie);
+	kingZombieButton.addEventListener("click", function(event) {
+		placeZombie(event, king, 750, "king");
+	});
 	
 	stage.addChild(smallZombieButton);
 	stage.addChild(kingZombieButton);

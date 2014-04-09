@@ -184,45 +184,54 @@ function animate(zombie){
 	zombie.iteration = 0;
 }
 
-function checkCages() {
+function checkCages(king) {
 	for(var cage in cages) {
-		if(cages[cage].available > 0) {
-			return cages[cage];
+		if(king) {
+			if(cages[cage].available == 4)
+				return cages[cage];
 		}
+		else if(cages[cage].available > 0)
+			return cages[cage];
 	}
 	return null;
 }
 
-function placeZombie(event) {
-	if(factories.length == 0)
+function placeZombie(event, sprite, price, name) {
+	if(money < price) 
+		gameAlert("               Alert", "\nInsufficient money.");
+	else if(factories.length == 0)
 		gameAlert("  Can't Build Zombie", "   You must build a\n  factory to create\n            zombies.");
 	else {
-		var cage = checkCages();
+		var cage = checkCages(name == "king");
 		if(cage != null) {
-			var sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
+			var sprite = new createjs.Bitmap(sprite.image);
 			var factory = factories[0];
 			sprite.x = factory.x;
 			sprite.y = factory.y;
 			stage.addChild(sprite);
-			var xOffset = 25;
-			var yOffset = 20;
+			var xOffset = 15;
+			var yOffset = 10;
 			switch(cage.available) {
 				case 4:
 					break;
 				case 3:
-					xOffset += 25;
+					xOffset += 40;
 					break;
 				case 2:
-					yOffset += 20;
+					yOffset += 50;
 					break;
 				case 1:
-					xOffset += 25;
-					yOffset += 20;
+					xOffset += 40;
+					yOffset += 50;
 					break;
 			}
 			createjs.Tween.get(sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
-			cage.available -= 1;
-			
+			if(name == "small")
+				cage.available -= 1;
+			else
+				cage.available = 0;
+			money -= price;
+			moneyAmountText.text = money;
 		} else
 			gameAlert("  Can't Build Zombie", "   You do not have\n     enough zombie\n              cages.");
 	}
