@@ -599,6 +599,8 @@ function closeZombieMenu(even){
     stage.removeChild(blueZombie);
 	stage.removeChild(smallZombieButton);
 	stage.removeChild(kingZombieButton);
+	stage.removeChild(smallZombieCost);
+	stage.removeChild(kingZombieCost);
 }
 
 function closeBuildingsMenu(even){
