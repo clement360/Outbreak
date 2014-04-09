@@ -56,6 +56,9 @@ function handleBuilding(sprite, name) {
 				case "cage":
 					building.available = 4;
 					cages.push(building);
+					cageTotal = cageTotal + 1;
+					totalcap = cageTotal*4;
+					zombieCapText.text = totalcap;
 					break;
 			}
 			

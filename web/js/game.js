@@ -30,6 +30,12 @@ var money = 1000;
 var timerSecs = 30;
 var timerMins = 1;
 
+//Zombie Quantity Trackers
+var totalcap = 0;
+var cageTotal = 0;
+var zombieTotal = 0;
+var usedZombieCap = 0;
+
 //Building menu images
 var factoryImage;
 var bank;
@@ -232,6 +238,26 @@ function loadFort(event){
 	timerText.y = 855;
 	stage.addChild(timerText);
 	
+	zombieCapText = new createjs.Text(totalcap, "bold 23px Lithos", "#fff");
+	zombieCapText.x = 1060;
+	zombieCapText.y = 850;
+	stage.addChild(zombieCapText);
+	
+	zombieCapacityText = new createjs.Text("Total Zombie Capacity:", "bold 23px Lithos", "#fff");
+	zombieCapacityText.x = 710;
+	zombieCapacityText.y = 850;
+	stage.addChild(zombieCapacityText);
+	
+	usedZombieCapText = new createjs.Text(usedZombieCap, "bold 23px Lithos", "#fff");
+	usedZombieCapText.x = 1060;
+	usedZombieCapText.y = 880;
+	stage.addChild(usedZombieCapText);
+	
+	usedZombieCapacityText = new createjs.Text("Used Zombie Capacity:", "bold 23px Lithos", "#fff");
+	usedZombieCapacityText.x = 710;
+	usedZombieCapacityText.y = 880;
+	stage.addChild(usedZombieCapacityText);
+	
 	setInterval(function() {
 		if(timerSecs == 0 && timerMins > 0) {
 			timerSecs = 59;
@@ -301,6 +327,10 @@ function loadZombieMenu(event){
     stage.removeChild(playerText);
     stage.removeChild(moneyText);
     stage.removeChild(timerText);
+	stage.removeChild(zombieCapText);
+	stage.removeChild(zombieCapacityText);
+	stage.removeChild(usedZombieCapText);
+	stage.removeChild(usedZombieCapacityText);
 
 	doneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
@@ -381,6 +411,10 @@ function loadBuildingMenu(event){
     stage.removeChild(playerText);
     stage.removeChild(moneyText);
     stage.removeChild(timerText);
+	stage.removeChild(zombieCapText);
+	stage.removeChild(zombieCapacityText);
+	stage.removeChild(usedZombieCapText);
+	stage.removeChild(usedZombieCapacityText);
 
     console.log("LOAD BUILDING");
 
@@ -473,6 +507,10 @@ function loadDefenseMenu(event) {
     stage.removeChild(playerText);
     stage.removeChild(moneyText);
     stage.removeChild(timerText);
+	stage.removeChild(zombieCapText);
+	stage.removeChild(zombieCapacityText);
+	stage.removeChild(usedZombieCapText);
+	stage.removeChild(usedZombieCapacityText);
 
     defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
     defensesDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
@@ -551,12 +589,18 @@ function closeZombieMenu(even){
     stage.addChild(moneyAmountText);
     stage.addChild(playerText);
     stage.addChild(timerText);
+	stage.addChild(zombieCapText);
+	stage.addChild(zombieCapacityText);
+	stage.addChild(usedZombieCapText);
+	stage.addChild(usedZombieCapacityText);
     stage.removeChild(greenKing);
     stage.removeChild(greenZombie);
     stage.removeChild(blueKing);
     stage.removeChild(blueZombie);
 	stage.removeChild(smallZombieButton);
 	stage.removeChild(kingZombieButton);
+	stage.removeChild(smallZombieCost);
+	stage.removeChild(kingZombieCost);
 }
 
 function closeBuildingsMenu(even){
@@ -587,6 +631,10 @@ function closeBuildingsMenu(even){
 	stage.addChild(playerText);
 	stage.addChild(timerText);
 	stage.addChild(attackButton);
+	stage.addChild(zombieCapText);
+	stage.addChild(zombieCapacityText);
+	stage.addChild(usedZombieCapText);
+	stage.addChild(usedZombieCapacityText);
 }
 
 
@@ -614,6 +662,10 @@ function closeDefensesMenu(even){
     stage.addChild(playerText);
     stage.addChild(timerText);
 	stage.addChild(attackButton);
+	stage.addChild(zombieCapText);
+	stage.addChild(zombieCapacityText);
+	stage.addChild(usedZombieCapText);
+	stage.addChild(usedZombieCapacityText);
 }
 
 function loadAttack(event){
