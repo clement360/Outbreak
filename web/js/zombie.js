@@ -94,7 +94,7 @@ socket.on("zombiePlaced", function(data) {
 
 });
 
-function Zombie (x, y, index, sprite, hp, speed, attack){
+function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.hp = hp;
 	this.speed = speed;
 	this.iteration = 0;
@@ -187,8 +187,6 @@ socket.on('pathUpdate', function(data) {
 	animate(zombies[pathIndex]);
 });
 
-
-
 function attack() {
 	var x = 31;
 	var y = 7;
@@ -278,26 +276,26 @@ function placeZombie(price, name) {
 			money -= price;
 			moneyAmountText.text = money;
 
-			if(myIndex < 2 && name == "small")
-				{	newZombie(factory.x, factory.y, "greenZombie");
-					usedZombieCap = usedZombieCap + 1;
-					usedZombieCapText.text = usedZombieCap;
-				}
-			else if(myIndex < 2 && name == "king")
-				{	newZombie(factory.x, factory.y, "greenKing")
-					usedZombieCap = usedZombieCap + 4;
-					usedZombieCapText.text = usedZombieCap;
-				}
-			else if(myIndex <= 2 && name == "king")
-				{	newZombie(factory.x, factory.y, "blueZombie");
-					usedZombieCap = usedZombieCap + 1;
-					usedZombieCapText.text = usedZombieCap;
-				}
-			else
-				{	newZombie(factory.x, factory.y, "blueKing");
-					usedZombieCap = usedZombieCap + 4;
-					usedZombieCapText.text = usedZombieCap;
-				}
+			if(myIndex < 2 && name == "small") {
+				newZombie(factory.x, factory.y, "greenZombie");
+				usedZombieCap += 1;
+				usedZombieCapText.text = usedZombieCap;
+			}
+			else if(myIndex < 2 && name == "king") {
+				newZombie(factory.x, factory.y, "greenKing");
+				usedZombieCap += 4;
+				usedZombieCapText.text = usedZombieCap;
+			}
+			else if(myIndex >= 2 && name == "small") {
+				newZombie(factory.x, factory.y, "blueZombie");
+				usedZombieCap += 1;
+				usedZombieCapText.text = usedZombieCap;
+			}
+			else {
+				newZombie(factory.x, factory.y, "blueKing");
+				usedZombieCap += 4;
+				usedZombieCapText.text = usedZombieCap;
+			}
 				
 			stage.addChild(zombies[zombies.length-1].sprite);
 			createjs.Tween.get(zombies[zombies.length-1].sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
