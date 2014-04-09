@@ -396,6 +396,18 @@ function loadBuildingMenu(event){
 
     attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
     attackButton.alpha = 0.01;
+	
+	factoryCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	factoryCost.x = 432;
+	factoryCost.y = 923;
+	
+	bankCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	bankCost.x = 966;
+	bankCost.y = 923;
+	
+	cageCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	cageCost.x = 1484;
+	cageCost.y = 923;
 
 	
     stage.addChild(factoryButton);
@@ -407,6 +419,9 @@ function loadBuildingMenu(event){
 	stage.addChild(cageButton);
     stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
+	stage.addChild(factoryCost);
+	stage.addChild(bankCost);
+	stage.addChild(cageCost);
 }
 
 function loadDefenseMenu(event) {
@@ -455,12 +470,22 @@ function loadDefenseMenu(event) {
 		placeBuilding(event, 1000, orb, "orb");
 	});
 	
+	turretCost= new createjs.Text("$500", "bold 25px Lithos", "#fff");
+	turretCost.x = 418;
+	turretCost.y = 923;
+	
+	orbCost= new createjs.Text("$1000", "bold 25px Lithos", "#fff");
+	orbCost.x = 948;
+	orbCost.y = 923;
+	
 	stage.addChild(turretButton);
 	stage.addChild(orbButton);
     stage.addChild(defensesMenu);
     stage.addChild(defensesDoneButton);
     stage.addChild(orb);
     stage.addChild(turret);
+	stage.addChild(orbCost);
+	stage.addChild(turretCost);
 }
 
 function closeBuildMenu(even){
@@ -470,6 +495,7 @@ function closeBuildMenu(even){
 		stage.removeChild(loadDefenseButton); //Sergio
 		stage.removeChild(loadZombieButton); //Sergio
 		stage.removeChild(closeBuildMenuButton);
+
 
 		loadBuildingButton.removeEventListener("click", loadBuildingMenu);
 		closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
@@ -510,6 +536,10 @@ function closeBuildingsMenu(even){
 	stage.removeChild(factoryImage);
     stage.removeChild(bank);
     stage.removeChild(cage);
+	stage.removeChild(factoryCost);
+	stage.removeChild(bankCost);
+	stage.removeChild(cageCost);
+
 	
 	// Remember: Remove buildings creation event listeners
 	factoryButton.removeEventListener("click", factoryButton._onClick);
@@ -534,6 +564,8 @@ function closeDefensesMenu(even){
     stage.removeChild(turret);
 	stage.removeChild(orbButton);
 	stage.removeChild(turretButton);
+	stage.removeChild(orbCost);
+	stage.removeChild(turretCost);
 
 
     // Remember: Remove defense creation event listeners
