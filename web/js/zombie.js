@@ -1,6 +1,6 @@
 var path = [];
 var zombies = [];
-
+var attackInProgress = false;
 // coorGrid is used as reference when converting
 // pixels to pathGrid Coordinates
 var coorGrid = new Array(33);
@@ -36,13 +36,27 @@ for (var i = 0; i < 33; i++) {
 function CoordToPathGrid(x, y) {
 	var xCoor;
 	var yCoor;
+
+
+
 	for(var i = 0; i < 33; ++i) {
+		if(x <= 38){
+			xCoor = 0;
+			break;
+		}
 		if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 > x){
 			xCoor = i;
 			break;
 		}
 	}
 	for(var j = 0; j < 12; ++j) {
+		if(y <= 33){
+			yCoor = 0;
+			return {
+				x: xCoor,
+				y: yCoor
+			}
+		}
 		if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 > y){
 			yCoor = j;
 			return {
@@ -56,7 +70,7 @@ function CoordToPathGrid(x, y) {
 }
 //coorGrid End
 
-function Zombie (x, y, index, sprite, hp, speed){
+function Zombie (x, y, index, sprite, hp, speed, attack){
 	this.hp = hp;
 	this.speed = speed;
 	this.iteration = 0;
@@ -65,6 +79,7 @@ function Zombie (x, y, index, sprite, hp, speed){
 	this.sprite = new createjs.Bitmap(sprite.image);
 	this.sprite.x = x; // subject to change
 	this.sprite.y = y;
+	this.attack = attack;
 }
 
 function newZombie(x, y, name){
@@ -72,16 +87,16 @@ function newZombie(x, y, name){
 	var yCoor = y;
 	switch(name){
 		case "greenZombie":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenZombie, 15, 400));
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenZombie, 15, 400, 10));
 			break;
 		case "blueZombie":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueZombie, 15, 400));
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueZombie, 15, 400, 10));
 			break;
 		case "blueKing":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueKing, 60, 800));
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueKing, 60, 600, 55));
 			break;
 		case "greenKing":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenKing, 60, 800));
+			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenKing, 60, 600, 55));
 			break;
 		default:
 			console.log("Error: invalid newZombie name");
@@ -150,16 +165,22 @@ socket.on('pathUpdate', function(data) {
 
 
 
-function attack(x, y){
+function attack(){
+	var x = 31;
+	var y = 7;
 	var i = 0;
+
 	loop();
-	function loop (){
+	function loop() {
 		setTimeout(function () {
 			newPath(zombies[i], x, y);
 			i++;
-			if (i < zombies.length) { loop(); }
-		}, 400)
+			if (i < zombies.length) {
+				loop();
+			}
+		}, 300)
 	}
+
 }
 
 var iterations;
@@ -182,6 +203,7 @@ function animate(zombie){
 		zombie.y = newY;
     }
 	zombie.iteration = 0;
+	//attackInProgress = false;
 }
 
 function checkCages(king) {
@@ -196,7 +218,7 @@ function checkCages(king) {
 	return null;
 }
 
-function placeZombie(event, sprite, price, name) {
+function placeZombie(price, name) {
 	if(money < price) 
 		gameAlert("               Alert", "\nInsufficient money.");
 	else if(factories.length == 0)
@@ -204,11 +226,7 @@ function placeZombie(event, sprite, price, name) {
 	else {
 		var cage = checkCages(name == "king");
 		if(cage != null) {
-			var sprite = new createjs.Bitmap(sprite.image);
 			var factory = factories[0];
-			sprite.x = factory.x;
-			sprite.y = factory.y;
-			stage.addChild(sprite);
 			var xOffset = 15;
 			var yOffset = 10;
 			switch(cage.available) {
@@ -225,13 +243,26 @@ function placeZombie(event, sprite, price, name) {
 					yOffset += 50;
 					break;
 			}
-			createjs.Tween.get(sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
+
 			if(name == "small")
 				cage.available -= 1;
 			else
 				cage.available = 0;
 			money -= price;
 			moneyAmountText.text = money;
+
+			if(myIndex < 2 && name == "small")
+				newZombie(factory.x, factory.y, "greenZombie");
+			else if(myIndex < 2 && name == "king")
+				newZombie(factory.x, factory.y, "greenKing");
+			else if(myIndex <= 2 && name == "king")
+				newZombie(factory.x, factory.y, "blueZombie");
+			else
+				newZombie(factory.x, factory.y, "blueKing");
+
+			stage.addChild(zombies[zombies.length-1].sprite);
+			createjs.Tween.get(zombies[zombies.length-1].sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
+
 		} else
 			gameAlert("  Can't Build Zombie", "   You do not have\n     enough zombie\n              cages.");
 	}

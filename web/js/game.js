@@ -163,7 +163,11 @@ function loadFort(event){
 	readyButton.removeEventListener("click", readyUp);
 	buildButton.addEventListener("click", loadMenu);
 	buildButton.graphics.beginFill("#000000").drawRect(260, 835, 137, 45);
+	attackButton.addEventListener("click", attack);
+	attackButton.graphics.beginFill("#000000").drawRect(262, 911, 137, 45);
+	attackButton.alpha = 0.01;
 	stage.addChild(buildButton);
+	stage.addChild(attackButton);
 	var field = new createjs.Bitmap(queue.getResult("field"));
 	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
 	lowerMenu.y = 675;
@@ -252,6 +256,7 @@ function loadFort(event){
 function loadMenu(event){
 	console.log("LOAD MENU"); 
 	buildButton.removeEventListener("click", loadMenu);
+	stage.removeChild(attackButton);
 	loadBuildingButton.addEventListener("click", loadBuildingMenu);
 	loadBuildingButton.graphics.beginFill("#0000F").drawRect(812, 229, 310, 288);
 	
@@ -336,14 +341,14 @@ function loadZombieMenu(event){
 	smallZombieButton.graphics.beginFill("#000").drawRect(350,740,235,225);
 	smallZombieButton.alpha = 0.01;
 	smallZombieButton.addEventListener("click", function(event) {
-		placeZombie(event, small, 100, "small");
+		placeZombie(100, "small");
 	});
 	
 	kingZombieButton = new createjs.Shape();
 	kingZombieButton.graphics.beginFill("#000").drawRect(880,740,235,225);
 	kingZombieButton.alpha = 0.01;
 	kingZombieButton.addEventListener("click", function(event) {
-		placeZombie(event, king, 750, "king");
+		placeZombie(750, "king");
 	});
 	
 	smallZombieCost= new createjs.Text("$100", "bold 25px Lithos", "#fff");
@@ -445,7 +450,6 @@ function loadBuildingMenu(event){
     stage.addChild(factoryImage);
 	stage.addChild(bankButton);
 	stage.addChild(cageButton);
-    stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
 	stage.addChild(factoryCost);
 	stage.addChild(bankCost);
@@ -523,8 +527,7 @@ function closeBuildMenu(even){
 		stage.removeChild(loadDefenseButton); //Sergio
 		stage.removeChild(loadZombieButton); //Sergio
 		stage.removeChild(closeBuildMenuButton);
-
-
+		stage.addChild(attackButton);
 		loadBuildingButton.removeEventListener("click", loadBuildingMenu);
 		closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
 
@@ -539,6 +542,7 @@ function closeZombieMenu(even){
 
     doneButton.removeEventListener("click", closeZombieMenu);
     stage.addChild(lowerMenu);
+	stage.addChild(attackButton);
 
     buildButton.addEventListener("click", loadMenu);
     stage.removeChild(buildingsMenu);
@@ -582,6 +586,7 @@ function closeBuildingsMenu(even){
 	stage.addChild(moneyAmountText);
 	stage.addChild(playerText);
 	stage.addChild(timerText);
+	stage.addChild(attackButton);
 }
 
 
@@ -608,6 +613,7 @@ function closeDefensesMenu(even){
     stage.addChild(moneyAmountText);
     stage.addChild(playerText);
     stage.addChild(timerText);
+	stage.addChild(attackButton);
 }
 
 function loadAttack(event){
