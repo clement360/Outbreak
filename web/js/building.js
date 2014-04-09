@@ -1,4 +1,4 @@
-//x and y correspond to grid location
+//x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;
 	this.x = x;
@@ -49,7 +49,9 @@ function handleBuilding(sprite, name) {
 					banks.push(new Building(currentBox.x, currentBox.y, 100));
 					break;
 				case "cage":
-					cages.push(new Building(currentBox.x, currentBox.y, 100));
+					var cage = new Building(currentBox.x, currentBox.y, 100);
+					cage.available = 4;
+					cages.push(cage);
 					break;
 			}
 			

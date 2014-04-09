@@ -40,6 +40,10 @@ var factoryButton;
 var bankButton;
 var cageButton;
 
+//Zombie menu buttons
+var smallZombieButton;
+var kingZombieButton;
+
 //Grid Start
 var gridWidth = 17;
 var gridHeight = 6;
@@ -313,6 +317,19 @@ function loadZombieMenu(event){
         stage.addChild(greenKing);
         stage.addChild(greenZombie);
     }
+	
+	smallZombieButton = new createjs.Shape();
+	smallZombieButton.graphics.beginFill("#000").drawRect(350,740,235,225);
+	smallZombieButton.alpha = 0.01;
+	smallZombieButton.addEventListener("click", placeZombie);
+	
+	kingZombieButton = new createjs.Shape();
+	kingZombieButton.graphics.beginFill("#000").drawRect(880,740,235,225);
+	kingZombieButton.alpha = 0.01;
+	kingZombieButton.addEventListener("click", placeZombie);
+	
+	stage.addChild(smallZombieButton);
+	stage.addChild(kingZombieButton);
 }
 
 function loadBuildingMenu(event){
@@ -480,7 +497,8 @@ function closeZombieMenu(even){
     stage.removeChild(greenZombie);
     stage.removeChild(blueKing);
     stage.removeChild(blueZombie);
-
+	stage.removeChild(smallZombieButton);
+	stage.removeChild(kingZombieButton);
 }
 
 function closeBuildingsMenu(even){

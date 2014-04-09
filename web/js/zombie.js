@@ -1,4 +1,5 @@
 var path = [];
+var zombies = [];
 
 // coorGrid is used as reference when converting
 // pixels to pathGrid Coordinates
@@ -67,7 +68,6 @@ function Zombie (x, y, index, sprite){
 	this.sprite.alpha = .7;
 }
 
-zombies = [];
 function loadZombies() {
 	for (var x = 0; x < 10; x++) {
 		zombies.push(new Zombie(50, 98 * x, x, greenZombie));
@@ -152,4 +152,48 @@ function animate(zombie){
 		zombie.y = newY;
     }
 	zombie.iteration = 0;
+}
+
+function checkCages() {
+	for(var cage in cages) {
+		if(cages[cage].available > 0) {
+			return cages[cage];
+		}
+	}
+	return null;
+}
+
+function placeZombie(event) {
+	if(factories.length == 0)
+		gameAlert("  Can't Build Zombie", "   You must build a\n  factory to create\n            zombies.");
+	else {
+		var cage = checkCages();
+		if(cage != null) {
+			var sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
+			var factory = factories[0];
+			sprite.x = factory.x;
+			sprite.y = factory.y;
+			stage.addChild(sprite);
+			var xOffset = 25;
+			var yOffset = 20;
+			switch(cage.available) {
+				case 4:
+					break;
+				case 3:
+					xOffset += 25;
+					break;
+				case 2:
+					yOffset += 20;
+					break;
+				case 1:
+					xOffset += 25;
+					yOffset += 20;
+					break;
+			}
+			createjs.Tween.get(sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
+			cage.available -= 1;
+			
+		} else
+			gameAlert("  Can't Build Zombie", "   You do not have\n     enough zombie\n              cages.");
+	}
 }
