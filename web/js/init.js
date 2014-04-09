@@ -63,6 +63,7 @@ function init(){
     queue.loadManifest([
         {id:"title", src:"images/title.jpg"},
         {id:"lobby", src:"images/lobby.jpg"},
+        {id:"battle", src:"images/Battle.jpg"},
         {id:"buildMenu", src:"images/buildMenu.png"},
         {id:"lowerMenu", src:"images/lowerMenu.png"},
         {id:"field", src:"images/field.jpg"},

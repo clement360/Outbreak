@@ -6,7 +6,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/init.js" afterPath="$PROJECT_DIR$/web/js/init.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/splash.js" afterPath="$PROJECT_DIR$/web/js/splash.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/zombie.js" afterPath="$PROJECT_DIR$/web/js/zombie.js" />
     </list>
     <ignored path="Outbreak.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,12 +30,8 @@
             <file leaf-file-name="zombie.js" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state line="147" column="0" selection-start="3729" selection-end="3729" vertical-scroll-proportion="0.8551136" vertical-offset="1166" max-vertical-offset="1870">
-                    <folding>
-                      <element signature="e#159#192#0" expanded="false" />
-                      <element signature="e#343#724#0" expanded="false" />
-                      <element signature="n#!!block;n#CoordToPathGrid#0" expanded="false" />
-                    </folding>
+                  <state line="139" column="49" selection-start="3444" selection-end="3444" vertical-scroll-proportion="0.6619318" vertical-offset="1897" max-vertical-offset="2601">
+                    <folding />
                   </state>
                 </provider>
               </entry>
@@ -64,7 +59,7 @@
       <file leaf-file-name="init.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="45" selection-start="1692" selection-end="1692" vertical-scroll-proportion="0.0" vertical-offset="763" max-vertical-offset="1632">
+            <state line="64" column="45" selection-start="1692" selection-end="1692" vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="1649">
               <folding />
             </state>
           </provider>
@@ -73,7 +68,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="38" selection-start="370" selection-end="370" vertical-scroll-proportion="8.115385" vertical-offset="364" max-vertical-offset="1105">
+            <state line="9" column="38" selection-start="370" selection-end="370" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1122">
               <folding />
             </state>
           </provider>
@@ -88,19 +83,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="game.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="576" selection-end="576" vertical-scroll-proportion="-10.88" vertical-offset="0" max-vertical-offset="11475">
+            <state line="37" column="9" selection-start="885" selection-end="885" vertical-scroll-proportion="0.547546" vertical-offset="272" max-vertical-offset="10268">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="splash.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="splash.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/splash.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="37" selection-start="852" selection-end="852" vertical-scroll-proportion="0.562406" vertical-offset="0" max-vertical-offset="665">
+            <state line="15" column="0" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="357">
               <folding />
             </state>
           </provider>
@@ -452,7 +447,6 @@
     <frame x="0" y="0" width="768" height="826" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32612312" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2560113" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4489796" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -467,6 +461,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40949035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32612312" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294509" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -579,13 +574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="576" selection-end="576" vertical-scroll-proportion="-10.88" vertical-offset="0" max-vertical-offset="11475">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="16" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1870">
@@ -595,7 +583,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="38" selection-start="370" selection-end="370" vertical-scroll-proportion="8.115385" vertical-offset="364" max-vertical-offset="1105">
+        <state line="9" column="38" selection-start="370" selection-end="370" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1122">
           <folding />
         </state>
       </provider>
@@ -607,20 +595,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
+    <entry file="file://$PROJECT_DIR$/web/js/splash.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="0" selection-start="3729" selection-end="3729" vertical-scroll-proportion="0.8551136" vertical-offset="1166" max-vertical-offset="1870">
-          <folding>
-            <element signature="e#159#192#0" expanded="false" />
-            <element signature="e#343#724#0" expanded="false" />
-            <element signature="n#!!block;n#CoordToPathGrid#0" expanded="false" />
-          </folding>
+        <state line="15" column="0" selection-start="488" selection-end="488" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/splash.js">
+    <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="37" selection-start="852" selection-end="852" vertical-scroll-proportion="0.562406" vertical-offset="0" max-vertical-offset="665">
+        <state line="139" column="49" selection-start="3444" selection-end="3444" vertical-scroll-proportion="0.6619318" vertical-offset="1897" max-vertical-offset="2601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="9" selection-start="885" selection-end="885" vertical-scroll-proportion="0.547546" vertical-offset="272" max-vertical-offset="10268">
           <folding />
         </state>
       </provider>
