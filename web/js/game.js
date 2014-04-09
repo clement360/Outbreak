@@ -379,21 +379,9 @@ function loadBuildingMenu(event){
 
     attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
     attackButton.alpha = 0.01;
+
 	
-	factoryCost= new createjs.Text("$250", "bold 25px Lithos", "#006600");
-	factoryCost.x = 432;
-	factoryCost.y = 923;
-	
-	bankCost= new createjs.Text("$250", "bold 25px Lithos", "#006600");
-	bankCost.x = 966;
-	bankCost.y = 923;
-	
-	cageCost= new createjs.Text("$250", "bold 25px Lithos", "#006600");
-	cageCost.x = 1484;
-	cageCost.y = 923;
-	
-	
-	stage.addChild(factoryButton);
+    stage.addChild(factoryButton);
     stage.addChild(buildingsMenu);
     stage.addChild(bank);
     stage.addChild(cage);
@@ -402,10 +390,6 @@ function loadBuildingMenu(event){
 	stage.addChild(cageButton);
     stage.addChild(attackButton);
 	stage.addChild(buildingsDoneButton);
-	stage.addChild(factoryCost);
-	stage.addChild(bankCost);
-	stage.addChild(cageCost);
-	
 }
 
 function loadDefenseMenu(event) {
@@ -454,22 +438,12 @@ function loadDefenseMenu(event) {
 		placeBuilding(event, 1000, orb, "orb");
 	});
 	
-	turretCost= new createjs.Text("$500", "bold 25px Lithos", "#006600");
-	turretCost.x = 418;
-	turretCost.y = 923;
-	
-	orbCost= new createjs.Text("$1000", "bold 25px Lithos", "#006600");
-	orbCost.x = 948;
-	orbCost.y = 923;
-
 	stage.addChild(turretButton);
 	stage.addChild(orbButton);
     stage.addChild(defensesMenu);
     stage.addChild(defensesDoneButton);
     stage.addChild(orb);
     stage.addChild(turret);
-	stage.addChild(orbCost);
-	stage.addChild(turretCost);
 }
 
 function closeBuildMenu(even){
