@@ -23,7 +23,7 @@ distance = function(x1,y1,x2,y2){
 
 // coorGrid is used as reference when converting
 // pixels to pathGrid Coordinates
-var coorGrid = new Array(33);
+coorGrid = new Array(33);
 for (var i = 0; i <= 32; i++) {
     coorGrid[i] = new Array(12);
 }

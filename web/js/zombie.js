@@ -1,5 +1,10 @@
 var path = [];
-var zombies = [];
+
+var zombies = new Array();
+for(var i = 0; i < 4; ++i) {
+	zombies[i] = new Array();
+}
+
 var attackInProgress = false;
 // coorGrid is used as reference when converting
 // pixels to pathGrid Coordinates
@@ -37,8 +42,6 @@ function CoordToPathGrid(x, y) {
 	var xCoor;
 	var yCoor;
 
-
-
 	for(var i = 0; i < 33; ++i) {
 		if(x <= 38){
 			xCoor = 0;
@@ -49,6 +52,7 @@ function CoordToPathGrid(x, y) {
 			break;
 		}
 	}
+	
 	for(var j = 0; j < 12; ++j) {
 		if(y <= 33){
 			yCoor = 0;
@@ -72,8 +76,12 @@ function CoordToPathGrid(x, y) {
 
 socket.on("zombiePlaced", function(data) {
 	var sprite;
+	var speed;
+	var hp;
+	var speed;
+	var attack;
 	
-	if(data["index"] == 0 || data["index"] == 1) {
+	if(data["playerIndex"] == 0 || data["playerIndex"] == 1) {
 		if(data["name"] == "small")
 			sprite = new createjs.Bitmap(queue.getResult("greenZombie"));
 		else
@@ -85,13 +93,31 @@ socket.on("zombiePlaced", function(data) {
 		else
 			sprite = new createjs.Bitmap(queue.getResult("blueKing"));
 	}
+	if(data["name"] == "small") {
+		hp = 15;
+		speed = 400;
+		attack = 10;
+	} else {
+		hp = 60;
+		speed = 600;
+		attack = 55;
+	}
 	sprite.x = data["srcX"];
 	sprite.y = data["srcY"];
-	newZombie(data["dstX"], data["dstY"], data["name"]);
+	
+	var index = data["index"];
+	
+	zombies[data["playerIndex"]].push(new Zombie(data["srcX"], data["srcY"], data["index"], sprite, hp, speed, attack));
 	stage.addChild(sprite);
 	
 	createjs.Tween.get(sprite).to({x:data["dstX"], y:data["dstY"]}, 1000);
 
+});
+
+socket.on("zombieMoved", function(data) {
+	zombies[data["playerIndex"]][data["index"]].x = data["x"];
+	zombies[data["playerIndex"]][data["index"]].y = data["y"];
+	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);
 });
 
 function Zombie (x, y, index, sprite, hp, speed, attack) {
@@ -100,7 +126,7 @@ function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.iteration = 0;
 	this.index = index;
 	this.path = [];
-	this.sprite = new createjs.Bitmap(sprite.image);
+	this.sprite = sprite;
 	this.sprite.x = x; // subject to change
 	this.sprite.y = y;
 	this.attack = attack;
@@ -112,16 +138,20 @@ function newZombie(x, y, name){
 	var yCoor = y;
 	switch(name){
 		case "greenZombie":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenZombie, 15, 400, 10));
+			var sprite = new createjs.Bitmap(greenZombie.image);
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 15, 400, 10));
 			break;
 		case "blueZombie":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueZombie, 15, 400, 10));
+			var sprite = new createjs.Bitmap(blueZombie.image);
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 15, 400, 10));
 			break;
 		case "blueKing":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, blueKing, 60, 600, 55));
+			var sprite = new createjs.Bitmap(blueKing.image);
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 60, 600, 55));
 			break;
 		case "greenKing":
-			zombies.push(new Zombie(xCoor, yCoor, zombies.length, greenKing, 60, 600, 55));
+			var sprite = new createjs.Bitmap(greenKing.image);
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 60, 600, 55));
 			break;
 		default:
 			console.log("Error: invalid newZombie name");
@@ -136,110 +166,12 @@ function loadZombies() {
 	newZombie(50, 40, "blueKing");
 }
 
-
-function newPath (zombie, x2, y2){
-	zombie.path.length = 0;
-	var cor = CoordToPathGrid(zombie.sprite.x, zombie.sprite.y);
-
-	// make sure target is in bounds and not current position
-	if((x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
-		socket.emit('findPath',  {
-			"x1" : cor.y,
-			"y1" : cor.x,
-			"x2" : y2,
-			"y2" : x2,
-			"zombieIndex" : zombie.index
-		});
-	}
-}
-
-function distance(x1, y1, x2, y2){
-	var xDiff = x2 - x1;
-	var yDiff = y2 - y1;
-	var xx = xDiff * xDiff;
-	var yy = yDiff * yDiff;
-	return Math.sqrt(xx + yy);
-}
-
-// returns a box object containing the nearest building i and j pathGrid indices
-// ex: var target = zombie[2].findNearestTarget();
-// newPath(target.x - 1, target.y);
-Zombie.prototype.findNearestStructure = function(){
-	var shortestDistance = 2000;
-	var index = 0;
-	var dist;
-	if(myIndex < 2){
-		for(var k = 0; k < rightStructures.length; k++){
-			dist = distance(this.sprite.x, this.sprite.y, rightStructures[k].x, rightStructures[k].y);
-			if(dist < shortestDistance){
-				index = k;
-				shortestDistance = dist;
-			}
-		}
-		this.target = CoordToPathGrid(rightStructures[index].x, rightStructures[index].y);
-	}
-	else{
-		for(var j = 0; j < leftStructures.length; j++){
-			dist = distance(this.sprite.x, this.sprite.y, leftStructures[j].x, leftStructures[j].y);
-			if(dist < shortestDistance){
-				index = j;
-				shortestDistance = dist;
-			}
-		}
-		this.target = CoordToPathGrid(leftStructures[index].x, leftStructures[index].y);
-	}
-}
-
-socket.on('pathUpdate', function(data) {
-	var pathIndex = data["pathIndex"];
-	zombies[pathIndex].path.length = 0;
-	zombies[pathIndex].path = data["path"];
-	animate(zombies[pathIndex]);
-});
-
 function attack() {
-	var x = 31;
-	var y = 7;
-	var i = 0;
-
-	loop();
-	function loop() {
-		setTimeout(function () {
-			zombies[i].findNearestStructure();
-			newPath(zombies[i], zombies[i].target.x, zombies[i].target.y);
-			i++;
-			if (i < zombies.length) {
-				loop();
-			}
-		}, 300)
-	}
+	socket.emit("attack", myIndex);
 
 	for(var cage in cages){
 		cages[cage].available = 4;
 	}
-}
-
-var iterations;
-function animate(zombie){
-    zombie.iteration;
-    var speed = zombie.speed;
-
-    stage.addChild(zombie.sprite);
-    var interval = setInterval(move, speed);
-    function move() {
-        zombie.iteration++;
-        if (zombie.iteration >= zombie.path.length-1){
-            clearInterval(interval);
-            //stage.removeChild(zombie);
-        }
-        var newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
-        var newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
-        createjs.Tween.get(zombie.sprite).to({x:newX, y:newY}, speed);
-		zombie.x = newX;
-		zombie.y = newY;
-    }
-	zombie.iteration = 0;
-	//attackInProgress = false;
 }
 
 function checkCages(king) {
@@ -308,11 +240,12 @@ function placeZombie(price, name) {
 				usedZombieCapText.text = usedZombieCap;
 			}
 				
-			stage.addChild(zombies[zombies.length-1].sprite);
-			createjs.Tween.get(zombies[zombies.length-1].sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
+			stage.addChild(zombies[myIndex][zombies[myIndex].length-1].sprite);
+			createjs.Tween.get(zombies[myIndex][zombies[myIndex].length-1].sprite).to({x:cage.x + xOffset, y:cage.y + yOffset}, 1000);
 			
 			socket.emit("zombiePlaced", {
-				"index": myIndex,
+				"index": zombies[myIndex][zombies[myIndex].length-1].index,
+				"playerIndex" : myIndex,
 				"name": name,
 				"srcX": factory.x,
 				"srcY": factory.y,

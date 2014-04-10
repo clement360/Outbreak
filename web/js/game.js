@@ -117,50 +117,6 @@ socket.on('newUserData', function(data) {
     users = data;
 });
 
-socket.on('buildingPlaced', function(data) {
-	var sprite;
-	switch(data["name"]) {
-		case "factory":
-			sprite = new createjs.Bitmap(queue.getResult("factory"));
-			break;
-		case "bank":
-			sprite = new createjs.Bitmap(queue.getResult("bank"));
-			break;
-		case "cage":
-			sprite = new createjs.Bitmap(queue.getResult("cage"));
-			break;
-		case "turret":
-			sprite = new createjs.Bitmap(queue.getResult("turret"));
-			if (data["x"] > 5){
-				sprite.regX = 49;
-				sprite.regY = 49;
-				sprite.rotation = 0;
-				createjs.Tween.get(sprite).to({rotation:180}, 500);
-			}
-			break;
-		case "orb":
-			sprite = new createjs.Bitmap(queue.getResult("orb"));
-			break;
-	}
-	var currentBox = grid[data["x"]][data["y"]];
-	sprite.x = currentBox.x;
-	sprite.y = currentBox.y;
-
-	var building = new Building(currentBox.x, currentBox.y, 100);
-	
-	if(data["x"] > 11)
-		rightStructures.push(building);
-	else
-		leftStructures.push(building);
-	
-	if(data["x"] > 5 && data["name"] == "turret"){
-		sprite.x += 65;
-		sprite.y += 49;
-	}
-
-	stage.addChild(sprite);
-});
-
 function loadFort(event){
     socket.emit('requestUserData', 0);
 	currentState = state["game"];
@@ -180,12 +136,6 @@ function loadFort(event){
 
     leftBase = new createjs.Bitmap(queue.getResult("leftBase"));
     rightBase = new createjs.Bitmap(queue.getResult("rightBase"));
-
-	// Add Forts to Structure list
-	leftStructures[0] = new Building(86, 283, 500);
-	leftStructures[1] = new Building(86, 406, 500);
-	rightStructures[0] = new Building(1820, 283, 500);
-	rightStructures[1] = new Building(1820, 283, 500);
 
     leftBase.x = 14;
     leftBase.y = 235;

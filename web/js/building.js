@@ -1,9 +1,3 @@
-var leftStructures = new Array();
-var rightStructures = new Array();
-
-
-
-
 //x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;
@@ -11,7 +5,44 @@ function Building(x, y, hp) {
 	this.y = y;
 }
 
+socket.on('buildingPlaced', function(data) {
+	var sprite;
+	switch(data["name"]) {
+		case "factory":
+			sprite = new createjs.Bitmap(queue.getResult("factory"));
+			break;
+		case "bank":
+			sprite = new createjs.Bitmap(queue.getResult("bank"));
+			break;
+		case "cage":
+			sprite = new createjs.Bitmap(queue.getResult("cage"));
+			break;
+		case "turret":
+			sprite = new createjs.Bitmap(queue.getResult("turret"));
+			if (data["x"] > 5){
+				sprite.regX = 49;
+				sprite.regY = 49;
+				sprite.rotation = 0;
+				createjs.Tween.get(sprite).to({rotation:180}, 500);
+			}
+			break;
+		case "orb":
+			sprite = new createjs.Bitmap(queue.getResult("orb"));
+			break;
+	}
+	var currentBox = grid[data["x"]][data["y"]];
+	sprite.x = currentBox.x;
+	sprite.y = currentBox.y;
 
+	var building = new Building(currentBox.x, currentBox.y, 100);
+	
+	if(data["x"] > 5 && data["name"] == "turret"){
+		sprite.x += 65;
+		sprite.y += 49;
+	}
+
+	stage.addChild(sprite);
+});
 
 function handleBuilding(sprite, name) {
 	stage.addChild(sprite);
@@ -67,18 +98,6 @@ function handleBuilding(sprite, name) {
 					break;
 			}
 			
-			//NOTICE: THIS WILL NEED TO GET MOVED TO SERVER
-			switch(myIndex) {
-				case 0:
-				case 1:
-					leftStructures.push(building);
-					break;
-				case 2:
-				case 3:
-					rightStructures.push(building);
-					break;
-			}
-			
 			if (name == "turret" && currentBox.i > 5){
 				sprite.regX = 120;
 				sprite.regY = 99;
@@ -92,7 +111,8 @@ function handleBuilding(sprite, name) {
             var buildingPlaceEvt = {
 				"x" : currentBox.i,
                 "y" : currentBox.k,
-				"name" : name
+				"name" : name,
+				"hp" : 100
             }
 
             moneyAmountText.text = money;
