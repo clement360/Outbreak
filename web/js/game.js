@@ -181,6 +181,12 @@ function loadFort(event){
     leftBase = new createjs.Bitmap(queue.getResult("leftBase"));
     rightBase = new createjs.Bitmap(queue.getResult("rightBase"));
 
+	// Add Forts to Structure list
+	leftStructures[0] = new Building(86, 283, 500);
+	leftStructures[1] = new Building(86, 406, 500);
+	rightStructures[0] = new Building(1820, 283, 500);
+	rightStructures[1] = new Building(1820, 283, 500);
+
     leftBase.x = 14;
     leftBase.y = 235;
     rightBase.x = 1799;
@@ -647,7 +653,6 @@ function closeDefensesMenu(even){
 	stage.removeChild(turretButton);
 	stage.removeChild(orbCost);
 	stage.removeChild(turretCost);
-
 
     // Remember: Remove defense creation event listeners
 

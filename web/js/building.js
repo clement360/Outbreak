@@ -1,12 +1,17 @@
 var leftStructures = new Array();
 var rightStructures = new Array();
 
+
+
+
 //x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;
 	this.x = x;
 	this.y = y;
 }
+
+
 
 function handleBuilding(sprite, name) {
 	stage.addChild(sprite);

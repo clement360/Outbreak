@@ -66,10 +66,6 @@ io.sockets.on('connection', function(socket) {
 		var centerY = serverGrid[data["x"]][data["y"]].y + 55.625;
 		var pathLoc = CoordToPathGrid(centerX, centerY);
 		pathGrid[pathLoc.x][pathLoc.y] = 1;
-        if(data["x"] < 5)
-			leftStructures.push(Box(centerX, centerY));
-        else
-			rightStructures.push(Box(centerX, centerY));
         console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
 		socket.broadcast.emit('buildingPlaced', {
 			"index" : myIndex,

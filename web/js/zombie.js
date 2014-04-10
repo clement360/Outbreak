@@ -104,6 +104,7 @@ function Zombie (x, y, index, sprite, hp, speed, attack){
 	this.sprite.x = x; // subject to change
 	this.sprite.y = y;
 	this.attack = attack;
+	this.target;
 }
 
 function newZombie(x, y, name){
@@ -151,15 +152,19 @@ function newPath (zombie, x2, y2){
 		});
 	}
 }
+
+function distance(x1, y1, x2, y2){
+	return Math.sqrt((x2^2 - x1^2)+(y2^2 - y1^2));
+}
 // returns a box object containing the nearest building i and j pathGrid indices
 // ex: var target = zombie[2].findNearestTarget();
 // newPath(target.x - 1, target.y);
 Zombie.prototype.findNearestStructure = function(){
-	var shortestDistance = rightStructures[0];
+	var shortestDistance = 2000;
 	var index = 0;
 	var dist;
-	if(this.index == 0 || this.index == 1){
-		for(var k = 1; k < rightStructures.length; k++){
+	if(myIndex < 2){
+		for(var k = 0; k < rightStructures.length; k++){
 			dist = distance(this.x, this.y, rightStructures[k].x, rightStructures[k].y);
 			if(dist < shortestDistance){
 				index = k;
@@ -169,8 +174,8 @@ Zombie.prototype.findNearestStructure = function(){
 		return CoordToPathGrid(rightStructures[index].x, rightStructures[index].y);
 	}
 	else{
-		for(var j = 1; j < rightStructures.length; j++){
-			dist = distance(this.x, this.y, rightStructures[j].x, rightStructures[j].y);
+		for(var j = 0; j < leftStructures.length; j++){
+			dist = distance(this.x, this.y, leftStructures[j].x, leftStructures[j].y);
 			if(dist < shortestDistance){
 				index = j;
 				shortestDistance = dist;
@@ -197,7 +202,9 @@ function attack() {
 	loop();
 	function loop() {
 		setTimeout(function () {
-			newPath(zombies[i], x, y);
+			zombies[i].target = zombies[i].findNearestStructure();
+			console.log();
+			newPath(zombies[i], zombies[i].target.x, zombies[i].target.y);
 			i++;
 			if (i < zombies.length) {
 				loop();
@@ -230,7 +237,6 @@ function animate(zombie){
 		zombie.y = newY;
     }
 	zombie.iteration = 0;
-	//attackInProgress = false;
 }
 
 function checkCages(king) {
