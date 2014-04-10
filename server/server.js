@@ -22,6 +22,7 @@ function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 	this.path = [];
 	this.attack = attack;
 	this.target;
+	this.targetBuilding;
 	
 	// returns a box object containing the nearest building i and j pathGrid indices
 	// ex: var target = zombie[2].findNearestTarget();
@@ -33,22 +34,24 @@ function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 		if(myIndex < 2){
 			for(var k = 0; k < rightStructures.length; k++){
 				dist = distance(this.x, this.y, rightStructures[k].x, rightStructures[k].y);
-				if(dist < shortestDistance){
+				if(dist < shortestDistance && !rightStructures[k].destroyed){
 					index = k;
 					shortestDistance = dist;
 				}
 			}
 			this.target = CoordToPathGrid(rightStructures[index].x, rightStructures[index].y);
+			this.targetBuilding = rightStructures[index];
 		}
-		else{
+		else {
 			for(var j = 0; j < leftStructures.length; j++){
-				dist = distance(this.x, this.y, leftStructures[j].x, leftStructures[j].y);
-				if(dist < shortestDistance){
+				dist = distance(this.sprite.x, this.sprite.y, leftStructures[j].x, leftStructures[j].y);
+				if(dist < shortestDistance && !leftStructures[j].destroyed){
 					index = j;
 					shortestDistance = dist;
 				}
 			}
 			this.target = CoordToPathGrid(leftStructures[index].x, leftStructures[index].y);
+			this.targetBuilding = leftStructures[index];
 		}
 	}
 }
@@ -63,7 +66,7 @@ function Building(x, y, hp) {
 leftStructures[0] = new Building(86, 283, 500);
 leftStructures[1] = new Building(86, 406, 500);
 rightStructures[0] = new Building(1820, 283, 500);
-rightStructures[1] = new Building(1820, 283, 500);
+rightStructures[1] = new Building(1820, 406, 500);
 
 //-------------------------EasyStar.js-------------------------//
 var EasyStar = require('easystarjs');
@@ -95,6 +98,31 @@ function distance(x1, y1, x2, y2){
 	return Math.sqrt(xx + yy);
 }
 
+function attackBuilding(zombie) {
+	var structures;
+	if(zombie.playerIndex < 2)
+		structures = rightStructures;
+	else
+		structures = leftStructures;
+	if(zombie.targetBuilding != null) {
+		var interval = setInterval(function() {
+			zombie.targetBuilding.hp -= zombie.attack;
+			io.sockets.emit("zombieShotFired", zombie);
+			if(zombie.targetBuilding.hp <= 0) {
+				console.log("Building destroyed!!!");
+				io.sockets.emit("buildingDestroyed", zombie.targetBuilding);	
+				zombie.targetBuilding.destroyed = true;
+				zombie.path = new Array();
+				zombie.findNearestStructure(zombie.playerIndex);
+				newPath(zombie, zombie.target.x, zombie.target.y, zombie.playerIndex);
+				clearInterval(interval);
+			}
+		}, zombie.speed);
+	}
+	else
+		console.log("ERROR: No building to attack!");
+}
+
 var iterations;
 function animate(zombie){
     zombie.iteration;
@@ -104,10 +132,9 @@ function animate(zombie){
     function move() {
         zombie.iteration++;
         if (zombie.iteration >= zombie.path.length-1){
+			attackBuilding(zombie);
             clearInterval(interval);
-            //stage.removeChild(zombie);
         }
-		var sss = coorGrid;
         var newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
         var newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
 		zombie.x = newX;
@@ -124,6 +151,7 @@ function animate(zombie){
 }
 
 function findPath(startX, startY, destX, destY, playerIndex, zombieIndex) {
+	console.log("finding path");
 	easystar.findPath(startX, startY, destX, destY, function( path ) {
 		if (path === null) {
 			console.log("Path was not found.");
@@ -139,10 +167,9 @@ function newPath (zombie, x2, y2, playerIndex, socket){
 	if(zombie.path.length == 0) {
 		zombie.path.length = 0;
 		var cor = CoordToPathGrid(zombie.x, zombie.y);
-
 		// make sure target is in bounds and not current position
 		if((x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
-				findPath(cor.y, cor.x, y2, x2, playerIndex, zombie.index, socket);
+			findPath(cor.y, cor.x, y2, x2, playerIndex, zombie.index, socket);
 		}
 	}
 }
@@ -192,10 +219,12 @@ io.sockets.on('connection', function(socket) {
 		switch(myIndex) {
 			case 0:
 			case 1:
+				building.index = leftStructures.length;
 				leftStructures.push(building);
 				break;
 			case 2:
 			case 3:
+				building.index = rightStructures.length;
 				rightStructures.push(building);
 				break;
 		}
