@@ -263,6 +263,7 @@ function loadFort(event){
 	usedZombieCapacityText.x = 710;
 	usedZombieCapacityText.y = 880;
 	stage.addChild(usedZombieCapacityText);
+
 	
 	setInterval(function() {
 		if(timerSecs == 0 && timerMins > 0) {
@@ -361,7 +362,7 @@ function loadZombieMenu(event){
 	var small;
 	var king;
 	
-    if(myIndex != 1 || myIndex != 2){
+    if(myIndex >= 2){
         king = blueKing;
         small = blueZombie;
     }
@@ -421,7 +422,7 @@ function loadBuildingMenu(event){
 	stage.removeChild(zombieCapacityText);
 	stage.removeChild(usedZombieCapText);
 	stage.removeChild(usedZombieCapacityText);
-
+	
     console.log("LOAD BUILDING");
 
     //attackButton.addEventListener("click", loadAttack);
@@ -517,7 +518,7 @@ function loadDefenseMenu(event) {
 	stage.removeChild(zombieCapacityText);
 	stage.removeChild(usedZombieCapText);
 	stage.removeChild(usedZombieCapacityText);
-
+	
     defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
     defensesDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     turret = new createjs.Bitmap(queue.getResult("turret"));
@@ -595,10 +596,12 @@ function closeZombieMenu(even){
     stage.addChild(moneyAmountText);
     stage.addChild(playerText);
     stage.addChild(timerText);
+	
 	stage.addChild(zombieCapText);
 	stage.addChild(zombieCapacityText);
 	stage.addChild(usedZombieCapText);
 	stage.addChild(usedZombieCapacityText);
+
     stage.removeChild(greenKing);
     stage.removeChild(greenZombie);
     stage.removeChild(blueKing);
