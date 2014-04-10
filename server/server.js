@@ -42,7 +42,7 @@ function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 		}
 		else{
 			for(var j = 0; j < leftStructures.length; j++){
-				dist = distance(this.sprite.x, this.sprite.y, leftStructures[j].x, leftStructures[j].y);
+				dist = distance(this.x, this.y, leftStructures[j].x, leftStructures[j].y);
 				if(dist < shortestDistance){
 					index = j;
 					shortestDistance = dist;
@@ -185,7 +185,8 @@ io.sockets.on('connection', function(socket) {
 		var pathLoc = CoordToPathGrid(centerX, centerY);
 		pathGrid[pathLoc.x][pathLoc.y] = 1;
         console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
-		var building = new Building(data["x"], data["y"], data["hp"]);
+		var gridLoc = serverGrid[data["x"]][data["y"]];
+		var building = new Building(gridLoc.x, gridLoc.y, data["hp"]);
 		switch(myIndex) {
 			case 0:
 			case 1:
@@ -194,7 +195,7 @@ io.sockets.on('connection', function(socket) {
 			case 2:
 			case 3:
 				rightStructures.push(building);
-					break;
+				break;
 		}
 		socket.broadcast.emit('buildingPlaced', {
 			"index" : myIndex,
