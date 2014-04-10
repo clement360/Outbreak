@@ -172,6 +172,9 @@ function attack() {
 	for(var cage in cages){
 		cages[cage].available = 4;
 	}
+	
+	usedZombieCap = 0;
+	usedZombieCapText.text = usedZombieCap;
 }
 
 function checkCages(king) {

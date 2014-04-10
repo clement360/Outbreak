@@ -209,7 +209,6 @@ io.sockets.on('connection', function(socket) {
 	});
 
 	socket.on("zombiePlaced", function(data) {
-		console.log(data["name"]);
 		switch(data["name"]){
 			case "small":
 				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 15, 400, 10));
@@ -238,7 +237,7 @@ io.sockets.on('connection', function(socket) {
 				if (i < (zombies[data].length)) {
 					loop();
 				}
-			}, 300)
+			}, 0)
 		}
 	});
 });

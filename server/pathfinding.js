@@ -25,55 +25,69 @@ distance = function(x1,y1,x2,y2){
 // pixels to pathGrid Coordinates
 coorGrid = new Array(33);
 for (var i = 0; i <= 32; i++) {
-    coorGrid[i] = new Array(12);
+	coorGrid[i] = new Array(12);
 }
 coorGrid[0][0] = new Box(38,33);
-
 var xPlacement = 38;  //Original x placement to populate the grid.
 var yPlacement = 33;
 for (var i = 0; i < 33; i++) {
-    if(i == 0)
-        for (var k = 1; k < 12; k++) {
-
-            yPlacement = yPlacement + 56.5;
-            coorGrid[i][k] = new Box(xPlacement, yPlacement);
-        }
-    else
-    {
-        for (var k = 0; k < 12; k++)
-        {
-            if( k == 0 )
-            {
-                yPlacement = -23.5;
-            }
-            yPlacement = yPlacement + 56.5;
-            coorGrid[i][k] = new Box(xPlacement, yPlacement);
-        }
-    }
-    xPlacement = xPlacement + 55.9;
-    yPlacement = 33;
+	if(i == 0)
+		for (var k = 1; k < 12; k++) {
+			
+			yPlacement = yPlacement + 56.5;
+			coorGrid[i][k] = new Box(xPlacement, yPlacement);
+		}
+	else
+	{
+		for (var k = 0; k < 12; k++)
+		{
+			if( k == 0 )
+			{
+				yPlacement = -23.5;
+			}
+			yPlacement = yPlacement + 56.5;
+			coorGrid[i][k] = new Box(xPlacement, yPlacement);
+		}
+	}
+	xPlacement = xPlacement + 55.9;
+	yPlacement = 33;
 }
-//coorGrid End
 
 CoordToPathGrid = function(x, y) {
-    var xCoor;
-    var yCoor;
-    for(var i = 0; i < 33; ++i) {
-        if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 > x){
-            xCoor = i;
-            break;
-        }
-    }
-    for(var j = 0; j < 12; ++j) {
-        if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 > y){
-            yCoor = j;
-            return {
-                x: xCoor,
-                y: yCoor
-            }
-        }
-    }
+	var xCoor;
+	var yCoor;
+	
+	for(var i = 0; i < 33; ++i) {
+		if(x <= 38){
+			xCoor = 0;
+			break;
+		}
+		if(coorGrid[i][0].x <= x && coorGrid[i][0].x + 55.9 > x){
+			xCoor = i;
+			break;
+		}
+	}
+	
+	for(var j = 0; j < 12; ++j) {
+		if(y <= 33){
+			yCoor = 0;
+			return {
+			x: xCoor,
+			y: yCoor
+			}
+		}
+		if(coorGrid[xCoor][j].y <= y && coorGrid[xCoor][j].y + 56.5 > y){
+			yCoor = j;
+			return {
+			x: xCoor,
+			y: yCoor
+			}
+		}
+	}
+	console.log("coordToPathGrid Error: X: "+ x +" or Y: "+ y +" not in range.");
+	return 0;
 }
+//coorGrid End
 
 //serverGrid Start
 var gridWidth = 17;
