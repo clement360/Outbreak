@@ -136,12 +136,14 @@ function findPath(startX, startY, destX, destY, playerIndex, zombieIndex) {
 }
 
 function newPath (zombie, x2, y2, playerIndex, socket){
-	zombie.path.length = 0;
-	var cor = CoordToPathGrid(zombie.x, zombie.y);
+	if(zombie.path.length == 0) {
+		zombie.path.length = 0;
+		var cor = CoordToPathGrid(zombie.x, zombie.y);
 
-	// make sure target is in bounds and not current position
-	if((x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
-		findPath(cor.y, cor.x, y2, x2, playerIndex, zombie.index, socket);
+		// make sure target is in bounds and not current position
+		if((x2 != cor.x || y2 != cor.y) && x2 <= 32 && x2 >= 0 && y2 >= 0 && y2 <= 11){
+				findPath(cor.y, cor.x, y2, x2, playerIndex, zombie.index, socket);
+		}
 	}
 }
 
@@ -231,12 +233,13 @@ io.sockets.on('connection', function(socket) {
 		loop();
 		function loop() {
 			setTimeout(function () {
-				console.log(zombies[data].length);
-				zombies[data][i].findNearestStructure(data);
-				newPath(zombies[data][i], zombies[data][i].target.x, zombies[data][i].target.y, data);
-				i++;
-				if (i < (zombies[data].length)) {
-					loop();
+				if(zombies[data][i] != null) {
+					zombies[data][i].findNearestStructure(data);
+					newPath(zombies[data][i], zombies[data][i].target.x, zombies[data][i].target.y, data);
+					i++;
+					if (i < (zombies[data].length)) {
+						loop();
+					}
 				}
 			}, 0)
 		}
