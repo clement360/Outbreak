@@ -63,8 +63,8 @@ socket.on("zombieMoved", function(data) {
 
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
-	var zone = stageCoordToGrid(data["x"], data["y"]);
-	explode(zone.i, zone.k);
+	var dest = stageCoordToGrid(data["x"], data["y"]);
+	explode(dest.i, dest.k);
 });
 
 function Zombie (x, y, index, sprite, hp, speed, attack) {
@@ -80,26 +80,9 @@ function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.target;
 }
 
-
-/*function explode(x, y){
-	if(x < 0 || x > 16 || y < 0 || y > 5)
-		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
-	else {
-		var destination = grid[x][y];
-		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
-		explosion.scaleX = .5;
-		explosion.scaleY = .5;
-		explosion.regX = 32.5;
-		explosion.regY = 29;
-		explosion.x = destination.x + 55.625;
-		explosion.y = destination.y + 50.125;
-		stage.addChild(explosion);
-		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 100).call(removeExplosion());
-		function removeExplosion(){
-			stage.removeChild(explosion);
-		}
-	}
-}*/
+function findBuildingByCoor(zombie){
+	stageCoordToGrid()
+}
 
 function newZombie(x, y, name){
 	var xCoor = x;
@@ -145,44 +128,27 @@ function attack() {
 	usedZombieCapText.text = usedZombieCap;
 }
 
-
-function explode(x, y){
-	x++;
-	if(x < 0 || x > 16 || y < 0 || y > 5)
-		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
-	else {
-		var destination = grid[x][y];
-		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
-		explosion.scaleX = .5;
-		explosion.scaleY = .5;
-		explosion.regX = 32.5;
-		explosion.regY = 29;
-		explosion.x = destination.x + 55.625;
-		explosion.y = destination.y + 50.125;
-		stage.addChild(explosion);
-		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 100).call(removeExplosion);
-		function removeExplosion(){
-			stage.removeChild(explosion);
-		}
-	}
-}
-
 function checkCages(king) {
 	for(var cage in cages) {
 		if(king) {
-			if(cages[cage].available == 4)
+			if(cages[cage].available == 4 && !cages[cage].destroyed)
 				return cages[cage];
 		}
-		else if(cages[cage].available > 0)
+		else if(cages[cage].available > 0 && !cages[cage].destroyed)
 			return cages[cage];
 	}
 	return null;
 }
 
 function placeZombie(price, name) {
+	var numFactories = 0;
+	for(var factory in factories) {
+		if(!factories[factory].destroyed)
+			++numFactories;
+	}
 	if(money < price) 
 		gameAlert("               Alert", "\nInsufficient money.");
-	else if(factories.length == 0)
+	else if(numFactories == 0)
 		gameAlert("  Can't Build Zombie", "   You must build a\n  factory to create\n            zombies.");
 	else {
 		var cage = checkCages(name == "king");
