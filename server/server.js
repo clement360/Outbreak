@@ -125,7 +125,6 @@ function attackBuilding(zombie) {
 
 var iterations;
 function animate(zombie){
-    zombie.iteration;
     var speed = zombie.speed;
 
     var interval = setInterval(move, speed);

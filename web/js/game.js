@@ -132,7 +132,7 @@ function loadFort(event){
 	stage.addChild(attackButton);
 	var field = new createjs.Bitmap(queue.getResult("field"));
 	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
-	lowerMenu.y = 675;
+	lowerMenu.y = 875;
 
     leftBase = new createjs.Bitmap(queue.getResult("leftBase"));
     rightBase = new createjs.Bitmap(queue.getResult("rightBase"));
@@ -145,6 +145,7 @@ function loadFort(event){
     stage.addChild(field);
 
 	stage.addChild(lowerMenu);
+	createjs.Tween.get(lowerMenu).to({y:675}, 600);
 	
 	highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
     switch (myIndex){

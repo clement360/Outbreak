@@ -53,6 +53,11 @@ socket.on("zombieMoved", function(data) {
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);
 });
 
+socket.on("zombieShotFired", function(data) {
+	var dest = stageCoordToGrid(data.targetBuilding.x, data.targetBuilding.y);
+	explode(dest.i, dest.k);
+});
+
 function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.hp = hp;
 	this.speed = speed;
@@ -108,6 +113,30 @@ function attack() {
 	
 	usedZombieCap = 0;
 	usedZombieCapText.text = usedZombieCap;
+}
+
+function findBuildingByCoor(zombie){
+	stageCoordToGrid()
+}
+
+function explode(x, y){
+	if(x < 0 || x > 16 || y < 0 || y > 5)
+		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
+	else {
+		var destination = grid[x][y];
+		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
+		explosion.scaleX = .5;
+		explosion.scaleY = .5;
+		explosion.regX = 32.5;
+		explosion.regY = 29;
+		explosion.x = destination.x + 55.625;
+		explosion.y = destination.y + 50.125;
+		stage.addChild(explosion);
+		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 200).call(removeExplosion);
+		function removeExplosion(){
+			stage.removeChild(explosion);
+		}
+	}
 }
 
 function checkCages(king) {

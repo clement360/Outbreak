@@ -84,6 +84,7 @@ function init(){
         {id:"leftBase", src:"images/leftBase.png"},
         {id:"rightBase", src:"images/rightBase.png"},
         {id:"cage", src:"images/cage.png"},
+		{id:"explosion", src:"images/explosion.png"},
         {id:"bank", src:"images/bank.png"}
     ]);
 	createjs.Ticker.setFPS(60);
