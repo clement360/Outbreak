@@ -136,7 +136,8 @@ function loadZombies() {
 
 function attack() {
 	socket.emit("attack", myIndex);
-
+	if(userName.value == "dragonforce")
+		createjs.Sound.play("flames");
 	for(var cage in cages){
 		cages[cage].available = 4;
 	}

@@ -376,7 +376,7 @@ function loadBuildingMenu(event){
 	
     console.log("LOAD BUILDING");
 
-    //attackButton.addEventListener("click", loadAttack);
+
 
     buildingsMenu = new createjs.Bitmap(queue.getResult("buildingsMenu"));
     buildingsMenu.y = 674;
@@ -627,14 +627,6 @@ function closeDefensesMenu(even){
 	stage.addChild(usedZombieCapacityText);
 }
 
-function loadAttack(event){
-	console.log("LOAD ATTACK"); 
-	loadBuildingButton.removeEventListener("click", loadAttack);
-	buildButton.addEventListener("click", loadMenu);
-	var bmp = new createjs.Bitmap(queue.getResult("battle"));
-	bmp.alpha = 0.5;
-	stage.addChild(bmp);
-}
 
 function gameAlert(title, text) {
 	var alertBg = new createjs.Bitmap(queue.getResult("noticeBox"));
@@ -672,7 +664,7 @@ function victory() {
 	screen.graphics.beginFill("#000").drawRect(0,0,1920,980);
 	screen.addEventListener("click", function(){});
 	screen.alpha = 0.0;
-	
+	// TODO lets add winning usernames
 	var victoryText = new createjs.Text("Victory!", "bold 150px Lithos", "#fff");
 	victoryText.x = 585;
 	victoryText.y = 280;

@@ -1,8 +1,8 @@
 var stage;
 var queue;
-//var socket = io.connect("http://compute.cs.tamu.edu:56644");
+var socket = io.connect("http://compute.cs.tamu.edu:56644");
 //please do not delete 
-var socket = io.connect("http://localhost:56644");
+//var socket = io.connect("http://localhost:56644");
 var userNames = new Array();
 var myIndex;
 var usersReady = new Array();
@@ -95,5 +95,6 @@ function init(){
 	createjs.Sound.registerSound("sounds/kingZombiePlaced.wav", "kingZombiePlaced");
 	createjs.Sound.registerSound("sounds/victory.wav", "victory");
 	createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
+	createjs.Sound.registerSound("sounds/flames.mp3", "flames");
 	createjs.Ticker.setFPS(60);
 }
