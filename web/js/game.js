@@ -659,6 +659,27 @@ function gameAlert(title, text) {
 	}, 2000)
 }
 
+function explode(x, y){
+	x++;
+	if(x < 0 || x > 16 || y < 0 || y > 5)
+		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
+	else {
+		var destination = grid[x][y];
+		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
+		explosion.scaleX = .5;
+		explosion.scaleY = .5;
+		explosion.regX = 32.5;
+		explosion.regY = 29;
+		explosion.x = destination.x + 55.625;
+		explosion.y = destination.y + 50.125;
+		stage.addChild(explosion);
+		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 100).call(removeExplosion);
+		function removeExplosion(){
+			stage.removeChild(explosion);
+		}
+	}
+}
+
 function victory() {
 	var screen = new createjs.Shape();
 	screen.graphics.beginFill("#000").drawRect(0,0,1920,980);

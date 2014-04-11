@@ -51,6 +51,7 @@ socket.on('buildingPlaced', function(data) {
 socket.on("buildingDestroyed", function(data) {
 	createjs.Sound.play("buildingDestroyed");
 	var currentBox = grid[data["i"]][data["k"]];
+	explode(data["i"], data["k"]);
 	currentBox.occupied = false;
 	if(!grid[0][2].occupied && !grid[0][3].occupied) {
 		if(myIndex < 2) {
@@ -65,6 +66,9 @@ socket.on("buildingDestroyed", function(data) {
 			lose();
 		}
 	}
+	currentBox.building.destroyed = true;
+	if(currentBox.building.name == "bank")
+		banks.splice(0, 1);
 	stage.removeChild(currentBox.building.sprite);
 });
 
@@ -121,6 +125,7 @@ function handleBuilding(sprite, name) {
 				
 			var building = new Building(currentBox.x, currentBox.y, 100);
 			building.sprite = sprite;
+			building.name = name;
 			
 			currentBox.occupied = true;
 			currentBox.building = building;
