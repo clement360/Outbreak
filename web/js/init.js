@@ -1,8 +1,8 @@
 var stage;
 var queue;
-//var socket = io.connect("http://compute.cs.tamu.edu:56644");
+var socket = io.connect("http://compute.cs.tamu.edu:56644");
 //please do not delete 
-var socket = io.connect("http://localhost:56644");
+//var socket = io.connect("http://localhost:56644");
 var userNames = new Array();
 var myIndex;
 var usersReady = new Array();
@@ -87,5 +87,13 @@ function init(){
 		{id:"explosion", src:"images/explosion.png"},
         {id:"bank", src:"images/bank.png"}
     ]);
+	createjs.Sound.alternateExtensions = ["wav"];
+	createjs.Sound.registerSound("sounds/zombieAttack.wav", "zombieAttack");
+	createjs.Sound.registerSound("sounds/buildingDestroyed.wav", "buildingDestroyed");
+	createjs.Sound.registerSound("sounds/buildingPlaced.wav", "buildingPlaced");
+	createjs.Sound.registerSound("sounds/smallZombiePlaced.wav", "smallZombiePlaced");
+	createjs.Sound.registerSound("sounds/kingZombiePlaced.wav", "kingZombiePlaced");
+	createjs.Sound.registerSound("sounds/victory.wav", "victory");
+	createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
 	createjs.Ticker.setFPS(60);
 }

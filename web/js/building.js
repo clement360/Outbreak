@@ -6,6 +6,7 @@ function Building(x, y, hp) {
 }
 
 socket.on('buildingPlaced', function(data) {
+	createjs.Sound.play("buildingPlaced");
 	var sprite;
 	switch(data["name"]) {
 		case "factory":
@@ -35,6 +36,9 @@ socket.on('buildingPlaced', function(data) {
 	sprite.y = currentBox.y;
 
 	var building = new Building(currentBox.x, currentBox.y, 100);
+	building.sprite = sprite;
+	currentBox.building = building;
+	currentBox.occupied = true;
 	
 	if(data["x"] > 5 && data["name"] == "turret"){
 		sprite.x += 65;
@@ -43,6 +47,41 @@ socket.on('buildingPlaced', function(data) {
 
 	stage.addChild(sprite);
 });
+
+socket.on("buildingDestroyed", function(data) {
+	createjs.Sound.play("buildingDestroyed");
+	var currentBox = grid[data["i"]][data["k"]];
+	currentBox.occupied = false;
+	if(!grid[0][2].occupied && !grid[0][3].occupied) {
+		if(myIndex < 2) {
+			lose();
+		} else {
+			victory();
+		}
+	} else if(!grid[16][2].occupied && !grid[16][3].occupied) {
+		if(myIndex < 2) {
+			victory();
+		} else {
+			lose();
+		}
+	}
+	stage.removeChild(currentBox.building.sprite);
+});
+
+function locationIsValid(x, y) {
+	switch(myIndex) {
+		case 0:
+			return (x < 565.25) && (y < 340);
+		case 1:
+			return (x < 565.25) && (y >= 340);
+		case 2:
+			return (x > 1343) && (y < 340);
+		case 3:
+			return (x > 1343) && (y >= 340);
+		default:
+			return false;
+	}
+}
 
 function handleBuilding(sprite, name) {
 	stage.addChild(sprite);
@@ -76,11 +115,15 @@ function handleBuilding(sprite, name) {
 		var currentBox = stageCoordToGrid(evt.stageX, evt.stageY);
         if(locationIsValid(evt.stageX, evt.stageY) && !currentBox.occupied) //Sets up basic primitive boundaries -- Sergio
         {
+			createjs.Sound.play("buildingPlaced");
 			sprite.x = currentBox.x;
 			sprite.y = currentBox.y;
-			currentBox.occupied = true;
-			
+				
 			var building = new Building(currentBox.x, currentBox.y, 100);
+			building.sprite = sprite;
+			
+			currentBox.occupied = true;
+			currentBox.building = building;
 			
 			switch(name) {
 				case "factory":
@@ -102,7 +145,6 @@ function handleBuilding(sprite, name) {
 				sprite.regX = 120;
 				sprite.regY = 99;
 				sprite.rotation = 180;
-
 			}
 
 			stage.removeChild(highlight);

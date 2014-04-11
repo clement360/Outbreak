@@ -15,16 +15,24 @@ socket.on("zombiePlaced", function(data) {
 	var attack;
 	
 	if(data["playerIndex"] == 0 || data["playerIndex"] == 1) {
-		if(data["name"] == "small")
+		if(data["name"] == "small") {
 			sprite = new createjs.Bitmap(queue.getResult("greenZombie"));
-		else
+			createjs.Sound.play("smallZombiePlaced");
+		}
+		else {
 			sprite = new createjs.Bitmap(queue.getResult("greenKing"));
+			createjs.Sound.play("kingZombiePlaced");
+		}
 	}
 	else {
-		if(data["name"] == "small")
+		if(data["name"] == "small") {
 			sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
-		else
+			createjs.Sound.play("smallZombiePlaced");
+		}
+		else {
 			sprite = new createjs.Bitmap(queue.getResult("blueKing"));
+			createjs.Sound.play("kingZombiePlaced");
+		}
 	}
 	if(data["name"] == "small") {
 		hp = 15;
@@ -54,8 +62,8 @@ socket.on("zombieMoved", function(data) {
 });
 
 socket.on("zombieShotFired", function(data) {
-	var dest = stageCoordToGrid(data.targetBuilding.x, data.targetBuilding.y);
-	explode(dest.i, dest.k);
+	createjs.Sound.play("zombieAttack");
+	explode(data["x"], data["y"]);
 });
 
 function Zombie (x, y, index, sprite, hp, speed, attack) {
@@ -69,6 +77,30 @@ function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.sprite.y = y;
 	this.attack = attack;
 	this.target;
+}
+
+function findBuildingByCoor(zombie){
+	stageCoordToGrid()
+}
+
+function explode(x, y){
+	if(x < 0 || x > 16 || y < 0 || y > 5)
+		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
+	else {
+		var destination = grid[x][y];
+		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
+		explosion.scaleX = .5;
+		explosion.scaleY = .5;
+		explosion.regX = 32.5;
+		explosion.regY = 29;
+		explosion.x = destination.x + 55.625;
+		explosion.y = destination.y + 50.125;
+		stage.addChild(explosion);
+		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 200).call(removeExplosion);
+		function removeExplosion(){
+			stage.removeChild(explosion);
+		}
+	}
 }
 
 function newZombie(x, y, name){
@@ -115,30 +147,6 @@ function attack() {
 	usedZombieCapText.text = usedZombieCap;
 }
 
-function findBuildingByCoor(zombie){
-	stageCoordToGrid()
-}
-
-function explode(x, y){
-	if(x < 0 || x > 16 || y < 0 || y > 5)
-		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
-	else {
-		var destination = grid[x][y];
-		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
-		explosion.scaleX = .5;
-		explosion.scaleY = .5;
-		explosion.regX = 32.5;
-		explosion.regY = 29;
-		explosion.x = destination.x + 55.625;
-		explosion.y = destination.y + 50.125;
-		stage.addChild(explosion);
-		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 200).call(removeExplosion);
-		function removeExplosion(){
-			stage.removeChild(explosion);
-		}
-	}
-}
-
 function checkCages(king) {
 	for(var cage in cages) {
 		if(king) {
@@ -177,10 +185,14 @@ function placeZombie(price, name) {
 					break;
 			}
 
-			if(name == "small")
+			if(name == "small") {
 				cage.available -= 1;
-			else
+				createjs.Sound.play("smallZombiePlaced");
+			}	
+			else {
 				cage.available = 0;
+				createjs.Sound.play("kingZombiePlaced");
+			}
 			money -= price;
 			moneyAmountText.text = money;
 
