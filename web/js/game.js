@@ -667,19 +667,40 @@ function gameAlert(title, text) {
 	}, 2000)
 }
 
-function locationIsValid(x, y) {
-	switch(myIndex) {
-		case 0:
-			return (x < 565.25) && (y < 340);
-		case 1:
-			return (x < 565.25) && (y >= 340);
-		case 2:
-			return (x > 1343) && (y < 340);
-		case 3:
-			return (x > 1343) && (y >= 340);
-		default:
-			return false;
-	}
+function victory() {
+	var screen = new createjs.Shape();
+	screen.graphics.beginFill("#000").drawRect(0,0,1920,980);
+	screen.addEventListener("click", function(){});
+	screen.alpha = 0.0;
+	
+	var victoryText = new createjs.Text("Victory!", "bold 150px Lithos", "#fff");
+	victoryText.x = 585;
+	victoryText.y = 280;
+	victoryText.alpha = 0.0;
+	
+	stage.addChild(screen);
+	stage.addChild(victoryText);
+	createjs.Tween.get(screen).to({alpha:0.7}, 500);
+	createjs.Tween.get(victoryText).to({alpha:0.7}, 500);
+	createjs.Sound.play("victory");
+}
+
+function lose() {
+	var screen = new createjs.Shape();
+	screen.graphics.beginFill("#000").drawRect(0,0,1920,980);
+	screen.addEventListener("click", function(){});
+	screen.alpha = 0.0;
+	
+	var loseText = new createjs.Text("You Lose!", "bold 150px Lithos", "#fff");
+	loseText.x = 550;
+	loseText.y = 280;
+	loseText.alpha = 0.0;
+	
+	stage.addChild(screen);
+	stage.addChild(loseText);
+	createjs.Tween.get(screen).to({alpha:0.7}, 500);
+	createjs.Tween.get(loseText).to({alpha:0.7}, 500);
+	createjs.Sound.play("youLose");
 }
 
 function tick(event){

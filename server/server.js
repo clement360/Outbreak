@@ -57,16 +57,18 @@ function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 }
 
 //x and y correspond to pixel location
-function Building(x, y, hp) {
+function Building(x, y, i, k, hp) {
 	this.hp = hp;
 	this.x = x;
 	this.y = y;
+	this.i = i;
+	this.k = k;
 }
 
-leftStructures[0] = new Building(86, 283, 500);
-leftStructures[1] = new Building(86, 406, 500);
-rightStructures[0] = new Building(1820, 283, 500);
-rightStructures[1] = new Building(1820, 406, 500);
+leftStructures[0] = new Building(86, 283, 0, 2, 500);
+leftStructures[1] = new Building(86, 406, 0, 3, 500);
+rightStructures[0] = new Building(1820, 283, 16, 2, 500);
+rightStructures[1] = new Building(1820, 406, 16, 3, 500);
 
 //-------------------------EasyStar.js-------------------------//
 var EasyStar = require('easystarjs');
@@ -106,12 +108,22 @@ function attackBuilding(zombie) {
 		structures = leftStructures;
 	if(zombie.targetBuilding != null) {
 		var interval = setInterval(function() {
-			zombie.targetBuilding.hp -= zombie.attack;
-			io.sockets.emit("zombieShotFired", zombie);
-			if(zombie.targetBuilding.hp <= 0) {
+			if(zombie.targetBuilding.hp > 0) {
+				zombie.targetBuilding.hp -= zombie.attack;
+				io.sockets.emit("zombieShotFired", {
+					"x" : zombie.x,
+					"y" : zombie.y
+				});
+			}
+			else {
 				console.log("Building destroyed!!!");
-				io.sockets.emit("buildingDestroyed", zombie.targetBuilding);	
-				zombie.targetBuilding.destroyed = true;
+				if(!zombie.targetBuilding.destroyed) {
+					io.sockets.emit("buildingDestroyed", {
+						"i" : zombie.targetBuilding.i,
+						"k" : zombie.targetBuilding.k,
+					});	
+					zombie.targetBuilding.destroyed = true;
+				}
 				zombie.path = new Array();
 				zombie.findNearestStructure(zombie.playerIndex);
 				newPath(zombie, zombie.target.x, zombie.target.y, zombie.playerIndex);
@@ -214,7 +226,7 @@ io.sockets.on('connection', function(socket) {
 		pathGrid[pathLoc.x][pathLoc.y] = 1;
         console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
 		var gridLoc = serverGrid[data["x"]][data["y"]];
-		var building = new Building(gridLoc.x, gridLoc.y, data["hp"]);
+		var building = new Building(gridLoc.x, gridLoc.y, data["x"], data["y"], data["hp"]);
 		switch(myIndex) {
 			case 0:
 			case 1:
