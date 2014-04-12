@@ -93,8 +93,8 @@ setInterval(function(){
 //-----------------------End EasyStar.js-----------------------//
 
 function distance(x1, y1, x2, y2){
-	var xDiff = Math.abs(x2 - x1);
-	var yDiff = Math.abs(x2 - x1);;
+	var xDiff = x2 - x1;
+	var yDiff = x2 - x1;
 	var xx = xDiff * xDiff;
 	var yy = yDiff * yDiff;
 	return Math.sqrt(xx + yy);
@@ -146,20 +146,20 @@ function attackBuilding(zombie) {
 function enemyZombieInRange(zombie) {
 	if(zombie.playerIndex < 2) {
 		for(var z in zombies[2]) {
-			if(distance(zombie.x, zombie.y, zombies[2][z].x, zombies[2][z].y) < 300 && !zombies[2][z].dead) 
+			if(Math.abs(distance(zombie.x, zombie.y, zombies[2][z].x, zombies[2][z].y)) < 300 && !zombies[2][z].dead) 
 				return zombies[2][z];
 		}
 		for(var z in zombies[3]) {
-			if(distance(zombie.x, zombie.y, zombies[3][z].x, zombies[3][z].y) < 300 && !zombies[3][z].dead) 
+			if(Math.abs(distance(zombie.x, zombie.y, zombies[3][z].x, zombies[3][z].y)) < 300 && !zombies[3][z].dead) 
 				return zombies[3][z];
 		}
 	} else {
 		for(var z in zombies[0]) {
-			if(distance(zombie.x, zombie.y, zombies[0][z].x, zombies[0][z].y) < 300 && !zombies[0][z].dead) 
+			if(Math.abs(distance(zombie.x, zombie.y, zombies[0][z].x, zombies[0][z].y)) < 300 && !zombies[0][z].dead) 
 				return zombies[0][z];
 		}
 		for(var z in zombies[1]) {
-			if(distance(zombie.x, zombie.y, zombies[1][z].x, zombies[1][z].y) < 300 && !zombies[1][z].dead) 
+			if(Math.abs(distance(zombie.x, zombie.y, zombies[1][z].x, zombies[1][z].y)) < 300 && !zombies[1][z].dead) 
 				return zombies[1][z];
 		}
 	}
