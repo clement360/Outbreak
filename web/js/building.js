@@ -1,3 +1,5 @@
+var buildingHp = 1000;
+
 //x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;
@@ -48,23 +50,26 @@ socket.on('buildingPlaced', function(data) {
 	stage.addChild(sprite);
 });
 
+var gameOver = false;
 socket.on("buildingDestroyed", function(data) {
 	createjs.Sound.play("buildingDestroyed");
 	var currentBox = grid[data["i"]][data["k"]];
 	explode(data["i"], data["k"]);
 	currentBox.occupied = false;
-	if(!grid[0][2].occupied && !grid[0][3].occupied) {
+	if(!grid[0][2].occupied && !grid[0][3].occupied && !gameOver) {
 		if(myIndex < 2) {
 			lose();
 		} else {
 			victory();
 		}
-	} else if(!grid[16][2].occupied && !grid[16][3].occupied) {
+		gameOver = true;
+	} else if(!grid[16][2].occupied && !grid[16][3].occupied && !gameOver) {
 		if(myIndex < 2) {
 			victory();
 		} else {
 			lose();
 		}
+		gameOver = true;
 	}
 	currentBox.building.destroyed = true;
 	if(currentBox.building.name == "bank")
@@ -122,8 +127,8 @@ function handleBuilding(sprite, name) {
 			createjs.Sound.play("buildingPlaced");
 			sprite.x = currentBox.x;
 			sprite.y = currentBox.y;
-				
-			var building = new Building(currentBox.x, currentBox.y, 100);
+			
+			var building = new Building(currentBox.x, currentBox.y, buildingHp);
 			building.sprite = sprite;
 			building.name = name;
 			
@@ -159,7 +164,7 @@ function handleBuilding(sprite, name) {
 				"x" : currentBox.i,
                 "y" : currentBox.k,
 				"name" : name,
-				"hp" : 100
+				"hp" : buildingHp
             }
 
             moneyAmountText.text = money;
@@ -179,8 +184,6 @@ function handleBuilding(sprite, name) {
 function placeBuilding(event, price, sprite, name) {
 	if (money >= price) {
 		money -= price;
-		stage.removeChild(sprite);
-		stage.removeChild(event.target);
 		var spriteCopy = new createjs.Bitmap(sprite.image);
 		handleBuilding(spriteCopy, name);
 	}

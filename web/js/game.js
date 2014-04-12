@@ -27,8 +27,10 @@ var playerText;
 var moneyText;
 
 var money = 1000;
-var timerSecs = 30;
-var timerMins = 1;
+
+//Income timer interval
+var timerSecs = 45;
+var timerMins = 0;
 
 //Zombie Quantity Trackers
 var totalcap = 0;
@@ -190,7 +192,7 @@ function loadFort(event){
 	moneyAmountText.y = 750;
 	stage.addChild(moneyAmountText);
 	
-	timerText = new createjs.Text("1:30", "50px Lithos", "#000");
+	timerText = new createjs.Text("0:45", "50px Lithos", "#000");
 	timerText.x = 505;
 	timerText.y = 855;
 	stage.addChild(timerText);
@@ -221,8 +223,8 @@ function loadFort(event){
 			timerSecs = 59;
 			--timerMins;
 		} else if (timerMins <= 0 && timerSecs <= 0) {
-			timerMins = 1;
-			timerSecs = 30;
+			timerMins = 0;
+			timerSecs = 45;
 			money += 250 + (250 * banks.length);
 			moneyAmountText.text = money;
 		} else {

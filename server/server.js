@@ -44,7 +44,7 @@ function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 		}
 		else {
 			for(var j = 0; j < leftStructures.length; j++){
-				dist = distance(this.sprite.x, this.sprite.y, leftStructures[j].x, leftStructures[j].y);
+				dist = distance(this.x, this.y, leftStructures[j].x, leftStructures[j].y);
 				if(dist < shortestDistance && !leftStructures[j].destroyed){
 					index = j;
 					shortestDistance = dist;
@@ -65,10 +65,10 @@ function Building(x, y, i, k, hp) {
 	this.k = k;
 }
 
-leftStructures[0] = new Building(86, 283, 0, 2, 500);
-leftStructures[1] = new Building(86, 406, 0, 3, 500);
-rightStructures[0] = new Building(1820, 283, 16, 2, 500);
-rightStructures[1] = new Building(1820, 406, 16, 3, 500);
+leftStructures[0] = new Building(86, 283, 0, 2, 2000);
+leftStructures[1] = new Building(86, 406, 0, 3, 2000);
+rightStructures[0] = new Building(1820, 283, 16, 2, 2000);
+rightStructures[1] = new Building(1820, 406, 16, 3, 2000);
 
 //-------------------------EasyStar.js-------------------------//
 var EasyStar = require('easystarjs');
@@ -93,14 +93,15 @@ setInterval(function(){
 //-----------------------End EasyStar.js-----------------------//
 
 function distance(x1, y1, x2, y2){
-	var xDiff = x2 - x1;
-	var yDiff = y2 - y1;
+	var xDiff = Math.abs(x2 - x1);
+	var yDiff = Math.abs(x2 - x1);;
 	var xx = xDiff * xDiff;
 	var yy = yDiff * yDiff;
 	return Math.sqrt(xx + yy);
 }
 
 function attackBuilding(zombie) {
+	if(zombie.dead) return;
 	var structures;
 	if(zombie.playerIndex < 2)
 		structures = rightStructures;
@@ -108,15 +109,22 @@ function attackBuilding(zombie) {
 		structures = leftStructures;
 	if(zombie.targetBuilding != null) {
 		var interval = setInterval(function() {
+			if(zombie.dead) {
+				io.sockets.emit("zombieDied", {
+					"playerIndex" : zombie.playerIndex,
+					"index" : zombie.index
+				});
+				clearInterval(interval);
+				return;
+			}
 			if(zombie.targetBuilding.hp > 0) {
 				zombie.targetBuilding.hp -= zombie.attack;
 				io.sockets.emit("zombieShotFired", {
-					"x" : zombie.x,
-					"y" : zombie.y
+					"i" : zombie.targetBuilding.i - 1,
+					"k" : zombie.targetBuilding.k
 				});
 			}
 			else {
-				console.log("Building destroyed!!!");
 				if(!zombie.targetBuilding.destroyed) {
 					io.sockets.emit("buildingDestroyed", {
 						"i" : zombie.targetBuilding.i,
@@ -135,27 +143,125 @@ function attackBuilding(zombie) {
 		console.log("ERROR: No building to attack!");
 }
 
+function enemyZombieInRange(zombie) {
+	if(zombie.playerIndex < 2) {
+		for(var z in zombies[2]) {
+			if(distance(zombie.x, zombie.y, zombies[2][z].x, zombies[2][z].y) < 300 && !zombies[2][z].dead) 
+				return zombies[2][z];
+		}
+		for(var z in zombies[3]) {
+			if(distance(zombie.x, zombie.y, zombies[3][z].x, zombies[3][z].y) < 300 && !zombies[3][z].dead) 
+				return zombies[3][z];
+		}
+	} else {
+		for(var z in zombies[0]) {
+			if(distance(zombie.x, zombie.y, zombies[0][z].x, zombies[0][z].y) < 300 && !zombies[0][z].dead) 
+				return zombies[0][z];
+		}
+		for(var z in zombies[1]) {
+			if(distance(zombie.x, zombie.y, zombies[1][z].x, zombies[1][z].y) < 300 && !zombies[1][z].dead) 
+				return zombies[1][z];
+		}
+	}
+	return null;
+}
+
+function attackZombie(zombie) {
+	var interval = setInterval(function() {
+		//Failsafe
+		if(zombie.dead) {
+			io.sockets.emit("zombieDied", {
+				"playerIndex" : zombie.playerIndex,
+				"index" : zombie.index
+			});
+			clearInterval(interval);
+			return;
+		}
+		if(zombie.targetZombie.hp > 0) {
+			zombie.targetZombie.hp -= zombie.attack;
+			io.sockets.emit("zombieShotFired", {
+				"x" : zombie.midPoint.x,
+				"y" : zombie.midPoint.y
+			});
+		}
+		else {
+			console.log("Zombie died!!!");
+			clearInterval(interval);
+			zombie.attackingZombie = false;
+			zombie.targetZombie.dead = true;
+			io.sockets.emit("zombieDied", {
+				"playerIndex" : zombie.targetZombie.playerIndex,
+				"index" : zombie.targetZombie.index
+			});
+			if(!zombie.dead) {
+				zombie.path = new Array();
+				zombie.findNearestStructure(zombie.playerIndex);
+				newPath(zombie, zombie.target.x, zombie.target.y, zombie.playerIndex);
+			} else {
+				io.sockets.emit("zombieDied", {
+					"playerIndex" : zombie.playerIndex,
+					"index" : zombie.index
+				});
+				clearInterval(interval);
+			return;
+			}
+		}
+	}, zombie.speed);
+}
+
 var iterations;
 function animate(zombie){
     var speed = zombie.speed;
 
     var interval = setInterval(move, speed);
     function move() {
+		//Failsafe
+		if(zombie.dead) {
+			io.sockets.emit("zombieDied", {
+				"playerIndex" : zombie.playerIndex,
+				"index" : zombie.index
+			});
+			clearInterval(interval);
+			return;
+		}
         zombie.iteration++;
-        if (zombie.iteration >= zombie.path.length-1){
+        if (zombie.iteration >= zombie.path.length-1 && !zombie.attackingZombie){
 			attackBuilding(zombie);
             clearInterval(interval);
-        }
-        var newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
-        var newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
-		zombie.x = newX;
-		zombie.y = newY;
-		io.sockets.emit("zombieMoved", {
-			"x" : zombie.x,
-			"y" : zombie.y,
-			"index" : zombie.index,
-			"playerIndex" : zombie.playerIndex
-		});
+        } else if(!zombie.attackingZombie) {
+			zombie.targetZombie = enemyZombieInRange(zombie);
+			if(zombie.targetZombie != null) {
+				if(!zombie.targetZombie.dead) {
+					console.log("I see a zombie!!!");
+					zombie.attackingZombie = true;
+					clearInterval(interval);
+					var midX = (zombie.x + zombie.targetZombie.x)/2;
+					var midY = (zombie.y + zombie.targetZombie.y)/2;
+					targetZombieGrid = CoordToPathGrid(midX, midY);
+					zombie.midPoint = new Box(midX, midY);
+					zombie.path = new Array();
+					zombie.iteration = 0;
+					newPath(zombie, targetZombieGrid.x, targetZombieGrid.y, zombie.playerIndex);
+					return;
+				}
+			}
+		} else if(zombie.iteration >= zombie.path.length-1) {
+			attackZombie(zombie);
+			clearInterval(interval);
+			return;
+		}
+		if(!zombie.dead) {
+			var newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
+			var newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
+			zombie.x = newX;
+			zombie.y = newY;
+			io.sockets.emit("zombieMoved", {
+				"x" : zombie.x,
+				"y" : zombie.y,
+				"index" : zombie.index,
+				"playerIndex" : zombie.playerIndex
+			});
+		} else return;
     }
 	zombie.iteration = 0;
 	//attackInProgress = false;
@@ -175,7 +281,7 @@ function findPath(startX, startY, destX, destY, playerIndex, zombieIndex) {
 }
 
 function newPath (zombie, x2, y2, playerIndex, socket){
-	if(zombie.path.length == 0) {
+	if(zombie.path.length == 0 && !zombie.dead) {
 		zombie.path.length = 0;
 		var cor = CoordToPathGrid(zombie.x, zombie.y);
 		// make sure target is in bounds and not current position
@@ -254,10 +360,10 @@ io.sockets.on('connection', function(socket) {
 	socket.on("zombiePlaced", function(data) {
 		switch(data["name"]){
 			case "small":
-				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 15, 400, 10));
+				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 15, 400, 5));
 				break;
 			case "king":
-				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 60, 600, 55));
+				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 200, 600, 60));
 				break;
 			default:
 				console.log("Error: invalid newZombie name");

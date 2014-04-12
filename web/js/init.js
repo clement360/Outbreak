@@ -89,6 +89,7 @@ function init(){
     ]);
 	createjs.Sound.alternateExtensions = ["wav"];
 	createjs.Sound.registerSound("sounds/zombieAttack.wav", "zombieAttack");
+	createjs.Sound.registerSound("sounds/zombieDied.wav", "zombieDied");
 	createjs.Sound.registerSound("sounds/buildingDestroyed.wav", "buildingDestroyed");
 	createjs.Sound.registerSound("sounds/buildingPlaced.wav", "buildingPlaced");
 	createjs.Sound.registerSound("sounds/smallZombiePlaced.wav", "smallZombiePlaced");

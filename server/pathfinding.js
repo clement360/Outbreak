@@ -125,4 +125,14 @@ for (var i = 0; i < gridWidth; i++) {
     xPlacement = xPlacement + 111.25;
     yPlacement = 11;
 }
+
+stageCoordToGrid = function(x, y) {
+	for(var i = 0; i < gridWidth; ++i) {
+		for(var j = 0; j < gridHeight; ++j) {
+			if(serverGrid[i][j].x <= x && serverGrid[i][j].y <= y && serverGrid[i][j].x + 111.25 >= x && serverGrid[i][j].y + 100.25 >= y)
+				return serverGrid[i][j];
+		}
+	}
+}
+
 //serverGrid End

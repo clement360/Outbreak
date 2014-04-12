@@ -63,8 +63,19 @@ socket.on("zombieMoved", function(data) {
 
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
-	var dest = stageCoordToGrid(data["x"], data["y"]);
-	explode(dest.i, dest.k);
+	if(data["x"] == null && data["y"] == null)
+		explode(data["i"], data["k"]);
+	else {
+		console.log(data["x"], data["y"]);
+		dest = stageCoordToGrid(data["x"], data["y"]);
+		explode(dest.i, dest.k);
+	}
+});
+
+socket.on("zombieDied", function(data) {
+	createjs.Sound.play("zombieDied");
+	zombies[data["playerIndex"]][data["index"]].dead = true;
+	stage.removeChild(zombies[data["playerIndex"]][data["index"]].sprite);
 });
 
 function Zombie (x, y, index, sprite, hp, speed, attack) {
@@ -78,10 +89,6 @@ function Zombie (x, y, index, sprite, hp, speed, attack) {
 	this.sprite.y = y;
 	this.attack = attack;
 	this.target;
-}
-
-function findBuildingByCoor(zombie){
-	stageCoordToGrid()
 }
 
 function newZombie(x, y, name){
