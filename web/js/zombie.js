@@ -62,27 +62,35 @@ socket.on("zombiePlaced", function(data) {
 });
 
 socket.on("zombieMoved", function(data) {
+
+	deltaY = P2_y - P1_y;
+	deltaX = P2_x - P1_x;
 	zombies[data["playerIndex"]][data["index"]].x = data["x"];
 	zombies[data["playerIndex"]][data["index"]].y = data["y"];
+
+
+
+	zombies[data["playerIndex"]][data["index"]].sprite.rotation = Math.atan2(data["y"], data["x"]);
+	console.log("Rotation = " + zombies[data["playerIndex"]][data["index"]].sprite.rotation);
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);
 });
 
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
-	if(data["x"] == null && data["y"] == null) {
+	//if(data["x"] == null && data["y"] == null) {
 		explode(data["i"], data["k"]);
 		if(data["i"] == 15 && (data["k"] == 2 || data["k"] == 3)) {
 			rightTeamHP -= data["attack"];
 		}
-		else if(data["i"] == 0 && (data["k"] == 2 || data["k"] == 3)) {
+		else if(data["i"] == -1 && (data["k"] == 2 || data["k"] == 3)) {
 			leftTeamHP -= data["attack"];
 		}
 		if(myIndex < 2)
 			scaleBar(leftTeamHP,rightTeamHP);
 		else
 			scaleBar(rightTeamHP,leftTeamHP);
-	}
-	else {
+	//}
+	/*else {
 		console.log(data["x"], data["y"]);
 		dest = stageCoordToGrid(data["x"], data["y"]);
 		explode(dest.i, dest.k);
@@ -96,7 +104,7 @@ socket.on("zombieShotFired", function(data) {
 			scaleBar(leftTeamHP,rightTeamHP);
 		else
 			scaleBar(rightTeamHP,leftTeamHP);
-	}
+	}*/
 });
 
 socket.on("zombieDied", function(data) {
