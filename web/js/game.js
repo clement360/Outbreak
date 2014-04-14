@@ -29,6 +29,10 @@ var moneyAmountText;
 var playerText;
 var moneyText;
 
+//Health
+var teamHealthCover
+var enemyHealthCover
+
 //Zombie Quantity Trackers
 var totalcap = 0;
 var cageTotal = 0;
@@ -216,6 +220,24 @@ function loadFort(event){
 	usedZombieCapacityText.x = 710;
 	usedZombieCapacityText.y = 880;
 	stage.addChild(usedZombieCapacityText);
+	
+	teamHealthCover = new createjs.Bitmap(queue.getResult("healthCover"));
+    stage.addChild(teamHealthCover);
+	teamHealthCover.regX = 464;
+	teamHealthCover.x = 1897;
+	teamHealthCover.y = 785;
+	teamHealthCover.scaleY = 1.1;
+	
+	enemyHealthCover = new createjs.Bitmap(queue.getResult("healthCover"));
+    stage.addChild(enemyHealthCover);
+	enemyHealthCover.regX = 464;
+	enemyHealthCover.x = 1897;
+	enemyHealthCover.y = 896;
+	enemyHealthCover.scaleY = 1.1;
+
+	
+	createjs.Tween.get(teamHealthCover).to({scaleX:0},1760);
+	createjs.Tween.get(enemyHealthCover).to({scaleX:0},1760);
 
 	timerMins = timerIntMins;
 	timerSecs = timerIntSecs;
@@ -238,6 +260,14 @@ function loadFort(event){
 	}, 1000);
 
 
+}
+
+function scaleBar(teamHp, enemyHp){
+	var baseHp = 100;
+	var teamScale = (baseHp - teamHp)/100;
+	var enemyScale = (baseHp - enemyHp)/100;
+	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
+	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }
 		
 function loadMenu(event){
@@ -292,6 +322,8 @@ function loadZombieMenu(event){
 	stage.removeChild(zombieCapacityText);
 	stage.removeChild(usedZombieCapText);
 	stage.removeChild(usedZombieCapacityText);
+	stage.removeChild(enemyHealthCover);
+	stage.removeChild(teamHealthCover);
 
 	doneButton = new createjs.Bitmap(queue.getResult("doneButton"));
     zombiesMenu = new createjs.Bitmap(queue.getResult("zombiesMenu"));
@@ -376,6 +408,8 @@ function loadBuildingMenu(event){
 	stage.removeChild(zombieCapacityText);
 	stage.removeChild(usedZombieCapText);
 	stage.removeChild(usedZombieCapacityText);
+	stage.removeChild(enemyHealthCover);
+	stage.removeChild(teamHealthCover);
 	
     console.log("LOAD BUILDING");
 
@@ -472,6 +506,8 @@ function loadDefenseMenu(event) {
 	stage.removeChild(zombieCapacityText);
 	stage.removeChild(usedZombieCapText);
 	stage.removeChild(usedZombieCapacityText);
+	stage.removeChild(enemyHealthCover);
+	stage.removeChild(teamHealthCover);
 	
     defensesMenu = new createjs.Bitmap(queue.getResult("defensesMenu"));
     defensesDoneButton = new createjs.Bitmap(queue.getResult("doneButton"));
@@ -555,6 +591,9 @@ function closeZombieMenu(even){
 	stage.addChild(zombieCapacityText);
 	stage.addChild(usedZombieCapText);
 	stage.addChild(usedZombieCapacityText);
+	
+	stage.addChild(enemyHealthCover);
+	stage.addChild(teamHealthCover);
 
     stage.removeChild(greenKing);
     stage.removeChild(greenZombie);
@@ -598,6 +637,8 @@ function closeBuildingsMenu(even){
 	stage.addChild(zombieCapacityText);
 	stage.addChild(usedZombieCapText);
 	stage.addChild(usedZombieCapacityText);
+	stage.addChild(enemyHealthCover);
+	stage.addChild(teamHealthCover);
 }
 
 
@@ -628,6 +669,8 @@ function closeDefensesMenu(even){
 	stage.addChild(zombieCapacityText);
 	stage.addChild(usedZombieCapText);
 	stage.addChild(usedZombieCapacityText);
+	stage.addChild(enemyHealthCover);
+	stage.addChild(teamHealthCover);
 }
 
 
