@@ -19,3 +19,9 @@ income = 250;
 //Income timer interval
 timerIntMins = 0;
 timerIntSecs = 45;
+
+//Defense stats
+turretSpeed = 300;
+turretAttack = 10;
+orbSpeed = 600;
+orbAttack = 10;

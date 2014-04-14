@@ -48,6 +48,11 @@ socket.on('buildingPlaced', function(data) {
 	stage.addChild(sprite);
 });
 
+socket.on("turretShotFired", function(data) {
+	console.log("Turret shot!!");
+	console.log(data);
+});
+
 var gameOver = false;
 socket.on("buildingDestroyed", function(data) {
 	createjs.Sound.play("buildingDestroyed");
