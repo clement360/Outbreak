@@ -98,5 +98,7 @@ function init(){
 	createjs.Sound.registerSound("sounds/victory.wav", "victory");
 	createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
 	createjs.Sound.registerSound("sounds/flames.mp3", "flames");
+	createjs.Sound.registerSound("sounds/orbShotFired.mp3", "orbShotFired");
+	createjs.Sound.registerSound("sounds/turretShotFired.mp3", "turretShotFired");
 	createjs.Ticker.setFPS(60);
 }

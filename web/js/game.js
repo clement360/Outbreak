@@ -35,6 +35,19 @@ var enemyHealthCover
 var rightTeamHP = 2*baseHp;
 var leftTeamHP = 2*baseHp;
 
+//Stats
+var kingZombieAttackStat;
+var kingZombieHpStat;
+var kingZombieSpeedStat;
+
+var turretHpStat;
+var turretSpeedStat;
+var turretAttackStat;
+
+var orbHpStat;
+var orbSpeedStat;
+var orbAttackStat;
+
 //Zombie Quantity Trackers
 var totalcap = 0;
 var cageTotal = 0;
@@ -386,10 +399,44 @@ function loadZombieMenu(event){
 	kingZombieCost.x = 961;
 	kingZombieCost.y = 923;
 	
+	//Beginning Stats
+	
+	kingZombieHpStat = new createjs.Text(kingZombieHp, "bold 23px Lithos", "#fff");
+	kingZombieHpStat.x = 1185;
+	kingZombieHpStat.y = 798;
+
+	kingZombieSpeedStat = new createjs.Text(kingZombieSpeed, "bold 23px Lithos", "#fff");
+	kingZombieSpeedStat.x = 1245;
+	kingZombieSpeedStat.y = 842;
+		
+	kingZombieAttackStat = new createjs.Text(kingZombieAttack, "bold 23px Lithos", "#fff");
+	kingZombieAttackStat.x = 1245;
+	kingZombieAttackStat.y = 890;
+
+	smallZombieHpStat = new createjs.Text(smallZombieHp, "bold 23px Lithos", "#fff");
+	smallZombieHpStat.x = 658;
+	smallZombieHpStat.y = 794;
+
+	smallZombieSpeedStat = new createjs.Text(smallZombieSpeed, "bold 23px Lithos", "#fff");
+	smallZombieSpeedStat.x = 715;
+	smallZombieSpeedStat.y = 840;
+		
+	smallZombieAttackStat = new createjs.Text(smallZombieAttack, "bold 23px Lithos", "#fff");
+	smallZombieAttackStat.x = 715;
+	smallZombieAttackStat.y = 885;	
+
+	//End Stats
+	
 	stage.addChild(smallZombieButton);
 	stage.addChild(kingZombieButton);
 	stage.addChild(smallZombieCost);
 	stage.addChild(kingZombieCost);
+	stage.addChild(kingZombieHpStat);
+	stage.addChild(kingZombieSpeedStat);
+	stage.addChild(kingZombieAttackStat);
+	stage.addChild(smallZombieHpStat);
+	stage.addChild(smallZombieSpeedStat);
+	stage.addChild(smallZombieAttackStat);
 }
 
 function loadBuildingMenu(event){
@@ -549,6 +596,35 @@ function loadDefenseMenu(event) {
 	orbCost.x = 948;
 	orbCost.y = 923;
 	
+	//Beginning Stats
+
+	turretHpStat = new createjs.Text(buildingHp, "bold 23px Lithos", "#fff");
+	turretHpStat.x = 674;
+	turretHpStat.y = 838;
+
+	turretSpeedStat = new createjs.Text(turretSpeed, "bold 23px Lithos", "#fff");
+	turretSpeedStat.x = 730;
+	turretSpeedStat.y = 888;
+		
+	turretAttackStat = new createjs.Text(turretAttack, "bold 23px Lithos", "#fff");
+	turretAttackStat.x = 730;
+	turretAttackStat.y = 930;
+	
+	
+	orbHpStat = new createjs.Text(buildingHp, "bold 23px Lithos", "#fff");
+	orbHpStat.x = 1195;
+	orbHpStat.y = 838;
+
+	orbSpeedStat = new createjs.Text(orbSpeed, "bold 23px Lithos", "#fff");
+	orbSpeedStat.x = 1249;
+	orbSpeedStat.y = 888;	
+		
+	orbAttackStat = new createjs.Text(orbAttack, "bold 23px Lithos", "#fff");
+	orbAttackStat.x = 1249;
+	orbAttackStat.y = 930;
+	
+	//End Stats
+	
 	stage.addChild(turretButton);
 	stage.addChild(orbButton);
     stage.addChild(defensesMenu);
@@ -557,6 +633,12 @@ function loadDefenseMenu(event) {
     stage.addChild(turret);
 	stage.addChild(orbCost);
 	stage.addChild(turretCost);
+	stage.addChild(turretHpStat);
+	stage.addChild(turretSpeedStat);
+	stage.addChild(turretAttackStat);
+	stage.addChild(orbHpStat);
+	stage.addChild(orbSpeedStat);
+	stage.addChild(orbAttackStat);
 }
 
 function closeBuildMenu(even){
@@ -607,6 +689,12 @@ function closeZombieMenu(even){
 	stage.removeChild(kingZombieButton);
 	stage.removeChild(smallZombieCost);
 	stage.removeChild(kingZombieCost);
+	stage.removeChild(smallZombieHpStat);
+	stage.removeChild(smallZombieAttackStat);
+	stage.removeChild(smallZombieSpeedStat);
+	stage.removeChild(kingZombieHpStat);
+	stage.removeChild(kingZombieAttackStat);
+	stage.removeChild(kingZombieSpeedStat);
 }
 
 function closeBuildingsMenu(even){
@@ -655,6 +743,13 @@ function closeDefensesMenu(even){
 	stage.removeChild(turretButton);
 	stage.removeChild(orbCost);
 	stage.removeChild(turretCost);
+	stage.removeChild(turretCost);
+	stage.removeChild(turretHpStat);
+	stage.removeChild(turretSpeedStat);
+	stage.removeChild(turretAttackStat);
+	stage.removeChild(orbHpStat);
+	stage.removeChild(orbSpeedStat);
+	stage.removeChild(orbAttackStat);
 
     // Remember: Remove defense creation event listeners
 
