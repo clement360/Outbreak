@@ -62,16 +62,8 @@ socket.on("zombiePlaced", function(data) {
 });
 
 socket.on("zombieMoved", function(data) {
-
-	deltaY = P2_y - P1_y;
-	deltaX = P2_x - P1_x;
 	zombies[data["playerIndex"]][data["index"]].x = data["x"];
 	zombies[data["playerIndex"]][data["index"]].y = data["y"];
-
-
-
-	zombies[data["playerIndex"]][data["index"]].sprite.rotation = Math.atan2(data["y"], data["x"]);
-	console.log("Rotation = " + zombies[data["playerIndex"]][data["index"]].sprite.rotation);
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);
 });
 

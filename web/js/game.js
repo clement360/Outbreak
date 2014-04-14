@@ -166,7 +166,7 @@ function loadFort(event){
     stage.addChild(field);
 
 	stage.addChild(lowerMenu);
-
+	createjs.Tween.get(lowerMenu).to({y:675}, 600);
 	
 	highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
     switch (myIndex){
@@ -235,7 +235,7 @@ function loadFort(event){
 	usedZombieCapacityText.x = 710;
 	usedZombieCapacityText.y = 1080;
 	stage.addChild(usedZombieCapacityText);
-
+	
 	teamHealthCover = new createjs.Bitmap(queue.getResult("healthCover"));
     stage.addChild(teamHealthCover);
 	teamHealthCover.regX = 464;
@@ -250,9 +250,10 @@ function loadFort(event){
 	enemyHealthCover.y = 1096;
 	enemyHealthCover.scaleY = 1.05;
 
+	
 	createjs.Tween.get(teamHealthCover).to({scaleX:0},1760);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:0},1760);
-	
+
 	timerMins = timerIntMins;
 	timerSecs = timerIntSecs;
 	setInterval(function() {
@@ -285,6 +286,14 @@ function loadFort(event){
 	createjs.Tween.get(usedZombieCapacityText).to({y:880}, 600);
 	createjs.Tween.get(teamHealthCover).to({y:785}, 600);
 	createjs.Tween.get(enemyHealthCover).to({y:900}, 600);
+}
+
+function scaleBar(teamHp, enemyHp){
+	var baseHp = 100;
+	var teamScale = (baseHp - teamHp)/100;
+	var enemyScale = (baseHp - enemyHp)/100;
+	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
+	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }
 		
 function loadMenu(event){
@@ -677,7 +686,7 @@ function closeZombieMenu(even){
 	stage.addChild(zombieCapacityText);
 	stage.addChild(usedZombieCapText);
 	stage.addChild(usedZombieCapacityText);
-
+	
 	stage.addChild(enemyHealthCover);
 	stage.addChild(teamHealthCover);
 
@@ -743,13 +752,6 @@ function closeDefensesMenu(even){
 	stage.removeChild(turretButton);
 	stage.removeChild(orbCost);
 	stage.removeChild(turretCost);
-	stage.removeChild(turretCost);
-	stage.removeChild(turretHpStat);
-	stage.removeChild(turretSpeedStat);
-	stage.removeChild(turretAttackStat);
-	stage.removeChild(orbHpStat);
-	stage.removeChild(orbSpeedStat);
-	stage.removeChild(orbAttackStat);
 
     // Remember: Remove defense creation event listeners
 
@@ -802,15 +804,6 @@ function gameAlert(title, text) {
 			stage.removeChild(alertTitle);
 		}, 500);
 	}, 2000)
-}
-
-function scaleBar(teamHp, enemyHp){
-	var k = 4000 -teamHp
-	var j = 4000 -enemyHp
-	var teamScale = (k/(2*baseHp));
-	var enemyScale = (j/(2*baseHp));
-	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
-	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }
 
 function explode(x, y){
