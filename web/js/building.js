@@ -1,5 +1,3 @@
-var buildingHp = 1000;
-
 //x and y correspond to pixel location
 function Building(x, y, hp) {
 	this.hp = hp;

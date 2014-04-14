@@ -1,18 +1,20 @@
+//Buttons
 var buildButton = new createjs.Shape();
 var closeBuildMenuButton = new createjs.Shape();  //Sergio
-
 var loadBuildingButton = new createjs.Shape();   //Made this Global to be able to be removed later -- Sergio
 var loadZombieButton = new createjs.Shape();  //Create this to separate one button intro three functional buttons that do different thing
 var loadDefenseButton = new createjs.Shape();
-
 var attackButton = new createjs.Shape();
-var buildMenu;  //Made this global  --Sergio
+
+//Menu images
+var buildMenu;
 var lowerMenu;
 var zombiesMenu;
 var defensesMenu;
 var buildingsMenu;
 var doneButton;
 
+//Menu icons
 var cage;
 var turret;
 var orb;
@@ -22,10 +24,10 @@ var bank;
 
 var users = new Array();
 
+//Money
 var moneyAmountText;
 var playerText;
 var moneyText;
-
 var money = 1000;
 
 //Income timer interval
@@ -61,13 +63,15 @@ var factories = new Array();
 var banks = new Array();
 var cages = new Array();
 
-var grid = new Array(gridWidth); ////Grid to be used for game  --Sergio
+//Placement grid
+var grid = new Array(gridWidth);
 for (var i = 0; i < gridWidth; i++) {
 	grid[i] = new Array(gridHeight);
 }
 
-var xPlacement = 9;  //Original x placement to populate the grid.
-var yPlacement = 11;  //    "    y    "
+//Initialize grid start
+var xPlacement = 9; 
+var yPlacement = 11;
 
 grid[0][0] = new Box(xPlacement,yPlacement);
 grid[0][0].i = 0;
@@ -100,12 +104,13 @@ for (var i = 0; i < gridWidth; i++) {
 	yPlacement = 11;
 }
 
+//For base
 grid[0][2].occupied = true;
 grid[0][3].occupied = true;
 grid[16][2].occupied = true;
 grid[16][3].occupied = true;
 
-//Grid End
+//Initialize grid End
 function stageCoordToGrid(x, y) {
 	for(var i = 0; i < gridWidth; ++i) {
 		for(var j = 0; j < gridHeight; ++j) {

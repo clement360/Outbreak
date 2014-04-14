@@ -97,19 +97,19 @@ function newZombie(x, y, name){
 	switch(name){
 		case "greenZombie":
 			var sprite = new createjs.Bitmap(greenZombie.image);
-			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 15, 400, 10));
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, smallZombieHp, smallZombieSpeed, smallZombieAttack));
 			break;
 		case "blueZombie":
 			var sprite = new createjs.Bitmap(blueZombie.image);
-			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 15, 400, 10));
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, smallZombieHp, smallZombieSpeed, smallZombieAttack));
 			break;
 		case "blueKing":
 			var sprite = new createjs.Bitmap(blueKing.image);
-			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 60, 600, 55));
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 			break;
 		case "greenKing":
 			var sprite = new createjs.Bitmap(greenKing.image);
-			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, 60, 600, 55));
+			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 			break;
 		default:
 			console.log("Error: invalid newZombie name");

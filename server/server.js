@@ -1,4 +1,5 @@
 require('./pathfinding.js');
+require('./conf.js');
 var io = require('socket.io').listen(56644);
 var userNames = new Array();
 var usersReady = new Array();
@@ -65,10 +66,10 @@ function Building(x, y, i, k, hp) {
 	this.k = k;
 }
 
-leftStructures[0] = new Building(86, 283, 0, 2, 2000);
-leftStructures[1] = new Building(86, 406, 0, 3, 2000);
-rightStructures[0] = new Building(1820, 283, 16, 2, 2000);
-rightStructures[1] = new Building(1820, 406, 16, 3, 2000);
+leftStructures[0] = new Building(86, 283, 0, 2, baseHp);
+leftStructures[1] = new Building(86, 406, 0, 3, baseHp);
+rightStructures[0] = new Building(1820, 283, 16, 2, baseHp);
+rightStructures[1] = new Building(1820, 406, 16, 3, baseHp);
 
 //-------------------------EasyStar.js-------------------------//
 var EasyStar = require('easystarjs');
@@ -360,10 +361,10 @@ io.sockets.on('connection', function(socket) {
 	socket.on("zombiePlaced", function(data) {
 		switch(data["name"]){
 			case "small":
-				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 15, 400, 5));
+				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, smallZombieHp, smallZombieSpeed, smallZombieAttack));
 				break;
 			case "king":
-				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, 200, 600, 60));
+				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 				break;
 			default:
 				console.log("Error: invalid newZombie name");
