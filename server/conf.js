@@ -11,3 +11,11 @@ kingZombieSpeed = 600;
 //Building stats
 buildingHp = 1000;
 baseHp = 2000;
+
+//Income per interval and initial money
+money = 1000;
+income = 250;
+
+//Income timer interval
+timerIntMins = 0;
+timerIntSecs = 45;
