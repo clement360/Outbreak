@@ -698,8 +698,8 @@ function gameAlert(title, text) {
 }
 
 function scaleBar(teamHp, enemyHp){
-	var teamScale = (baseHp - teamHp)/100;
-	var enemyScale = (baseHp - enemyHp)/100;
+	var teamScale = (2 * baseHp - teamHp)/baseHp;
+	var enemyScale = (2 * baseHp - enemyHp)/baseHp;
 	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }
