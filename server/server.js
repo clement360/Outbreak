@@ -136,14 +136,15 @@ function attackBuilding(zombie) {
 				zombie.targetBuilding.hp -= zombie.attack;
 				io.sockets.emit("zombieShotFired", {
 					"i" : zombie.targetBuilding.i - 1,
-					"k" : zombie.targetBuilding.k
+					"k" : zombie.targetBuilding.k,
+					"attack" : zombie.attack
 				});
 			}
 			else {
 				if(!zombie.targetBuilding.destroyed) {
 					io.sockets.emit("buildingDestroyed", {
 						"i" : zombie.targetBuilding.i,
-						"k" : zombie.targetBuilding.k,
+						"k" : zombie.targetBuilding.k
 					});	
 					zombie.targetBuilding.destroyed = true;
 				}

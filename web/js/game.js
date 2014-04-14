@@ -32,6 +32,8 @@ var moneyText;
 //Health
 var teamHealthCover
 var enemyHealthCover
+var rightTeamHP = 2*baseHp;
+var leftTeamHP = 2*baseHp;
 
 //Zombie Quantity Trackers
 var totalcap = 0;
@@ -151,7 +153,7 @@ function loadFort(event){
     stage.addChild(field);
 
 	stage.addChild(lowerMenu);
-	createjs.Tween.get(lowerMenu).to({y:675}, 600);
+
 	
 	highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
     switch (myIndex){
@@ -183,59 +185,58 @@ function loadFort(event){
 
 	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
-	playerText.y = 840;
+	playerText.y = 1040;
 	stage.addChild(playerText);
 	
 	moneyText = new createjs.Text("Money:", "bold 80px Lithos", "#fff");
 	moneyText.x = 705;
-	moneyText.y = 750;
+	moneyText.y = 950;
 	stage.addChild(moneyText);
 	
 	moneyAmountText = new createjs.Text(money, "bold 80px Lithos", "#fff");
 	moneyAmountText.x = 1065;
-	moneyAmountText.y = 750;
+	moneyAmountText.y = 950;
 	stage.addChild(moneyAmountText);
 	
 	timerText = new createjs.Text("0:45", "50px Lithos", "#000");
 	timerText.x = 505;
-	timerText.y = 855;
+	timerText.y = 1055;
 	stage.addChild(timerText);
 	
 	zombieCapText = new createjs.Text(totalcap, "bold 23px Lithos", "#fff");
 	zombieCapText.x = 1060;
-	zombieCapText.y = 850;
+	zombieCapText.y = 1050;
 	stage.addChild(zombieCapText);
 	
 	zombieCapacityText = new createjs.Text("Total Zombie Capacity:", "bold 23px Lithos", "#fff");
 	zombieCapacityText.x = 710;
-	zombieCapacityText.y = 850;
+	zombieCapacityText.y = 1050;
 	stage.addChild(zombieCapacityText);
 	
 	usedZombieCapText = new createjs.Text(usedZombieCap, "bold 23px Lithos", "#fff");
 	usedZombieCapText.x = 1060;
-	usedZombieCapText.y = 880;
+	usedZombieCapText.y = 1080;
 	stage.addChild(usedZombieCapText);
-	
+
 	usedZombieCapacityText = new createjs.Text("Used Zombie Capacity:", "bold 23px Lithos", "#fff");
 	usedZombieCapacityText.x = 710;
-	usedZombieCapacityText.y = 880;
+	usedZombieCapacityText.y = 1080;
 	stage.addChild(usedZombieCapacityText);
 
 	teamHealthCover = new createjs.Bitmap(queue.getResult("healthCover"));
     stage.addChild(teamHealthCover);
 	teamHealthCover.regX = 464;
-	teamHealthCover.x = 1897;
-	teamHealthCover.y = 785;
-	teamHealthCover.scaleY = 1.1;
+	teamHealthCover.x = 1898;
+	teamHealthCover.y = 985;
+	teamHealthCover.scaleY = 1.05;
 	
 	enemyHealthCover = new createjs.Bitmap(queue.getResult("healthCover"));
-    stage.addChild(enemyHealthCover);
+	stage.addChild(enemyHealthCover);
 	enemyHealthCover.regX = 464;
-	enemyHealthCover.x = 1897;
-	enemyHealthCover.y = 896;
-	enemyHealthCover.scaleY = 1.1;
+	enemyHealthCover.x = 1898;
+	enemyHealthCover.y = 1096;
+	enemyHealthCover.scaleY = 1.05;
 
-	
 	createjs.Tween.get(teamHealthCover).to({scaleX:0},1760);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:0},1760);
 	
@@ -259,7 +260,18 @@ function loadFort(event){
 		timerText.text = timerMins + ":" + timerSecsText;	
 	}, 1000);
 
-
+	// tween labels
+	createjs.Tween.get(lowerMenu).to({y:675}, 600);
+	createjs.Tween.get(playerText).to({y:840}, 600);
+	createjs.Tween.get(moneyText).to({y:750}, 600);
+	createjs.Tween.get(moneyAmountText).to({y:750}, 600);
+	createjs.Tween.get(timerText).to({y:855}, 600);
+	createjs.Tween.get(zombieCapText).to({y:850}, 600);
+	createjs.Tween.get(zombieCapacityText).to({y:850}, 600);
+	createjs.Tween.get(usedZombieCapText).to({y:880}, 600);
+	createjs.Tween.get(usedZombieCapacityText).to({y:880}, 600);
+	createjs.Tween.get(teamHealthCover).to({y:785}, 600);
+	createjs.Tween.get(enemyHealthCover).to({y:900}, 600);
 }
 		
 function loadMenu(event){
@@ -698,8 +710,10 @@ function gameAlert(title, text) {
 }
 
 function scaleBar(teamHp, enemyHp){
-	var teamScale = (2 * baseHp - teamHp)/baseHp;
-	var enemyScale = (2 * baseHp - enemyHp)/baseHp;
+	var k = 4000 -teamHp
+	var j = 4000 -enemyHp
+	var teamScale = (k/(2*baseHp));
+	var enemyScale = (j/(2*baseHp));
 	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }

@@ -69,12 +69,33 @@ socket.on("zombieMoved", function(data) {
 
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
-	if(data["x"] == null && data["y"] == null)
+	if(data["x"] == null && data["y"] == null) {
 		explode(data["i"], data["k"]);
+		if(data["i"] == 15 && (data["k"] == 2 || data["k"] == 3)) {
+			rightTeamHP -= data["attack"];
+		}
+		else if(data["i"] == 0 && (data["k"] == 2 || data["k"] == 3)) {
+			leftTeamHP -= data["attack"];
+		}
+		if(myIndex < 2)
+			scaleBar(leftTeamHP,rightTeamHP);
+		else
+			scaleBar(rightTeamHP,leftTeamHP);
+	}
 	else {
 		console.log(data["x"], data["y"]);
 		dest = stageCoordToGrid(data["x"], data["y"]);
 		explode(dest.i, dest.k);
+		if(dest.i == 16 && (dest.k == 2 || dest.k == 3)) {
+			rightTeamHP -= data["attack"];
+		}
+		else if(dest.i == 0 && (dest.k == 2 || dest.k == 3)) {
+			leftTeamHP -= data["attack"];
+		}
+		if(myIndex < 2)
+			scaleBar(leftTeamHP,rightTeamHP);
+		else
+			scaleBar(rightTeamHP,leftTeamHP);
 	}
 });
 
@@ -147,6 +168,11 @@ function attack() {
 	usedZombieCap = 0;
 	usedZombieCapText.text = usedZombieCap;
 }
+
+function findBuildingByCoor(zombie){
+	stageCoordToGrid()
+}
+
 
 function checkCages(king) {
 	for(var cage in cages) {
