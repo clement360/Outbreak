@@ -27,10 +27,16 @@ socket.on("zombiePlaced", function(data) {
 	else {
 		if(data["name"] == "small") {
 			sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
+			sprite.regX = 33;
+			sprite.regY = 29;
+			sprite.rotation = 180;
 			createjs.Sound.play("smallZombiePlaced");
 		}
 		else {
 			sprite = new createjs.Bitmap(queue.getResult("blueKing"));
+			sprite.regX = 84;
+			sprite.regY = 89;
+			sprite.rotation = 180;
 			createjs.Sound.play("kingZombiePlaced");
 		}
 	}
@@ -101,10 +107,16 @@ function newZombie(x, y, name){
 			break;
 		case "blueZombie":
 			var sprite = new createjs.Bitmap(blueZombie.image);
+			sprite.regX = 33;
+			sprite.regY = 29;
+			sprite.rotation = 180;
 			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, smallZombieHp, smallZombieSpeed, smallZombieAttack));
 			break;
 		case "blueKing":
 			var sprite = new createjs.Bitmap(blueKing.image);
+			sprite.regX = 84;
+			sprite.regY = 89;
+			sprite.rotation = 180;
 			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 			break;
 		case "greenKing":
