@@ -62,6 +62,14 @@ socket.on("zombiePlaced", function(data) {
 });
 
 socket.on("zombieMoved", function(data) {
+	var deltaY = data["y"] - zombies[data["playerIndex"]][data["index"]].y;
+	var deltaX = data["x"] - zombies[data["playerIndex"]][data["index"]].x;
+
+	var angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+	zombies[data["playerIndex"]][data["index"]].sprite.rotation = angleInDegrees;
+
+	console.log("YOLO: "+ angleInDegrees);
+
 	zombies[data["playerIndex"]][data["index"]].x = data["x"];
 	zombies[data["playerIndex"]][data["index"]].y = data["y"];
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);

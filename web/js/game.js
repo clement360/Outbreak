@@ -289,9 +289,10 @@ function loadFort(event){
 }
 
 function scaleBar(teamHp, enemyHp){
-	var baseHp = 100;
-	var teamScale = (baseHp - teamHp)/100;
-	var enemyScale = (baseHp - enemyHp)/100;
+	var k = 4000 - teamHp
+	var j = 4000 - enemyHp
+	var teamScale = (k/(2*baseHp));
+	var enemyScale = (j/(2*baseHp));
 	createjs.Tween.get(teamHealthCover).to({scaleX:teamScale},300);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:enemyScale},300);
 }
