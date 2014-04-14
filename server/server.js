@@ -183,27 +183,28 @@ function enemyZombiesInRange(zombie) {
 	return zombiesInRange;
 }
 
-function enemyTurretInRange(zombie) {
+function enemyTurretsInRange(zombie) {
+	var turretsInRange = new Array();
 	if(zombie.playerIndex < 2) {
 		for(var t in turrets[2]) {
 			if(distance(zombie.x, zombie.y, turrets[2][t].building.x, turrets[2][t].building.y) < 300 && !turrets[2][t].building.destroyed)
-				return turrets[2][t];
+				turretsInRange.push(turrets[2][t]);
 		}
 		for(var t in turrets[3]) {
 			if(distance(zombie.x, zombie.y, turrets[3][t].building.x, turrets[3][t].building.y) < 300 && !turrets[3][t].building.destroyed)
-				return turrets[3][t];
+				turretsInRange.push(turrets[3][t]);
 		}
 	} else {
 		for(var t in turrets[0]) {
 			if(distance(zombie.x, zombie.y, turrets[0][t].building.x, turrets[0][t].building.y) < 300 && !turrets[0][t].building.destroyed)
-				return turrets[0][t];
+				turretsInRange.push(turrets[0][t]);
 		}
 		for(var t in turrets[1]) {
 			if(distance(zombie.x, zombie.y, turrets[1][t].building.x, turrets[1][t].building.y) < 300 && !turrets[1][t].building.destroyed)
-				return turrets[1][t];
+				turretsInRange.push(turrets[1][t]);
 		}
 	}
-	return null;
+	return turretsInRange;
 }
 
 function attackZombie(zombie) {
@@ -258,12 +259,12 @@ function attackZombie(zombie) {
 
 function turretAttackZombie(turret, zombie) {
 	if(turret.splash) {
+		var zombieAlive = false;
 		var interval = setInterval(function() {
 			var zombiesInRange = enemyZombiesInRange(turret.building);
-			var zombieAlive = false;
 			io.sockets.emit("orbShotFired", {
-				"turret" : turret,
-				"zombie" : zombie
+				"x" : turret.building.x,
+				"y" : turret.building.y
 			});
 			for(var z in zombiesInRange) {
 				if(!zombiesInRange[z].dead) {
@@ -276,12 +277,14 @@ function turretAttackZombie(turret, zombie) {
 						"playerIndex" : zombie.playerIndex,
 						"index" : zombie.index
 					});
-				}
-				if(!zombieAlive) {
-					clearInterval(interval);
-					return;
-				}
+				}	
 			}
+			if(!zombieAlive) {
+				clearInterval(interval);
+				return;
+			}
+			else
+				zombieAlive = false;
 		}, turret.speed);
 	}
 	else {
@@ -327,11 +330,13 @@ function animate(zombie){
 			clearInterval(interval);
 			return;
 		}
-		var turret = enemyTurretInRange(zombie);
-		if(turret != null) {
-			if(!turret.attacking) {
-				turret.attacking = true;
-				turretAttackZombie(turret, zombie);
+		var turretsInRange = enemyTurretsInRange(zombie);
+		if(turretsInRange.length > 0) {
+			for(var t in turretsInRange) {
+				if(!turretsInRange[t].attacking) {
+					turretsInRange[t].attacking = true;
+					turretAttackZombie(turretsInRange[t], zombie);
+				}
 			}
 		}
         zombie.iteration++;
@@ -374,7 +379,6 @@ function animate(zombie){
 		} else return;
     }
 	zombie.iteration = 0;
-	//attackInProgress = false;
 }
 
 function findPath(startX, startY, destX, destY, playerIndex, zombieIndex) {

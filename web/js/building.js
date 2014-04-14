@@ -49,8 +49,12 @@ socket.on('buildingPlaced', function(data) {
 });
 
 socket.on("turretShotFired", function(data) {
-	console.log("Turret shot!!");
+	createjs.Sound.play("turretShotFired");
 	console.log(data);
+});
+
+socket.on("orbShotFired", function(data) {
+	createjs.Sound.play("orbShotFired");
 });
 
 var gameOver = false;
