@@ -144,7 +144,7 @@ function attackBuilding(zombie) {
 				if(!zombie.targetBuilding.destroyed) {
 					io.sockets.emit("buildingDestroyed", {
 						"i" : zombie.targetBuilding.i,
-						"k" : zombie.targetBuilding.k
+						"k" : zombie.targetBuilding.k,
 					});	
 					zombie.targetBuilding.destroyed = true;
 				}
@@ -258,8 +258,8 @@ function attackZombie(zombie) {
 }
 
 function turretAttackZombie(turret, zombie) {
+	var zombieAlive = false;
 	if(turret.splash) {
-		var zombieAlive = false;
 		var interval = setInterval(function() {
 			var zombiesInRange = enemyZombiesInRange(turret.building);
 			io.sockets.emit("orbShotFired", {
@@ -281,17 +281,16 @@ function turretAttackZombie(turret, zombie) {
 			}
 			if(!zombieAlive) {
 				clearInterval(interval);
+				turret.attacking = false;
 				return;
 			}
-			else
-				zombieAlive = false;
+			zombieAlive = false;
 		}, turret.speed);
 	}
 	else {
 		var interval = setInterval(function() {
 			if(zombie.hp > 0 && !turret.building.destroyed) {
 				zombie.hp -= turret.attack;
-				console.log("HP: " + zombie.hp);
 				io.sockets.emit("turretShotFired", {
 					"turret" : turret,
 					"zombie" : zombie
