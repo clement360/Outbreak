@@ -86,8 +86,9 @@ function init(){
         {id:"cage", src:"images/cage.png"},
 		{id:"explosion", src:"images/explosion.png"},
 		{id:"healthCover", src:"images/healthCover.png"},
-		{id:"burst", src:"images/burst.png"},
-        {id:"bank", src:"images/bank.png"}
+        {id:"bank", src:"images/bank.png"},
+		{id:"bullet", src:"images/bullet.png"},
+		{id:"burst", src:"images/burst.png"}
     ]);
 	createjs.Sound.alternateExtensions = ["wav"];
 	createjs.Sound.registerSound("sounds/zombieAttack.wav", "zombieAttack");

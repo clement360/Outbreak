@@ -753,7 +753,12 @@ function closeDefensesMenu(even){
 	stage.removeChild(turretButton);
 	stage.removeChild(orbCost);
 	stage.removeChild(turretCost);
-
+	stage.removeChild(turretHpStat);
+	stage.removeChild(turretSpeedStat);
+	stage.removeChild(turretAttackStat);
+	stage.removeChild(orbHpStat);
+	stage.removeChild(orbSpeedStat);
+	stage.removeChild(orbAttackStat);
     // Remember: Remove defense creation event listeners
 
     defensesDoneButton.removeEventListener("click", closeDefensesMenu);
@@ -807,46 +812,37 @@ function gameAlert(title, text) {
 	}, 2000)
 }
 
-function explode(x, y){
-	x++;
-	if(x < 0 || x > 16 || y < 0 || y > 5)
-		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
-	else {
-		var destination = grid[x][y];
-		var explosion = new createjs.Bitmap(queue.getResult("explosion"));
-		explosion.scaleX = .5;
-		explosion.scaleY = .5;
-		explosion.regX = 32.5;
-		explosion.regY = 29;
-		explosion.x = destination.x + 55.625;
-		explosion.y = destination.y + 50.125;
-		stage.addChild(explosion);
-		createjs.Tween.get(explosion).to({scaleX: 1.5, scaleY: 1.5}, 100).call(removeExplosion);
-		function removeExplosion(){
-			stage.removeChild(explosion);
-		}
+function explode(x, y, size, duration) {
+	var explosion = new createjs.Bitmap(queue.getResult("explosion"));
+	explosion.scaleX = size;
+	explosion.scaleY = size;
+	explosion.regX = 32.5;
+	explosion.regY = 29;
+	explosion.x = x + 55.625;
+	explosion.y = y + 50.125;
+	stage.addChild(explosion);
+	createjs.Tween.get(explosion).to({scaleX: 0, scaleY: 0}, duration).call(removeExplosion);
+	function removeExplosion(){
+		stage.removeChild(explosion);
 	}
 }
 
 function burst(x, y){
-	x++;
-	if(x < 0 || x > 16 || y < 0 || y > 5)
-		console.log("Error: explosion requested outside of grid (x:"+x+", y:"+y+")");
-	else {
-		var destination = grid[x][y]
-		var burst = new createjs.Bitmap(queue.getResult("burst"));
-		burst.scaleX = .5;
-		burst.scaleY = .5;
-		burst.regX = 166;
-		burst.regY = 162;
-		burst.alpha = .8;
-		burst.x = destination.x + 55.625;
-		burst.y = destination.y + 50.125;
-		stage.addChild(burst);
-		createjs.Tween.get(burst).to({scaleX: 1, scaleY: 1, rotation: 360, alpha: .4}, 800).call(removeExplosion);
-		function removeExplosion() {
-			stage.removeChild(burst);
-		}
+	var burst = new createjs.Bitmap(queue.getResult("burst"));
+	burst.scaleX = .5;
+	burst.scaleY = .5;
+	burst.regX = 166;
+	burst.regY = 162;
+	burst.alpha = .8;
+	burst.x = x + 55.625;
+	burst.y = y + 50.125;
+	stage.addChild(burst);
+	createjs.Tween.get(burst).to({scaleX: 1, scaleY: 1, rotation: 360, alpha: .4}, 800).call(fadeExplosion);
+	function fadeExplosion() {
+		createjs.Tween.get(burst).to({alpha: 0}, 500).call(removeExplosion);
+	}
+	function removeExplosion() {
+		stage.removeChild(burst);
 	}
 }
 
@@ -886,7 +882,7 @@ function lose() {
 	createjs.Sound.play("youLose");
 }
 
-function rotateToPoint(sprite, x, y, regX, regY) {
+function rotateToPoint(sprite, x, y, regX, regY, animate) {
 	var deltaX = x - sprite.x;
 	var deltaY = y - sprite.y;
 	
@@ -905,7 +901,11 @@ function rotateToPoint(sprite, x, y, regX, regY) {
 	}
 	
 	var angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-	createjs.Tween.get(sprite).to({rotation:angleInDegrees}, 200);
+	
+	if(animate)
+		createjs.Tween.get(sprite).to({rotation:angleInDegrees}, 200);
+	else
+		sprite.rotation = angleInDegrees;
 }
 
 function tick(event){

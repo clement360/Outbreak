@@ -23,8 +23,7 @@ socket.on('buildingPlaced', function(data) {
 			if (data["x"] > 5){
 				sprite.regX = 49;
 				sprite.regY = 49;
-				sprite.rotation = 0;
-				createjs.Tween.get(sprite).to({rotation:180}, 500);
+				sprite.rotation = -180;
 			}
 			break;
 		case "orb":
@@ -41,7 +40,7 @@ socket.on('buildingPlaced', function(data) {
 	currentBox.occupied = true;
 	
 	if(data["x"] > 5 && data["name"] == "turret"){
-		sprite.x += 69;
+		sprite.x += 65;
 		sprite.y += 49;
 		sprite.readyToRotate = true;
 	}
@@ -51,20 +50,39 @@ socket.on('buildingPlaced', function(data) {
 
 socket.on("turretShotFired", function(data) {
 	createjs.Sound.play("turretShotFired");
-	rotateToPoint(grid[data["i"]][data["k"]].building.sprite, data["x"], data["y"], 49, 49);
+	rotateToPoint(grid[data["i"]][data["k"]].building.sprite, data["x"], data["y"], 49, 49, true);
+	
+	var laser = new createjs.Bitmap(queue.getResult("bullet"));
+	laser.x += 65;
+	laser.y += 49;
+	laser.rotation = grid[data["i"]][data["k"]].building.sprite.rotation;
+	laser.regX = laser.image.width / 2;
+	laser.regY = laser.image.height / 2;
+	laser.x = grid[data["i"]][data["k"]].building.x + laser.regX;
+	laser.y = grid[data["i"]][data["k"]].building.y + laser.regY;
+	laser.alpha = 0.8;
+	
+	stage.addChild(laser);
+	createjs.Tween.get(laser).to({x:data["x"], y:data["y"]}, 300).call(fadeLaser);
+	function fadeLaser() {
+		createjs.Tween.get(laser).to({alpha:0}, 300).call(removeLaser);
+	}
+	function removeLaser() {
+		stage.removeChild(laser);
+	}
 });
 
 socket.on("orbShotFired", function(data) {
 	createjs.Sound.play("orbShotFired");
-	burst(data["block"].i, data["block"].k);
-	console.log("BLOCK: " +data["block"].i + " - " + data["block"].k);
+	console.log(data["block"]);
+	burst(data["x"], data["y"]);
 });
 
 var gameOver = false;
 socket.on("buildingDestroyed", function(data) {
 	createjs.Sound.play("buildingDestroyed");
 	var currentBox = grid[data["i"]][data["k"]];
-	explode(data["i"], data["k"]);
+	explode(currentBox.x, currentBox.y, 4, 1500);
 	currentBox.occupied = false;
 	if(!grid[0][2].occupied && !grid[0][3].occupied && !gameOver) {
 		if(myIndex < 2) {
@@ -84,6 +102,10 @@ socket.on("buildingDestroyed", function(data) {
 	currentBox.building.destroyed = true;
 	if(currentBox.building.name == "bank")
 		banks.splice(0, 1);
+	else if(currentBox.building.name == "cage") {
+		totalcap -= 4;
+		zombieCapText.text = totalcap;
+	}
 	stage.removeChild(currentBox.building.sprite);
 });
 
@@ -164,10 +186,10 @@ function handleBuilding(sprite, name) {
 			if (name == "turret" && currentBox.i > 5){
 				sprite.regX = 49;
 				sprite.regY = 49;
-				sprite.x += 69;
+				sprite.x += 65;
 				sprite.y += 49;
 				sprite.readyToRotate = true;
-				sprite.rotation = 180;
+				sprite.rotation = -180;
 			}
 
 			stage.removeChild(highlight);

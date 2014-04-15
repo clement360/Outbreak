@@ -27,16 +27,10 @@ socket.on("zombiePlaced", function(data) {
 	else {
 		if(data["name"] == "small") {
 			sprite = new createjs.Bitmap(queue.getResult("blueZombie"));
-			sprite.regX = 33;
-			sprite.regY = 29;
-			sprite.rotation = 180;
 			createjs.Sound.play("smallZombiePlaced");
 		}
 		else {
 			sprite = new createjs.Bitmap(queue.getResult("blueKing"));
-			sprite.regX = 84;
-			sprite.regY = 89;
-			sprite.rotation = 180;
 			createjs.Sound.play("kingZombiePlaced");
 		}
 	}
@@ -66,6 +60,8 @@ socket.on("zombieMoved", function(data) {
 	var deltaX = data["x"] - zombies[data["playerIndex"]][data["index"]].x;
 
 	var angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+	if(data["playerIndex"] > 1)
+		angleInDegrees -= 180;
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({rotation:angleInDegrees}, 300);
 
 	zombies[data["playerIndex"]][data["index"]].x = data["x"];
@@ -75,24 +71,30 @@ socket.on("zombieMoved", function(data) {
 
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
-	//if(data["x"] == null && data["y"] == null) {
-		explode(data["i"], data["k"]);
-		if(data["i"] == 15 && (data["k"] == 2 || data["k"] == 3)) {
-			rightTeamHP -= data["attack"];
-		}
-		else if(data["i"] == -1 && (data["k"] == 2 || data["k"] == 3)) {
-			leftTeamHP -= data["attack"];
-		}
-		if(myIndex < 2)
-			scaleBar(leftTeamHP,rightTeamHP);
-		else
-			scaleBar(rightTeamHP,leftTeamHP);
+	if(data["x"] == null && data["y"] == null) {
+		var dest = grid[data["i"]][data["k"]];
+		explode(dest.x, dest.y, 1, 100);
+	} else {
+		explode(data["x"] - 50, data["y"] - 50, 1, 100);
+	}
+	if(data["i"] == 16 && (data["k"] == 2 || data["k"] == 3)) {
+		rightTeamHP -= data["attack"];
+	}
+	else if(data["i"] == 0 && (data["k"] == 2 || data["k"] == 3)) {
+		leftTeamHP -= data["attack"];
+	}
+	if(myIndex < 2)
+		scaleBar(leftTeamHP,rightTeamHP);
+	else
+		scaleBar(rightTeamHP,leftTeamHP);
 });
 
 socket.on("zombieDied", function(data) {
 	createjs.Sound.play("zombieDied");
 	zombies[data["playerIndex"]][data["index"]].dead = true;
-	stage.removeChild(zombies[data["playerIndex"]][data["index"]].sprite);
+	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({alpha:0}, 300).call(function() {
+		stage.removeChild(zombies[data["playerIndex"]][data["index"]].sprite);
+	});
 });
 
 function Zombie (x, y, index, sprite, hp, speed, attack) {
@@ -118,16 +120,10 @@ function newZombie(x, y, name){
 			break;
 		case "blueZombie":
 			var sprite = new createjs.Bitmap(blueZombie.image);
-			sprite.regX = 33;
-			sprite.regY = 29;
-			sprite.rotation = 180;
 			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, smallZombieHp, smallZombieSpeed, smallZombieAttack));
 			break;
 		case "blueKing":
 			var sprite = new createjs.Bitmap(blueKing.image);
-			sprite.regX = 84;
-			sprite.regY = 89;
-			sprite.rotation = 180;
 			zombies[myIndex].push(new Zombie(xCoor, yCoor, zombies.length, sprite, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 			break;
 		case "greenKing":
@@ -158,7 +154,6 @@ function attack() {
 	usedZombieCap = 0;
 	usedZombieCapText.text = usedZombieCap;
 }
-
 
 function checkCages(king) {
 	for(var cage in cages) {

@@ -21,7 +21,9 @@ timerIntMins = 0;
 timerIntSecs = 45;
 
 //Defense stats
-turretSpeed = 300;
-turretAttack = 10;
-orbSpeed = 600;
-orbAttack = 10;
+turretSpeed = 750;
+turretAttack = 5;
+turretRange = 600; //This MUST be higher or equal to orbRange
+orbSpeed = 3000;
+orbAttack = 50;
+orbRange = 300;
