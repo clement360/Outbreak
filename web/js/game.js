@@ -886,6 +886,28 @@ function lose() {
 	createjs.Sound.play("youLose");
 }
 
+function rotateToPoint(sprite, x, y, regX, regY) {
+	var deltaX = x - sprite.x;
+	var deltaY = y - sprite.y;
+	
+	if(regX != null && regY != null) {
+		sprite.regX = regX;
+		sprite.regY = regY;
+	} else {
+		sprite.regX = sprite.image.width / 2;
+		sprite.regY = sprite.image.height / 2;
+	}
+	
+	if(!sprite.readyToRotate) {
+		sprite.x += sprite.regX;
+		sprite.y += sprite.regY;
+		sprite.readyToRotate = true;
+	}
+	
+	var angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+	createjs.Tween.get(sprite).to({rotation:angleInDegrees}, 200);
+}
+
 function tick(event){
     stage.update();
 }

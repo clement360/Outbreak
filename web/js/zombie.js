@@ -66,9 +66,7 @@ socket.on("zombieMoved", function(data) {
 	var deltaX = data["x"] - zombies[data["playerIndex"]][data["index"]].x;
 
 	var angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-	zombies[data["playerIndex"]][data["index"]].sprite.rotation = angleInDegrees;
-
-	console.log("YOLO: "+ angleInDegrees);
+	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({rotation:angleInDegrees}, 300);
 
 	zombies[data["playerIndex"]][data["index"]].x = data["x"];
 	zombies[data["playerIndex"]][data["index"]].y = data["y"];
@@ -89,22 +87,6 @@ socket.on("zombieShotFired", function(data) {
 			scaleBar(leftTeamHP,rightTeamHP);
 		else
 			scaleBar(rightTeamHP,leftTeamHP);
-	//}
-	/*else {
-		console.log(data["x"], data["y"]);
-		dest = stageCoordToGrid(data["x"], data["y"]);
-		explode(dest.i, dest.k);
-		if(dest.i == 16 && (dest.k == 2 || dest.k == 3)) {
-			rightTeamHP -= data["attack"];
-		}
-		else if(dest.i == 0 && (dest.k == 2 || dest.k == 3)) {
-			leftTeamHP -= data["attack"];
-		}
-		if(myIndex < 2)
-			scaleBar(leftTeamHP,rightTeamHP);
-		else
-			scaleBar(rightTeamHP,leftTeamHP);
-	}*/
 });
 
 socket.on("zombieDied", function(data) {

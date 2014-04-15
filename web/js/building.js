@@ -41,8 +41,9 @@ socket.on('buildingPlaced', function(data) {
 	currentBox.occupied = true;
 	
 	if(data["x"] > 5 && data["name"] == "turret"){
-		sprite.x += 65;
+		sprite.x += 69;
 		sprite.y += 49;
+		sprite.readyToRotate = true;
 	}
 
 	stage.addChild(sprite);
@@ -50,7 +51,7 @@ socket.on('buildingPlaced', function(data) {
 
 socket.on("turretShotFired", function(data) {
 	createjs.Sound.play("turretShotFired");
-	console.log(data);
+	rotateToPoint(grid[data["i"]][data["k"]].building.sprite, data["x"], data["y"], 49, 49);
 });
 
 socket.on("orbShotFired", function(data) {
@@ -161,8 +162,11 @@ function handleBuilding(sprite, name) {
 			}
 			
 			if (name == "turret" && currentBox.i > 5){
-				sprite.regX = 120;
-				sprite.regY = 99;
+				sprite.regX = 49;
+				sprite.regY = 49;
+				sprite.x += 69;
+				sprite.y += 49;
+				sprite.readyToRotate = true;
 				sprite.rotation = 180;
 			}
 
