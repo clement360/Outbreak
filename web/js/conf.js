@@ -1,5 +1,5 @@
-server = "http://compute.cs.tamu.edu:56644";
-//server = "http://localhost:56644";
+//server = "http://compute.cs.tamu.edu:56644";
+server = "http://localhost:56644";
 
 //Small zombie stats
 smallZombieAttack = 5;
@@ -29,4 +29,4 @@ turretAttack = 5;
 turretRange = 600; //This MUST be higher or equal to orbRange
 orbSpeed = 3000;
 orbAttack = 50;
-orbRange = 300;
+orbRange = 100;

@@ -97,7 +97,8 @@ function init(){
 	createjs.Sound.registerSound("sounds/kingZombiePlaced.wav", "kingZombiePlaced");
 	createjs.Sound.registerSound("sounds/victory.wav", "victory");
 	createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
-	createjs.Sound.registerSound("sounds/flames.mp3", "flames");
+	//We only want to have one of this at a time (or it sounds nasty :D)
+	createjs.Sound.registerSound("sounds/flames.mp3", "flames", 1);
 	createjs.Sound.registerSound("sounds/orbShotFired.mp3", "orbShotFired");
 	createjs.Sound.registerSound("sounds/turretShotFired.mp3", "turretShotFired");
 	createjs.Ticker.setFPS(60);

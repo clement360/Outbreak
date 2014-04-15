@@ -53,13 +53,11 @@ socket.on("turretShotFired", function(data) {
 	rotateToPoint(grid[data["i"]][data["k"]].building.sprite, data["x"], data["y"], 49, 49, true);
 	
 	var laser = new createjs.Bitmap(queue.getResult("bullet"));
-	laser.x += 65;
-	laser.y += 49;
 	laser.rotation = grid[data["i"]][data["k"]].building.sprite.rotation;
 	laser.regX = laser.image.width / 2;
 	laser.regY = laser.image.height / 2;
-	laser.x = grid[data["i"]][data["k"]].building.x + laser.regX;
-	laser.y = grid[data["i"]][data["k"]].building.y + laser.regY;
+	laser.x = grid[data["i"]][data["k"]].building.x + 65;
+	laser.y = grid[data["i"]][data["k"]].building.y + 49;
 	laser.alpha = 0.8;
 	
 	stage.addChild(laser);
