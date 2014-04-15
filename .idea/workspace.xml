@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f5160cf-c53d-448c-a6b6-a66a78666ae2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/game.js" afterPath="$PROJECT_DIR$/web/js/game.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/images/burst.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/zombie.js" afterPath="$PROJECT_DIR$/web/js/zombie.js" />
     </list>
     <ignored path="Outbreak.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,16 +36,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="init.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/js/init.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1200" max-vertical-offset="1870">
-              <caret line="87" column="57" selection-start-line="87" selection-start-column="57" selection-end-line="87" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/index.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -57,21 +46,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="game.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.4" vertical-offset="164" max-vertical-offset="14858">
-              <caret line="22" column="7" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.71860814" vertical-offset="13839" max-vertical-offset="15147">
+              <caret line="842" column="31" selection-start-line="842" selection-start-column="31" selection-end-line="842" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zombie.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="zombie.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3322785" vertical-offset="929" max-vertical-offset="4777">
-              <caret line="67" column="13" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="13" />
+            <state vertical-scroll-proportion="-8.8" vertical-offset="2823" max-vertical-offset="4777">
+              <caret line="179" column="15" selection-start-line="179" selection-start-column="13" selection-end-line="179" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -90,8 +79,8 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2363" max-vertical-offset="8959">
-              <caret line="139" column="44" selection-start-line="139" selection-start-column="44" selection-end-line="139" selection-end-column="44" />
+            <state vertical-scroll-proportion="-8.8" vertical-offset="4268" max-vertical-offset="8942">
+              <caret line="264" column="32" selection-start-line="264" selection-start-column="29" selection-end-line="264" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -100,8 +89,18 @@
       <file leaf-file-name="building.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/js/building.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="3502">
-              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.08" vertical-offset="919" max-vertical-offset="3502">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="init.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/js/init.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1201" max-vertical-offset="1887">
+              <caret line="88" column="45" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -133,17 +132,19 @@
         <option value="$PROJECT_DIR$/server/pathfinding.js" />
         <option value="$PROJECT_DIR$/web/index.html" />
         <option value="$PROJECT_DIR$/web/js/splash.js" />
-        <option value="$PROJECT_DIR$/web/js/building.js" />
-        <option value="$PROJECT_DIR$/web/js/init.js" />
         <option value="$PROJECT_DIR$/server/server.js" />
-        <option value="$PROJECT_DIR$/web/js/game.js" />
         <option value="$PROJECT_DIR$/web/js/zombie.js" />
+        <option value="$PROJECT_DIR$/web/js/init.js" />
+        <option value="$PROJECT_DIR$/web/js/building.js" />
+        <option value="$PROJECT_DIR$/web/js/game.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -447,7 +448,15 @@
       <created>1397518573384</created>
       <updated>1397518573384</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="zombie rotation">
+      <created>1397519564045</created>
+      <updated>1397519564045</updated>
+    </task>
+    <task id="LOCAL-00032" summary="burst orb function">
+      <created>1397526372365</created>
+      <updated>1397526372365</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -471,12 +480,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32612312" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25241676" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24815206" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4489796" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13476562" sideWeight="0.71570015" order="0" side_tool="false" content_ui="combo" />
@@ -511,8 +520,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="removed psd folder" />
-    <MESSAGE value="Press alt to skip lobby." />
     <MESSAGE value="socket switch" />
     <MESSAGE value="path finding grid and reference coordinate grid created on server" />
     <MESSAGE value="pathfinding works now" />
@@ -536,7 +543,9 @@
     <MESSAGE value="Zombies leave cages now" />
     <MESSAGE value="WOOOOO find nearest works!" />
     <MESSAGE value="stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="stuff" />
+    <MESSAGE value="zombie rotation" />
+    <MESSAGE value="burst orb function" />
+    <option name="LAST_COMMIT_MESSAGE" value="burst orb function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -883,14 +892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/building.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="3434">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="91" max-vertical-offset="1139">
@@ -907,10 +908,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1201" max-vertical-offset="1887">
+          <caret line="88" column="45" selection-start-line="88" selection-start-column="45" selection-end-line="88" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2363" max-vertical-offset="8959">
-          <caret line="139" column="44" selection-start-line="139" selection-start-column="44" selection-end-line="139" selection-end-column="44" />
+        <state vertical-scroll-proportion="-8.8" vertical-offset="4268" max-vertical-offset="8942">
+          <caret line="264" column="32" selection-start-line="264" selection-start-column="29" selection-end-line="264" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -923,26 +932,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/init.js">
+    <entry file="file://$PROJECT_DIR$/web/js/building.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="1870">
-          <caret line="87" column="57" selection-start-line="87" selection-start-column="57" selection-end-line="87" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.4" vertical-offset="164" max-vertical-offset="14858">
-          <caret line="22" column="7" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="7" />
+        <state vertical-scroll-proportion="-6.08" vertical-offset="919" max-vertical-offset="3502">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/js/zombie.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3322785" vertical-offset="929" max-vertical-offset="4777">
-          <caret line="67" column="13" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="13" />
+        <state vertical-scroll-proportion="-8.8" vertical-offset="2823" max-vertical-offset="4777">
+          <caret line="179" column="15" selection-start-line="179" selection-start-column="13" selection-end-line="179" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/js/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.71860814" vertical-offset="13839" max-vertical-offset="15147">
+          <caret line="842" column="31" selection-start-line="842" selection-start-column="31" selection-end-line="842" selection-end-column="31" />
           <folding />
         </state>
       </provider>
