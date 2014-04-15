@@ -264,7 +264,8 @@ function turretAttackZombie(turret, zombie) {
 			var zombiesInRange = enemyZombiesInRange(turret.building);
 			io.sockets.emit("orbShotFired", {
 				"x" : turret.building.x,
-				"y" : turret.building.y
+				"y" : turret.building.y,
+				"block" : stageCoordToGrid(turret.building.x, turret.building.y)
 			});
 			for(var z in zombiesInRange) {
 				if(!zombiesInRange[z].dead) {

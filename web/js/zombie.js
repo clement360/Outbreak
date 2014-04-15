@@ -177,10 +177,6 @@ function attack() {
 	usedZombieCapText.text = usedZombieCap;
 }
 
-function findBuildingByCoor(zombie){
-	stageCoordToGrid()
-}
-
 
 function checkCages(king) {
 	for(var cage in cages) {
