@@ -292,8 +292,10 @@ function turretAttackZombie(turret, zombie) {
 			if(zombie.hp > 0 && !turret.building.destroyed) {
 				zombie.hp -= turret.attack;
 				io.sockets.emit("turretShotFired", {
-					"turret" : turret,
-					"zombie" : zombie
+					"i" : turret.building.i,
+					"k" : turret.building.k,
+					"x" : zombie.x,
+					"y" : zombie.y
 				});
 			} else {
 				io.sockets.emit("zombieDied", {
