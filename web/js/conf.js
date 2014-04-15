@@ -1,3 +1,6 @@
+server = "http://compute.cs.tamu.edu:56644";
+//server = "http://localhost:56644";
+
 //Small zombie stats
 smallZombieAttack = 5;
 smallZombieHp = 15;
