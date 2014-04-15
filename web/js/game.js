@@ -828,6 +828,23 @@ function explode(x, y){
 	}
 }
 
+function burst(x, y){
+	var destination = grid[x][y];
+	var burst = new createjs.Bitmap(queue.getResult("burst"));
+	burst.scaleX = .5;
+	burst.scaleY = .5;
+	burst.regX = 166;
+	burst.regY = 162;
+	burst.alpha = .8;
+	burst.x = destination.x + 55.625;
+	burst.y = destination.y + 50.125;
+	stage.addChild(burst);
+	createjs.Tween.get(burst).to({scaleX: 1, scaleY: 1, rotation:360, alpha:.4}, 800).call(removeExplosion);
+	function removeExplosion(){
+		stage.removeChild(burst);
+	}
+}
+
 function victory() {
 	var screen = new createjs.Shape();
 	screen.graphics.beginFill("#000").drawRect(0,0,1920,980);

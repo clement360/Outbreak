@@ -55,6 +55,7 @@ socket.on("turretShotFired", function(data) {
 
 socket.on("orbShotFired", function(data) {
 	createjs.Sound.play("orbShotFired");
+	burst(data["x"], data["y"]);
 });
 
 var gameOver = false;

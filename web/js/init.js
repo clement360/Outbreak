@@ -86,6 +86,7 @@ function init(){
         {id:"cage", src:"images/cage.png"},
 		{id:"explosion", src:"images/explosion.png"},
 		{id:"healthCover", src:"images/healthCover.png"},
+		{id:"burst", src:"images/burst.png"},
         {id:"bank", src:"images/bank.png"}
     ]);
 	createjs.Sound.alternateExtensions = ["wav"];
