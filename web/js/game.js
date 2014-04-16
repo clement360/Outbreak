@@ -64,6 +64,27 @@ var factoryButton;
 var bankButton;
 var cageButton;
 
+//settingsMenu
+var fps30;
+var fps45;
+var fps60;
+var soundOnBmp;
+var soundOffBmp;
+var settingsMenu;
+var settingsButton = new createjs.Shape();
+var closeSettings = new createjs.Shape();
+var quitGame = new createjs.Shape();
+var fpsButton30 = new createjs.Shape();
+var fpsButton45 =  new createjs.Shape();
+var fpsButton60 = new createjs.Shape();
+var soundOnButton = new createjs.Shape();
+var soundOffButton = new createjs.Shape();
+var fps;
+var soundOn;
+var prevFPS;
+var prevSound;
+
+
 //Zombie menu buttons
 var smallZombieButton;
 var kingZombieButton;
@@ -149,8 +170,12 @@ function loadFort(event){
 	attackButton.addEventListener("click", attack);
 	attackButton.graphics.beginFill("#000000").drawRect(262, 911, 137, 45);
 	attackButton.alpha = 0.01;
+	settingsButton.graphics.beginFill("#000000").drawRect(260, 755, 137, 45);
+	settingsButton.addEventListener("click", loadSettings);
+	settingsButton.alpha = 0.01;
 	stage.addChild(buildButton);
 	stage.addChild(attackButton);
+	stage.addChild(settingsButton);
 	var field = new createjs.Bitmap(queue.getResult("field"));
 	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
 	lowerMenu.y = 875;
@@ -301,6 +326,7 @@ function loadMenu(event){
 	console.log("LOAD MENU"); 
 	buildButton.removeEventListener("click", loadMenu);
 	stage.removeChild(attackButton);
+	stage.removeChild(settingsButton);
 	loadBuildingButton.addEventListener("click", loadBuildingMenu);
 	loadBuildingButton.graphics.beginFill("#0000F").drawRect(812, 229, 310, 288);
 	
@@ -326,12 +352,173 @@ function loadMenu(event){
 	stage.addChild(buildMenu);
 }
 
+function addFpsBmp(){
+	switch(fps){
+		case 30:
+			stage.addChild(fps30);
+			break;
+		case 45:
+			stage.addChild(fps45);
+			break;
+		case 60:
+			stage.addChild(fps60);
+			break;
+		default:
+			console.log("Error: Invalid fps("+ fps +")");
+	}
+}
+
+function removePrevFpsBmp(){
+	switch(prevFPS){
+		case 30:
+			stage.removeChild(fps30);
+			break;
+		case 45:
+			stage.removeChild(fps45);
+			break;
+		case 60:
+			stage.removeChild(fps60);
+			break;
+		default:
+			console.log("Error: Invalid fps("+ fps +")");
+	}
+}
+
+function removePrevSoundBmp(){
+	if(prevSound)
+		stage.removeChild(soundOnBmp);
+	else
+		stage.removeChild(soundOffBmp);
+}
+
+function addSoundBmp(){
+	if(soundOn)
+		stage.addChild(soundOnBmp);
+	else
+		stage.addChild(soundOffBmp);
+}
+
+function loadSettings(){
+	prevFPS = fps;
+	prevSound = soundOn;
+
+	buildButton.removeEventListener("click", loadMenu);
+	stage.removeChild(attackButton);
+	stage.removeChild(settingsButton);
+
+	fps30 = new createjs.Bitmap(queue.getResult("30Fps"));
+	fps30.x = 653;
+	fps30.y = 393;
+	fps45 = new createjs.Bitmap(queue.getResult("45Fps"));
+	fps45.x = 653;
+	fps45.y = 393;
+	fps60 = new createjs.Bitmap(queue.getResult("60Fps"));
+	fps60.x = 653;
+	fps60.y = 393;
+
+	soundOnBmp = new createjs.Bitmap(queue.getResult("soundOn"));
+	soundOnBmp.x = 757;
+	soundOnBmp.y = 220;
+	soundOffBmp = new createjs.Bitmap(queue.getResult("soundOff"));
+	soundOffBmp.x = 757;
+	soundOffBmp.y = 220;
+
+	quitGame.graphics.beginFill("#0000F").drawRect(848, 558, 227, 75);
+	quitGame.alpha = .01;
+	quitGame.addEventListener("click", function() {
+		alert("Thanks For Playing!");
+		window.location.href = "http://engineering.tamu.edu/cse/";
+	});
+
+	fpsButton30.graphics.beginFill("#0000F").drawRect(653, 393, 210, 58);
+	fpsButton30.alpha = .01;
+	fpsButton30.addEventListener("click", function() {
+		fps = 30;
+		removePrevFpsBmp();
+		addFpsBmp();
+		createjs.Ticker.setFPS(fps);
+		prevFPS = fps;
+	});
+
+	fpsButton45.graphics.beginFill("#0000F").drawRect(863, 393, 202, 58);
+	fpsButton45.alpha = .01;
+	fpsButton45.addEventListener("click", function() {
+		fps = 45;
+		removePrevFpsBmp();
+		addFpsBmp();
+		createjs.Ticker.setFPS(fps);
+		prevFPS = fps;
+	});
+
+	fpsButton60.graphics.beginFill("#0000F").drawRect(1064, 393 , 205, 58);
+	fpsButton60.alpha = .01;
+	fpsButton60.addEventListener("click", function() {
+		fps = 60;
+		removePrevFpsBmp();
+		addFpsBmp();
+		createjs.Ticker.setFPS(fps);
+		prevFPS = fps;
+	});
+
+	soundOnButton.graphics.beginFill("#0000F").drawRect(757, 220, 210, 58);
+	soundOnButton.alpha = .01;
+	soundOnButton.addEventListener("click", function() {
+		soundOn = true;
+		removePrevSoundBmp();
+		addSoundBmp();
+		createjs.Sound.alternateExtensions = ["wav"];
+		createjs.Sound.registerSound("sounds/zombieAttack.wav", "zombieAttack");
+		createjs.Sound.registerSound("sounds/zombieDied.wav", "zombieDied");
+		createjs.Sound.registerSound("sounds/buildingDestroyed.wav", "buildingDestroyed");
+		createjs.Sound.registerSound("sounds/buildingPlaced.wav", "buildingPlaced");
+		createjs.Sound.registerSound("sounds/smallZombiePlaced.wav", "smallZombiePlaced");
+		createjs.Sound.registerSound("sounds/kingZombiePlaced.wav", "kingZombiePlaced");
+		createjs.Sound.registerSound("sounds/victory.wav", "victory");
+		createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
+		//createjs.Sound.registerSound("sounds/flames.mp3", "flames");
+		//We only want to have one of this at a time (or it sounds nasty :D)
+		createjs.Sound.registerSound("sounds/flames.mp3", "flames", 1);
+		createjs.Sound.registerSound("sounds/orbShotFired.mp3", "orbShotFired");
+		createjs.Sound.registerSound("sounds/turretShotFired.mp3", "turretShotFired");
+		prevSound = soundOn;
+	});
+
+	soundOffButton.graphics.beginFill("#0000F").drawRect(967, 220, 210, 58);
+	soundOffButton.alpha = .01;
+	soundOffButton.addEventListener("click", function() {
+		soundOn = false;
+		removePrevSoundBmp();
+		addSoundBmp();
+		createjs.Sound.removeAllSounds();
+		prevSound = soundOn;
+	});
+
+	closeSettings.graphics.beginFill("#0000F").drawRect(1263, 53, 46, 46);
+	closeSettings.alpha = .01;
+	closeSettings.addEventListener("click", closeSettingsMenu);
+
+	settingsMenu = new createjs.Bitmap(queue.getResult("settings"));
+	settingsMenu.x = 586;
+	settingsMenu.y = 40;
+	stage.addChild(settingsMenu);
+
+	addFpsBmp();
+	addSoundBmp();
+
+	stage.addChild(closeSettings);
+	stage.addChild(fpsButton30);
+	stage.addChild(fpsButton45);
+	stage.addChild(fpsButton60);
+	stage.addChild(soundOnButton);
+	stage.addChild(soundOffButton);
+	stage.addChild(quitGame);
+}
+
 function loadZombieMenu(event){
     loadDefenseButton.removeEventListener("click", loadDefenseMenu);
     loadZombieButton.removeEventListener("click", loadZombieMenu);
     loadBuildingButton.removeEventListener("click", loadBuildingMenu);
     closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
-
 
     stage.removeChild(buildMenu);
     stage.removeChild(loadBuildingButton); //Remove Old building menu image --Sergio
@@ -661,8 +848,38 @@ function closeBuildMenu(even){
 		stage.addChild(attackButton);
 		loadBuildingButton.removeEventListener("click", loadBuildingMenu);
 		closeBuildMenuButton.removeEventListener("click", closeBuildMenu);
-
         buildButton.addEventListener("click", loadMenu);
+		settingsButton.addEventListener("click", loadSettings);
+		stage.addChild(settingsButton);
+}
+
+
+
+function closeSettingsMenu(){
+	stage.removeChild(settingsMenu);
+	stage.removeChild(closeSettings);
+
+	removePrevFpsBmp(prevFPS);
+
+	if(soundOn)
+		stage.removeChild(soundOnBmp);
+	else
+		stage.removeChild(soundOffBmp);
+
+	stage.removeChild(fpsButton30);
+	stage.removeChild(fpsButton45);
+	stage.removeChild(fpsButton60);
+	stage.removeChild(soundOnButton);
+	stage.removeChild(soundOffButton);
+	stage.removeChild(quitGame);
+
+	// Remember: Remove buildings creation event listeners
+
+	buildButton.addEventListener("click", loadMenu);
+	settingsButton.addEventListener("click", loadSettings);
+	stage.addChild(settingsButton);
+	stage.addChild(attackButton);
+
 }
 
 function closeZombieMenu(even){
@@ -705,6 +922,9 @@ function closeZombieMenu(even){
 	stage.removeChild(kingZombieHpStat);
 	stage.removeChild(kingZombieAttackStat);
 	stage.removeChild(kingZombieSpeedStat);
+
+	settingsButton.addEventListener("click", loadSettings);
+	stage.addChild(settingsButton);
 }
 
 function closeBuildingsMenu(even){
@@ -741,8 +961,10 @@ function closeBuildingsMenu(even){
 	stage.addChild(usedZombieCapacityText);
 	stage.addChild(enemyHealthCover);
 	stage.addChild(teamHealthCover);
-}
 
+	settingsButton.addEventListener("click", loadSettings);
+	stage.addChild(settingsButton);
+}
 
 function closeDefensesMenu(even){
     stage.removeChild(defensesMenu);
@@ -778,6 +1000,9 @@ function closeDefensesMenu(even){
 	stage.addChild(usedZombieCapacityText);
 	stage.addChild(enemyHealthCover);
 	stage.addChild(teamHealthCover);
+
+	settingsButton.addEventListener("click", loadSettings);
+	stage.addChild(settingsButton);
 }
 
 

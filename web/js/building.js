@@ -72,7 +72,6 @@ socket.on("turretShotFired", function(data) {
 
 socket.on("orbShotFired", function(data) {
 	createjs.Sound.play("orbShotFired");
-	console.log(data["block"]);
 	burst(data["x"], data["y"]);
 });
 

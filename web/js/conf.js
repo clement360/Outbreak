@@ -30,3 +30,7 @@ turretRange = 600; //This MUST be higher or equal to orbRange
 orbSpeed = 3000;
 orbAttack = 50;
 orbRange = 100;
+
+//Game Settings
+fps = 60;
+soundOn = true; //This MUST be 30, 45, or 60

@@ -84,6 +84,12 @@ function init(){
         {id:"cage", src:"images/cage.png"},
 		{id:"explosion", src:"images/explosion.png"},
 		{id:"healthCover", src:"images/healthCover.png"},
+		{id:"30Fps", src:"images/30Fps.png"},
+		{id:"45Fps", src:"images/45Fps.png"},
+		{id:"60Fps", src:"images/60Fps.png"},
+		{id:"soundOff", src:"images/soundOff.png"},
+		{id:"soundOn", src:"images/soundOn.png"},
+		{id:"settings", src:"images/settings.png"},
         {id:"bank", src:"images/bank.png"},
 		{id:"bullet", src:"images/bullet.png"},
 		{id:"burst", src:"images/burst.png"}
@@ -97,6 +103,7 @@ function init(){
 	createjs.Sound.registerSound("sounds/kingZombiePlaced.wav", "kingZombiePlaced");
 	createjs.Sound.registerSound("sounds/victory.wav", "victory");
 	createjs.Sound.registerSound("sounds/youLose.wav", "youLose");
+	//createjs.Sound.registerSound("sounds/flames.mp3", "flames");
 	//We only want to have one of this at a time (or it sounds nasty :D)
 	createjs.Sound.registerSound("sounds/flames.mp3", "flames", 1);
 	createjs.Sound.registerSound("sounds/orbShotFired.mp3", "orbShotFired");
