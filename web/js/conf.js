@@ -4,11 +4,11 @@ server = "http://localhost:56644";
 //Small zombie stats
 smallZombieAttack = 5;
 smallZombieHp = 15;
-smallZombieSpeed = 400;
+smallZombieSpeed = 300;
 
 //King zombie stats
-kingZombieAttack = 60;
-kingZombieHp = 200;
+kingZombieAttack = 170;
+kingZombieHp = 1000;
 kingZombieSpeed = 600;
 
 //Building stats
@@ -28,9 +28,9 @@ turretSpeed = 750;
 turretAttack = 5;
 turretRange = 600; //This MUST be higher or equal to orbRange
 orbSpeed = 3000;
-orbAttack = 50;
+orbAttack = 25;
 orbRange = 100;
 
 //Game Settings
-fps = 60;
-soundOn = true; //This MUST be 30, 45, or 60
+fps = 60; //This MUST be 30, 45, or 60
+soundOn = true;

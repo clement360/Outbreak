@@ -394,8 +394,16 @@ function animate(zombie){
 			return;
 		}
 		if(!zombie.dead) {
-			var newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
-			var newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
+			var newX;
+			var newY;
+			if(zombie.path[zombie.iteration] != null) {
+				newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
+				newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
+			} else {
+				console.log("Zombie move error!");
+				clearInterval(interval);
+				return;
+			}
 			zombie.x = newX;
 			zombie.y = newY;
 			io.sockets.emit("zombieMoved", {
