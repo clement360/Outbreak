@@ -782,14 +782,14 @@ function loadDefenseMenu(event) {
 	orbButton.graphics.beginFill("#000").drawRect(870,750,240,215);
 	orbButton.alpha = 0.01;
 	orbButton.addEventListener('click', function(event) {
-		placeBuilding(event, 1000, orb, "orb");
+		placeBuilding(event, 3000, orb, "orb");
 	});
 	
 	turretCost= new createjs.Text("$500", "bold 25px Lithos", "#fff");
 	turretCost.x = 418;
 	turretCost.y = 923;
 	
-	orbCost= new createjs.Text("$1000", "bold 25px Lithos", "#fff");
+	orbCost= new createjs.Text("$3000", "bold 25px Lithos", "#fff");
 	orbCost.x = 948;
 	orbCost.y = 923;
 	
