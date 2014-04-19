@@ -477,8 +477,11 @@ function loadSettings(){
 	quitGame.graphics.beginFill("#0000F").drawRect(848, 558, 227, 75);
 	quitGame.alpha = .01;
 	quitGame.addEventListener("click", function() {
-		alert("Thanks For Playing!");
-		window.location.href = "http://engineering.tamu.edu/cse/";
+		if (confirm('Are you sure you want to leave FORT OUTBREAK?')) {
+			window.location.href = "http://engineering.tamu.edu/cse/";
+		} else {
+
+		}
 	});
 
 	fpsButton30.graphics.beginFill("#0000F").drawRect(653, 393, 210, 58);
