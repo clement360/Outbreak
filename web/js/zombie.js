@@ -86,8 +86,6 @@ function isBase(i, k){
 }
 
 
-
-
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
 	var build = data["targetBuilding"];

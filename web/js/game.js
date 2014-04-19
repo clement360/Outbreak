@@ -13,6 +13,7 @@ var zombiesMenu;
 var defensesMenu;
 var buildingsMenu;
 var doneButton;
+var blackBox;
 
 //Menu icons
 var cage;
@@ -160,6 +161,14 @@ socket.on('newUserData', function(data) {
 });
 
 function loadFort(event){
+
+	var right = new createjs.Bitmap(queue.getResult("rightFight"));
+	right.x = 800;
+	right.y = 430;
+	var left = new createjs.Bitmap(queue.getResult("leftFight"));
+	left.x = -800;
+	left.y = -230;
+
     socket.emit('requestUserData', 0);
 	currentState = state["game"];
 	var userName = document.getElementById("userName");
@@ -193,9 +202,6 @@ function loadFort(event){
 
     stage.addChild(field);
 
-	stage.addChild(lowerMenu);
-	createjs.Tween.get(lowerMenu).to({y:675}, 600);
-	
 	highlightGrid = new createjs.Bitmap(queue.getResult("highlightGrid"));
     switch (myIndex){
         case 0:
@@ -223,6 +229,48 @@ function loadFort(event){
     stage.addChild(highlightGrid);
     stage.addChild(leftBase);
     stage.addChild(rightBase);
+
+
+	stage.addChild(right);
+	stage.addChild(left);
+
+	playerNameText[0] = new createjs.Text(userNames[0], "bold 60px Lithos", "#FFFFFF");
+	playerNameText[1] = new createjs.Text(userNames[1], "bold 60px Lithos", "#FFFFFF");
+	playerNameText[2] = new createjs.Text(userNames[2], "bold 60px  Lithos", "#FFFFFF");
+	playerNameText[3] = new createjs.Text(userNames[3], "bold 60px Lithos", "#FFFFFF");
+	playerNameText[0].x = -730;
+	playerNameText[0].y = -73;
+	playerNameText[1].x = -730;
+	playerNameText[1].y = 38;
+	playerNameText[2].x = 2085;
+	playerNameText[2].y = 527;
+	playerNameText[3].x = 2085;
+	playerNameText[3].y = 638;
+
+	stage.addChild(playerNameText[0]);
+	stage.addChild(playerNameText[1]);
+	stage.addChild(playerNameText[2]);
+	stage.addChild(playerNameText[3]);
+
+	stage.addChild(lowerMenu);
+	createjs.Tween.get(lowerMenu).to({y:675}, 850);
+
+	createjs.Tween.get(playerNameText[0]).to({x:70, y:227}, 850).call(fadeName(0));
+	createjs.Tween.get(playerNameText[1]).to({x:70, y:338}, 850).call(fadeName(1));
+	createjs.Tween.get(playerNameText[2]).to({x:1285, y:227}, 850).call(fadeName(2));
+	createjs.Tween.get(playerNameText[3]).to({x:1285, y:338}, 850).call(fadeName(3));
+
+	createjs.Tween.get(right).to({x:0, y:150}, 850).call(fadeRight);
+	function fadeRight() {
+		createjs.Tween.get(right).wait(1500).to({alpha: 0}, 900);
+	}
+	createjs.Tween.get(left).to({x:0, y:150}, 850).call(fadeLeft);
+	function fadeLeft() {
+		createjs.Tween.get(left).wait(1500).to({alpha: 0}, 900);
+	}
+	function fadeName(n) {
+		createjs.Tween.get(playerNameText[n]).wait(1800).to({alpha: 0}, 900);
+	}
 
 	playerText = new createjs.Text(myIndex + 1, "bold 100px Lithos", "#fff");
 	playerText.x = 100;
@@ -303,17 +351,17 @@ function loadFort(event){
 	}, 1000);
 
 	// tween labels
-	createjs.Tween.get(lowerMenu).to({y:675}, 600);
-	createjs.Tween.get(playerText).to({y:840}, 600);
-	createjs.Tween.get(moneyText).to({y:750}, 600);
-	createjs.Tween.get(moneyAmountText).to({y:750}, 600);
-	createjs.Tween.get(timerText).to({y:855}, 600);
-	createjs.Tween.get(zombieCapText).to({y:850}, 600);
-	createjs.Tween.get(zombieCapacityText).to({y:850}, 600);
-	createjs.Tween.get(usedZombieCapText).to({y:880}, 600);
-	createjs.Tween.get(usedZombieCapacityText).to({y:880}, 600);
-	createjs.Tween.get(teamHealthCover).to({y:785}, 600);
-	createjs.Tween.get(enemyHealthCover).to({y:900}, 600);
+	createjs.Tween.get(lowerMenu).to({y:675}, 850);
+	createjs.Tween.get(playerText).to({y:840}, 850);
+	createjs.Tween.get(moneyText).to({y:750}, 850);
+	createjs.Tween.get(moneyAmountText).to({y:750}, 850);
+	createjs.Tween.get(timerText).to({y:855}, 850);
+	createjs.Tween.get(zombieCapText).to({y:850}, 850);
+	createjs.Tween.get(zombieCapacityText).to({y:850}, 850);
+	createjs.Tween.get(usedZombieCapText).to({y:880}, 850);
+	createjs.Tween.get(usedZombieCapacityText).to({y:880}, 850);
+	createjs.Tween.get(teamHealthCover).to({y:785}, 850);
+	createjs.Tween.get(enemyHealthCover).to({y:900}, 850);
 }
 
 function scaleBar(teamHp, enemyHp){

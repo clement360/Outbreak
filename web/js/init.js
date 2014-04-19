@@ -95,6 +95,8 @@ function init(){
 		{id:"burst", src:"images/burst.png"},
 		{id:"bullet", src:"images/bullet.png"},
 		{id:"burst", src:"images/burst.png"},
+		{id:"rightFight", src:"images/rightFight.png"},
+		{id:"leftFight", src:"images/leftFight.png"},
 		{id:"smallHealthBase", src:"images/smallHealthBase.png"},
 		{id:"smallRedHealth", src:"images/smallRedHealth.png"}
     ]);
