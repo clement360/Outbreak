@@ -135,10 +135,20 @@ function attackBuilding(zombie) {
 			}
 			if(zombie.targetBuilding.hp > 0) {
 				zombie.targetBuilding.hp -= zombie.attack;
+				var build = zombie.targetBuilding;
+				var maxHealth = buildingHp;
+
+				// if build is a base
+				if((build.i == 0 && (build.k ==2 || build.k == 3))||(build.i == 16 && (build.k == 2 || build.k == 3)))
+					maxHealth = baseHp;
+				//percent building health
+				var targetHP = (build.hp/maxHealth);
 				io.sockets.emit("zombieShotFired", {
 					"i" : zombie.targetBuilding.i,
 					"k" : zombie.targetBuilding.k,
-					"attack" : zombie.attack
+					"attack" : zombie.attack,
+					"targetBuilding" : build,
+					"maxHP" : maxHealth
 				});
 			}
 			else {

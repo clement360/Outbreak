@@ -69,12 +69,33 @@ socket.on("zombieMoved", function(data) {
 	createjs.Tween.get(zombies[data["playerIndex"]][data["index"]].sprite).to({x:data["x"], y:data["y"]}, zombies[data["playerIndex"]][data["index"]].speed);
 });
 
+function findBuilding(buildI, buildK){
+	for(var n = 0; n < grid.length; n++){
+		for(var m = 0; m < grid[i].length; m++){
+			if(grid[n][m].i == buildI && grid[n][m].k == buildK)
+				return  grid[n][m].building;
+		}
+	}
+}
+
+function isBase(i, k){
+	if((i == 0 && (k == 2 || k == 3)) || (i == 16 && (k == 2 || k == 3)))
+		return true;
+	else
+		return false;
+}
+
+
+
+
 socket.on("zombieShotFired", function(data) {
 	createjs.Sound.play("zombieAttack");
+	var build = data["targetBuilding"];
 	if(data["x"] == null && data["y"] == null) {
 		var dest = grid[data["i"]][data["k"]];
 		explode(dest.x, dest.y, 1, 100);
-	} else {
+	}
+	else {
 		explode(data["x"] - 50, data["y"] - 50, 1, 100);
 	}
 	if(data["i"] == 16 && (data["k"] == 2 || data["k"] == 3)) {
@@ -82,6 +103,18 @@ socket.on("zombieShotFired", function(data) {
 	}
 	else if(data["i"] == 0 && (data["k"] == 2 || data["k"] == 3)) {
 		leftTeamHP -= data["attack"];
+	}
+
+	if(!isBase(build.i, build.k)) {
+		var myBuild = findBuilding(build.i, build.k);
+		var remaining = build.hp / data["maxHP"];
+		createjs.Tween.get(myBuild.healthBar).to({scaleX: remaining}, 300);
+		socket.emit("buildingDamaged", {
+			"i" : build.i,
+			"k" : build.k,
+			"hp" : build.hp,
+			"maxHP" : data["maxHP"]
+		});
 	}
 	if(myIndex < 2)
 		scaleBar(leftTeamHP,rightTeamHP);

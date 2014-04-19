@@ -176,6 +176,9 @@ function loadFort(event){
 	stage.addChild(buildButton);
 	stage.addChild(attackButton);
 	stage.addChild(settingsButton);
+
+
+
 	var field = new createjs.Bitmap(queue.getResult("field"));
 	lowerMenu = new createjs.Bitmap(queue.getResult("lowerMenu"));
 	lowerMenu.y = 875;
@@ -275,7 +278,7 @@ function loadFort(event){
 	enemyHealthCover.y = 1096;
 	enemyHealthCover.scaleY = 1.05;
 
-	
+
 	createjs.Tween.get(teamHealthCover).to({scaleX:0},1760);
 	createjs.Tween.get(enemyHealthCover).to({scaleX:0},1760);
 

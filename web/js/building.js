@@ -3,7 +3,23 @@ function Building(x, y, hp) {
 	this.hp = hp;
 	this.x = x;
 	this.y = y;
+	this.healthBar = new createjs.Bitmap(queue.getResult("smallRedHealth"));
+	this.healthBar.alpha = .8;
+	this.healthBar.scaleX = 0;
+	this.healthBar.x = x + 17;
+	this.healthBar.y = y + 2;
+	this.healthBase = new createjs.Bitmap(queue.getResult("smallHealthBase"));
+	this.healthBase.x = x + 15;
+	this.healthBase.y = y;
 }
+
+socket.on("buildingDamaged", function(data) {
+	if(!isBase(data["i"], data["k"])) {
+		var myBuild = findBuilding(data["i"], data["k"]);
+		var remaining = data["hp"] / data["maxHP"];
+		createjs.Tween.get(myBuild.healthBar).to({scaleX: remaining}, 300);
+	}
+});
 
 socket.on('buildingPlaced', function(data) {
 	createjs.Sound.play("buildingPlaced");
@@ -38,6 +54,8 @@ socket.on('buildingPlaced', function(data) {
 	building.sprite = sprite;
 	currentBox.building = building;
 	currentBox.occupied = true;
+
+
 	
 	if(data["x"] > 5 && data["name"] == "turret"){
 		sprite.x += 65;
@@ -46,6 +64,9 @@ socket.on('buildingPlaced', function(data) {
 	}
 
 	stage.addChild(sprite);
+	stage.addChild(building.healthBase);
+	stage.addChild(building.healthBar);
+	createjs.Tween.get(building.healthBar).to({scaleX:1},1760);
 });
 
 socket.on("turretShotFired", function(data) {
@@ -104,6 +125,8 @@ socket.on("buildingDestroyed", function(data) {
 		zombieCapText.text = totalcap;
 	}
 	stage.removeChild(currentBox.building.sprite);
+	stage.removeChild(currentBox.building.healthBar);
+	stage.removeChild(currentBox.building.healthBase);
 });
 
 function locationIsValid(x, y) {
@@ -160,6 +183,9 @@ function handleBuilding(sprite, name) {
 			var building = new Building(currentBox.x, currentBox.y, buildingHp);
 			building.sprite = sprite;
 			building.name = name;
+			stage.addChild(building.healthBase);
+			stage.addChild(building.healthBar);
+			createjs.Tween.get(building.healthBar).to({scaleX:1},1760);
 			
 			currentBox.occupied = true;
 			currentBox.building = building;
