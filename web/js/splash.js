@@ -10,7 +10,10 @@ function promptUserName() {
 }
 
 function loadTitle(event){
-	createjs.Ticker.addEventListener("tick", tick)
+	clearInterval(wheelInterval);
+	stage.removeChild(loadText);
+	stage.removeChild(loadDetailText);
+	stage.removeChild(loadWheel);
 	startButton.graphics.beginFill("#000000").drawRect(740, 560, 520, 200);
     startButton.addEventListener("click", promptUserName);
 	stage.addChild(startButton);
