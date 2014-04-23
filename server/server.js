@@ -125,25 +125,22 @@ function attackBuilding(zombie) {
 				clearInterval(interval);
 				return;
 			}
-			if(zombie.targetBuilding.hp > 0) {
-				zombie.targetBuilding.hp -= zombie.attack;
-				var build = zombie.targetBuilding;
-				var maxHealth = buildingHp;
-
-				// if build is a base
-				if((build.i == 0 && (build.k ==2 || build.k == 3))||(build.i == 16 && (build.k == 2 || build.k == 3)))
-					maxHealth = baseHp;
-				//percent building health
-				var targetHP = (build.hp/maxHealth);
-				io.sockets.emit("zombieShotFired", {
-					"i" : zombie.targetBuilding.i,
-					"k" : zombie.targetBuilding.k,
-					"attack" : zombie.attack,
-					"targetBuilding" : build,
-					"maxHP" : maxHealth
-				});
-			}
-			else {
+			zombie.targetBuilding.hp -= zombie.attack;
+			var build = zombie.targetBuilding;
+			var maxHealth = buildingHp;
+			// if build is a base
+			if((build.i == 0 && (build.k ==2 || build.k == 3))||(build.i == 16 && (build.k == 2 || build.k == 3)))
+				maxHealth = baseHp;
+			//percent building health
+			var targetHP = (build.hp/maxHealth);
+			io.sockets.emit("zombieShotFired", {
+				"i" : zombie.targetBuilding.i,
+				"k" : zombie.targetBuilding.k,
+				"attack" : zombie.attack,
+				"targetBuilding" : build,
+				"maxHP" : maxHealth
+			});
+			if(zombie.targetBuilding.hp <= 0) {
 				if(!zombie.targetBuilding.destroyed) {
 					io.sockets.emit("buildingDestroyed", {
 						"i" : zombie.targetBuilding.i,
@@ -235,14 +232,12 @@ function attackZombie(zombie) {
 				turretAttackZombie(turretsInRange[0], zombie);
 			}
 		}
-		if(zombie.targetZombies[0].hp > 0) {
-			zombie.targetZombies[0].hp -= zombie.attack;
-			io.sockets.emit("zombieShotFired", {
-				"x" : zombie.targetZombies[0].x,
-				"y" : zombie.targetZombies[0].y
-			});
-		}
-		else {
+		zombie.targetZombies[0].hp -= zombie.attack;
+		io.sockets.emit("zombieShotFired", {
+			"x" : zombie.targetZombies[0].x,
+			"y" : zombie.targetZombies[0].y
+		});
+		if(zombie.targetZombies[0].hp <= 0) {
 			clearInterval(interval);
 			zombie.attackingZombie = false;
 			zombie.targetZombies[0].dead = true;
@@ -260,7 +255,7 @@ function attackZombie(zombie) {
 					"index" : zombie.index
 				});
 				clearInterval(interval);
-			return;
+				return;
 			}
 		}
 	}, zombie.speed);
