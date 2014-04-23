@@ -8,7 +8,7 @@ smallZombieSpeed = 300;
 smallZombiePrice = 100;
 
 //King zombie stats
-kingZombieAttack = 50;
+kingZombieAttack = 125;
 kingZombieHp = 250;
 kingZombieSpeed = 750;
 kingZombiePrice = 750;
