@@ -7,12 +7,12 @@ smallZombieHp = 15;
 smallZombieSpeed = 300;
 
 //King zombie stats
-kingZombieAttack = 170;
-kingZombieHp = 1000;
-kingZombieSpeed = 600;
+kingZombieAttack = 50;
+kingZombieHp = 100;
+kingZombieSpeed = 750;
 
 //Building stats
-buildingHp = 1000;
+buildingHp = 500;
 baseHp = 2000;
 
 //Income per interval and initial money
@@ -24,11 +24,11 @@ timerIntMins = 0;
 timerIntSecs = 45;
 
 //Defense stats
-turretSpeed = 750;
-turretAttack = 5;
-turretRange = 600; //This MUST be higher or equal to orbRange
+turretSpeed = 1000;
+turretAttack = 10;
+turretRange = 400; //This MUST be higher or equal to orbRange
 orbSpeed = 3000;
-orbAttack = 25;
+orbAttack = 5;
 orbRange = 100;
 
 //Game Settings

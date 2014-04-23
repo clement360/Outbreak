@@ -108,14 +108,6 @@ setInterval(function(){
 },100);
 //-----------------------End EasyStar.js-----------------------//
 
-function distance(x1, y1, x2, y2){
-	var xDiff = x2 - x1;
-	var yDiff = x2 - x1;
-	var xx = xDiff * xDiff;
-	var yy = yDiff * yDiff;
-	return Math.sqrt(xx + yy);
-}
-
 function attackBuilding(zombie) {
 	if(zombie.dead) return;
 	var structures;
@@ -251,7 +243,6 @@ function attackZombie(zombie) {
 			});
 		}
 		else {
-			console.log("Zombie died!!!");
 			clearInterval(interval);
 			zombie.attackingZombie = false;
 			zombie.targetZombies[0].dead = true;
@@ -325,13 +316,15 @@ function turretAttackZombie(turret, zombie) {
 					setTimeout(function() {
 						turret.cooldown = false;
 					}, turret.speed);
-					zombie.hp -= turret.attack;
-					io.sockets.emit("turretShotFired", {
-						"i" : turret.building.i,
-						"k" : turret.building.k,
-						"x" : zombie.x,
-						"y" : zombie.y
-					});
+					if(distance(zombie.x, zombie.y, turret.building.x, turret.building.y) <= turret.range) {
+						zombie.hp -= turret.attack;
+						io.sockets.emit("turretShotFired", {
+							"i" : turret.building.i,
+							"k" : turret.building.k,
+							"x" : zombie.x,
+							"y" : zombie.y
+						});
+					}
 				}
 				if(zombie.hp <= 0) {
 					clearInterval(interval);
@@ -385,7 +378,6 @@ function animate(zombie){
 			zombie.targetZombies = enemyZombiesInRange(zombie);
 			if(zombie.targetZombies.length > 0) {
 				if(!zombie.targetZombies[0].dead) {
-					console.log("I see a zombie!!!");
 					zombie.attackingZombie = true;
 					clearInterval(interval);
 					var midX = (zombie.x + zombie.targetZombies[0].x)/2;
@@ -410,7 +402,7 @@ function animate(zombie){
 				newX = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].x;
 				newY = coorGrid[zombie.path[zombie.iteration].y][zombie.path[zombie.iteration].x].y;
 			} else {
-				console.log("Zombie move error!");
+				console.error("ERROR: Zombie move error");
 				clearInterval(interval);
 				return;
 			}
@@ -428,10 +420,9 @@ function animate(zombie){
 }
 
 function findPath(startX, startY, destX, destY, playerIndex, zombieIndex) {
-	console.log("finding path");
 	easystar.findPath(startX, startY, destX, destY, function( path ) {
 		if (path === null) {
-			console.log("Path was not found.");
+			console.error("ERROR: Path was not found.");
 		} else {
 			zombies[playerIndex][zombieIndex].path.length = 0;
 			zombies[playerIndex][zombieIndex].path = path;
@@ -455,7 +446,6 @@ io.sockets.on('connection', function(socket) {
 	var myIndex;
 	socket.emit('initialData', {"userNames" :userNames, "usersReady" : usersReady});
 	socket.on('userName', function(data) {
-		console.log(data);
 		for(var x = 0; x < 4; ++x) {
 			if(userNames[x] == null) {
 				userNames[x] = data;
@@ -490,7 +480,6 @@ io.sockets.on('connection', function(socket) {
 		var centerY = serverGrid[data["x"]][data["y"]].y + 55.625;
 		var pathLoc = CoordToPathGrid(centerX, centerY);
 		pathGrid[pathLoc.x][pathLoc.y] = 1;
-        console.log("Placed X:" + data["x"] + " Y:" + data["y"]);
 		var gridLoc = serverGrid[data["x"]][data["y"]];
 		var building = new Building(gridLoc.x, gridLoc.y, data["x"], data["y"], data["hp"]);
 		switch(myIndex) {
@@ -538,7 +527,7 @@ io.sockets.on('connection', function(socket) {
 				zombies[myIndex].push(new Zombie(data["dstX"], data["dstY"], zombies[myIndex].length, myIndex, kingZombieHp, kingZombieSpeed, kingZombieAttack));
 				break;
 			default:
-				console.log("Error: invalid newZombie name");
+				console.error("ERROR: invalid newZombie name");
 		}
 		socket.broadcast.emit("zombiePlaced", data);
 	});
