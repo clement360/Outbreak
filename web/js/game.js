@@ -632,21 +632,21 @@ function loadZombieMenu(event){
 	smallZombieButton.graphics.beginFill("#000").drawRect(350,740,235,225);
 	smallZombieButton.alpha = 0.01;
 	smallZombieButton.addEventListener("click", function(event) {
-		placeZombie(100, "small");
+		placeZombie(smallZombiePrice, "small");
 	});
 	
 	kingZombieButton = new createjs.Shape();
 	kingZombieButton.graphics.beginFill("#000").drawRect(880,740,235,225);
 	kingZombieButton.alpha = 0.01;
 	kingZombieButton.addEventListener("click", function(event) {
-		placeZombie(750, "king");
+		placeZombie(kingZombiePrice, "king");
 	});
 	
-	smallZombieCost= new createjs.Text("$100", "bold 25px Lithos", "#fff");
+	smallZombieCost= new createjs.Text("$" + smallZombiePrice, "bold 25px Lithos", "#fff");
 	smallZombieCost.x = 433;
 	smallZombieCost.y = 923;
 	
-	kingZombieCost= new createjs.Text("$750", "bold 25px Lithos", "#fff");
+	kingZombieCost= new createjs.Text("$" + kingZombiePrice, "bold 25px Lithos", "#fff");
 	kingZombieCost.x = 961;
 	kingZombieCost.y = 923;
 	
@@ -727,7 +727,7 @@ function loadBuildingMenu(event){
 	factoryButton = new createjs.Shape();
     factoryButton.graphics.beginFill("#000000").drawRect(350, 740, 235, 225);
     factoryButton.addEventListener("click", function(event) {
-		placeBuilding(event, 250, factoryImage, "factory");
+		placeBuilding(event, buildingPrice, factoryImage, "factory");
 	});
     factoryButton.alpha = 0.01;
 	
@@ -738,7 +738,7 @@ function loadBuildingMenu(event){
 	bankButton = new createjs.Shape();
 	bankButton.graphics.beginFill("#000").drawRect(880,740,235,225);
 	bankButton.addEventListener("click", function(event) {
-		placeBuilding(event, 250, bank, "bank");
+		placeBuilding(event, buildingPrice, bank, "bank");
 	});
 	bankButton.alpha = 0.01;
 	
@@ -749,7 +749,7 @@ function loadBuildingMenu(event){
 	cageButton = new createjs.Shape();
 	cageButton.graphics.beginFill("#000").drawRect(1400,740,235,225);
 	cageButton.addEventListener("click", function(event) {
-		placeBuilding(event, 250, cage, "cage");
+		placeBuilding(event, buildingPrice, cage, "cage");
 	});
 	cageButton.alpha = 0.01;
 	
@@ -761,15 +761,15 @@ function loadBuildingMenu(event){
     attackButton.graphics.beginFill("#000000").drawRect(260, 906, 147, 55);
     attackButton.alpha = 0.01;
 	
-	factoryCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	factoryCost= new createjs.Text("$" + buildingPrice, "bold 25px Lithos", "#fff");
 	factoryCost.x = 432;
 	factoryCost.y = 923;
 	
-	bankCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	bankCost= new createjs.Text("$" + buildingPrice, "bold 25px Lithos", "#fff");
 	bankCost.x = 966;
 	bankCost.y = 923;
 	
-	cageCost= new createjs.Text("$250", "bold 25px Lithos", "#fff");
+	cageCost= new createjs.Text("$" + buildingPrice, "bold 25px Lithos", "#fff");
 	cageCost.x = 1484;
 	cageCost.y = 923;
 
@@ -829,21 +829,21 @@ function loadDefenseMenu(event) {
 	turretButton.graphics.beginFill("#000").drawRect(350,750,240,215);
 	turretButton.alpha = 0.01;
 	turretButton.addEventListener('click', function(event) {
-		placeBuilding(event, 500, turret, "turret");
+		placeBuilding(event, turretPrice, turret, "turret");
 	});
 	
 	orbButton = new createjs.Shape();
 	orbButton.graphics.beginFill("#000").drawRect(870,750,240,215);
 	orbButton.alpha = 0.01;
 	orbButton.addEventListener('click', function(event) {
-		placeBuilding(event, 3000, orb, "orb");
+		placeBuilding(event, orbPrice, orb, "orb");
 	});
 	
-	turretCost= new createjs.Text("$500", "bold 25px Lithos", "#fff");
+	turretCost= new createjs.Text("$" + turretPrice, "bold 25px Lithos", "#fff");
 	turretCost.x = 418;
 	turretCost.y = 923;
 	
-	orbCost= new createjs.Text("$3000", "bold 25px Lithos", "#fff");
+	orbCost= new createjs.Text("$" + orbPrice, "bold 25px Lithos", "#fff");
 	orbCost.x = 948;
 	orbCost.y = 923;
 	

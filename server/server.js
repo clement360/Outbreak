@@ -316,7 +316,7 @@ function turretAttackZombie(turret, zombie) {
 					setTimeout(function() {
 						turret.cooldown = false;
 					}, turret.speed);
-					if(distance(zombie.x, zombie.y, turret.building.x, turret.building.y) <= turret.range) {
+					if(distance(zombie.x, zombie.y, turret.building.x, turret.building.y) <= turret.range && zombie.hp > 0) {
 						zombie.hp -= turret.attack;
 						io.sockets.emit("turretShotFired", {
 							"i" : turret.building.i,
@@ -479,7 +479,8 @@ io.sockets.on('connection', function(socket) {
 		var centerX = serverGrid[data["x"]][data["y"]].x + 55.625;
 		var centerY = serverGrid[data["x"]][data["y"]].y + 55.625;
 		var pathLoc = CoordToPathGrid(centerX, centerY);
-		pathGrid[pathLoc.x][pathLoc.y] = 1;
+		if(data["x"] != 0 && data["y"] != 0)
+			pathGrid[pathLoc.x][pathLoc.y] = 1;
 		var gridLoc = serverGrid[data["x"]][data["y"]];
 		var building = new Building(gridLoc.x, gridLoc.y, data["x"], data["y"], data["hp"]);
 		switch(myIndex) {
@@ -512,10 +513,6 @@ io.sockets.on('connection', function(socket) {
 			"y" : data["y"],
 			"name" : data["name"]
 		});
-	});
-
-	socket.on("findPath", function(data) {
-		
 	});
 
 	socket.on("zombiePlaced", function(data) {
