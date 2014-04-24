@@ -96,6 +96,7 @@ function init() {
 	loadWheel.x = 970;
 	loadWheel.y = 650;
 	
+	createjs.Tween.get(loadWheel).to({rotation:359}, 1000);
 	wheelInterval = setInterval(function() {
 		loadWheel.rotation = 0;
 		createjs.Tween.get(loadWheel).to({rotation:359}, 1000);
