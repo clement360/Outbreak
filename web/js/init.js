@@ -106,28 +106,27 @@ function init() {
 	stage.addChild(loadWheel);
 }
 
-var lastSoundId = "turretShotFired";
 function handleLoad(event) {
-	if(event.id != null) {
+	if(event.id != null)
 		loadDetailText.text = "Loaded: " + event.id;
-		if(event.id == lastSoundId) {
-			loadImages();
-		}
-	}
 	else
 		loadDetailText.text = "Loaded: " + event.item.id;
 }
 
-
 function load(){
     queue = new createjs.LoadQueue(false);
+	var soundQueue = new createjs.LoadQueue(false);
 	
 	//Load sounds
 	loadText.text = "Loading sounds...";
 	loadText.x = 650;
-    queue.installPlugin(createjs.Sound);
+	
 	createjs.Sound.alternateExtensions = ["wav"];
-	var soundManifest = [
+    soundQueue.installPlugin(createjs.Sound);
+	soundQueue.addEventListener("complete", loadImages);
+	soundQueue.addEventListener("fileload", handleLoad);
+	
+	soundQueue.loadManifest([
 		{src:"sounds/zombieAttack.wav", id:"zombieAttack"},
 		{src:"sounds/zombieDied.wav", id:"zombieDied"},
 		{src:"sounds/buildingDestroyed.wav", id:"buildingDestroyed"},
@@ -139,10 +138,8 @@ function load(){
 		//We only want to have one of this at a time (or it sounds nasty :D)
 		{src:"sounds/flames.mp3", id:"flames", data:1},
 		{src:"sounds/orbShotFired.mp3", id:"orbShotFired"},
-		{src:"sounds/turretShotFired.mp3", id:lastSoundId}
-	];
-	createjs.Sound.registerManifest(soundManifest);
-	createjs.Sound.addEventListener("fileload", handleLoad);
+		{src:"sounds/turretShotFired.mp3", id:"turretShotFired"}
+	]);
 }
 
 function loadImages() {
