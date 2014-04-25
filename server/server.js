@@ -549,7 +549,7 @@ io.sockets.on('connection', function(socket) {
 				lobbyEmpty = false;
 			}
 		}
-		if(lobbyEmpty) {
+		if(lobbyEmpty && gameStarted) {
 			serverUp = false;
 			console.log("No players in game. Reinitializing...");
 			initServer();
