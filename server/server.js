@@ -16,6 +16,7 @@ var users;
 var zombies;
 var turrets;
 var serverUp = false;
+var gameStarted;
 
 function initServer() {
 	userNames = new Array();
@@ -55,6 +56,7 @@ function initServer() {
 	serverGrid[16][2].occupied = true;
 	serverGrid[16][3].occupied = true;
 	
+	gameStarted = false;
 	serverUp = true;
 }
 
@@ -151,14 +153,14 @@ function checkVictoryCondition() {
 		io.sockets.emit("gameOver", {
 			"winner" : "right"
 		});
-		console.log("Game over. Reinitializing.");
+		console.log("Game over. Reinitializing...");
 		initServer();
 	} else if(!serverGrid[16][2].occupied && !serverGrid[16][3].occupied) {
 		serverUp = false;
 		io.sockets.emit("gameOver", {
 			"winner" : "left"
 		});
-		console.log("Game over. Reinitializing.");
+		console.log("Game over. Reinitializing...");
 		initServer();
 	}
 }
@@ -517,7 +519,11 @@ function newPath (zombie, x2, y2, playerIndex, socket){
 
 io.sockets.on('connection', function(socket) {
 	var myIndex;
-	socket.emit('initialData', {"userNames" :userNames, "usersReady" : usersReady});
+	socket.emit('initialData', {
+		"userNames" :userNames,
+		"usersReady" : usersReady,
+		"gameStarted" : gameStarted
+	});
 	socket.on('userName', function(data) {
 		for(var x = 0; x < 4; ++x) {
 			if(userNames[x] == null) {
@@ -537,10 +543,30 @@ io.sockets.on('connection', function(socket) {
 		delete userNames[myIndex];
 		delete usersReady[myIndex];
         delete users[myIndex];
+		var lobbyEmpty = true;
+		for(var user in users) {
+			if(users[user] != null) {
+				lobbyEmpty = false;
+			}
+		}
+		if(lobbyEmpty) {
+			serverUp = false;
+			console.log("No players in game. Reinitializing...");
+			initServer();
+		}
 		socket.broadcast.emit('userDisconnect', myIndex);
 	});
 	socket.on('readyUp', function(data) {
 		usersReady[data] = true;
+		var everyoneReady = true;
+		for(var x = 0; x < 4; ++x) {
+			if(!usersReady[x]) {
+				everyoneReady = false;
+				break;
+			}
+		}
+		if(everyoneReady)
+			gameStarted = true;
 		socket.broadcast.emit('userReady', data);
 	});
 

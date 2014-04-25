@@ -70,11 +70,11 @@ socket.on('initialData', function(data) {
             break;
         }
     }
-    if(!userNotReady) {
+    if(data["gameStarted"]) {
 		alert("A game is already in progress. Please try again later.");
 		window.location.href = "http://google.com";
 	} else if(full) {
-		alert("Game server is full!");
+		alert("Game server is full. Please try again later.");
 		window.location.href = "http://google.com";
 	}
 	if(!loaded) {
