@@ -97,26 +97,25 @@ socket.on("orbShotFired", function(data) {
 });
 
 var gameOver = false;
+socket.on("gameOver", function(data) {
+	if(!gameOver) {
+		if((data["winner"] == "left" && myIndex < 2) || (data["winner"] == "right" && myIndex >= 2)) {
+			victory();
+		} else if((data["winner"] == "left" && myIndex >= 2) || (data["winner"] == "right" && myIndex < 2)) {
+			lose();
+		} else {
+			console.error("ERROR: Invalid victory condition.");
+		}
+		gameOver = true;
+		socket.disconnect();
+	}
+});
+
 socket.on("buildingDestroyed", function(data) {
 	createjs.Sound.play("buildingDestroyed");
 	var currentBox = grid[data["i"]][data["k"]];
 	explode(currentBox.x, currentBox.y, 4, 1500);
 	currentBox.occupied = false;
-	if(!grid[0][2].occupied && !grid[0][3].occupied && !gameOver) {
-		if(myIndex < 2) {
-			lose();
-		} else {
-			victory();
-		}
-		gameOver = true;
-	} else if(!grid[16][2].occupied && !grid[16][3].occupied && !gameOver) {
-		if(myIndex < 2) {
-			victory();
-		} else {
-			lose();
-		}
-		gameOver = true;
-	}
 	currentBox.building.destroyed = true;
 	if(currentBox.building.name == "bank")
 		banks.splice(0, 1);

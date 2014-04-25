@@ -91,8 +91,8 @@ CoordToPathGrid = function(x, y) {
 //coorGrid End
 
 //serverGrid Start
-var gridWidth = 17;
-var gridHeight = 6;
+gridWidth = 17;
+gridHeight = 6;
 
 serverGrid = new Array(gridWidth); ////Grid to be used for game  --Sergio
 for (var i = 0; i < gridWidth; i++) {

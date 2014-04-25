@@ -1,23 +1,65 @@
 require('./pathfinding.js');
 require('./conf.js');
-var io = require('socket.io').listen(56644);
-var userNames = new Array();
-var usersReady = new Array();
-var users = new Array();
+var express  = require('express')
+    , app    = express()
+    , server = require('http').createServer(app)
+    , io     = require('socket.io').listen(server);
 
-//Zombies array is of the form [i][k]
-//Where i is player index and k is zombie index
-var zombies = new Array();
-for(var i = 0; i < 4; i++) {
-	zombies[i] = new Array();
+var port = process.env.OPENSHIFT_NODEJS_PORT || 56644  
+, ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+
+server.listen(port, ip);
+
+var userNames;
+var usersReady;
+var users;
+var zombies;
+var turrets;
+var serverUp = false;
+
+function initServer() {
+	userNames = new Array();
+	usersReady = new Array();
+	users = new Array();
+
+	//Zombies array is of the form [i][k]
+	//Where i is player index and k is zombie index
+	turrets = new Array();
+	for(var i = 0; i < 4; i++) {
+		turrets[i] = new Array();
+	}
+	
+	leftStructures = [];
+	rightStructures = [];
+	
+	leftStructures[0] = new Building(86, 283, 0, 2, baseHp);
+	leftStructures[1] = new Building(86, 406, 0, 3, baseHp);
+	rightStructures[0] = new Building(1820, 283, 16, 2, baseHp);
+	rightStructures[1] = new Building(1820, 406, 16, 3, baseHp);
+	
+	//Zombies array is of the form [i][k]
+	//Where i is player index and k is zombie index
+	zombies = new Array();
+	for(var i = 0; i < 4; i++) {
+		zombies[i] = new Array();
+	}
+	
+	for (var i = 0; i < gridWidth; i++) {
+        for (var k = 1; k < gridHeight; k++) {
+			serverGrid[i][k].occupied = false;
+		}
+	}
+	
+	serverGrid[0][2].occupied = true;
+	serverGrid[0][3].occupied = true;
+	serverGrid[16][2].occupied = true;
+	serverGrid[16][3].occupied = true;
+	
+	serverUp = true;
 }
 
-//Zombies array is of the form [i][k]
-//Where i is player index and k is zombie index
-var turrets = new Array();
-for(var i = 0; i < 4; i++) {
-	turrets[i] = new Array();
-}
+//Call this once when the server boots
+initServer();
 
 function Zombie (x, y, index, playerIndex, hp, speed, attack) {
 	this.x = x;
@@ -81,11 +123,6 @@ function Turret(building, speed, attack, splash, range) {
 	this.range = range;
 }
 
-leftStructures[0] = new Building(86, 283, 0, 2, baseHp);
-leftStructures[1] = new Building(86, 406, 0, 3, baseHp);
-rightStructures[0] = new Building(1820, 283, 16, 2, baseHp);
-rightStructures[1] = new Building(1820, 406, 16, 3, baseHp);
-
 //-------------------------EasyStar.js-------------------------//
 var EasyStar = require('easystarjs');
 var easystar = new EasyStar.js();
@@ -108,6 +145,24 @@ setInterval(function(){
 },100);
 //-----------------------End EasyStar.js-----------------------//
 
+function checkVictoryCondition() {
+	if(!serverGrid[0][2].occupied && !serverGrid[0][3].occupied) {
+		serverUp = false;
+		io.sockets.emit("gameOver", {
+			"winner" : "right"
+		});
+		console.log("Game over. Reinitializing.");
+		initServer();
+	} else if(!serverGrid[16][2].occupied && !serverGrid[16][3].occupied) {
+		serverUp = false;
+		io.sockets.emit("gameOver", {
+			"winner" : "left"
+		});
+		console.log("Game over. Reinitializing.");
+		initServer();
+	}
+}
+
 function attackBuilding(zombie) {
 	if(zombie.dead) return;
 	var structures;
@@ -117,6 +172,10 @@ function attackBuilding(zombie) {
 		structures = leftStructures;
 	if(zombie.targetBuilding != null) {
 		var interval = setInterval(function() {
+			if(!serverUp) {
+				clearInterval(interval);
+				return;
+			}
 			if(zombie.dead) {
 				io.sockets.emit("zombieDied", {
 					"playerIndex" : zombie.playerIndex,
@@ -151,6 +210,9 @@ function attackBuilding(zombie) {
 					var centerY = serverGrid[zombie.targetBuilding.i][zombie.targetBuilding.k].y + 55.625;
 					var pathLoc = CoordToPathGrid(centerX, centerY);
 					pathGrid[pathLoc.x][pathLoc.y] = 0;
+					var currentBox = serverGrid[zombie.targetBuilding.i][zombie.targetBuilding.k];
+					currentBox.occupied = false;
+					checkVictoryCondition();
 					zombie.targetBuilding.destroyed = true;
 				}
 				zombie.path = new Array();
@@ -216,6 +278,10 @@ function enemyTurretsInRange(zombie, range) {
 
 function attackZombie(zombie) {
 	var interval = setInterval(function() {
+		if(!serverUp) {
+			clearInterval(interval);
+			return;
+		}
 		//Failsafe
 		if(zombie.dead) {
 			io.sockets.emit("zombieDied", {
@@ -265,6 +331,10 @@ function turretAttackZombie(turret, zombie) {
 	var zombieAlive = false;
 	if(turret.splash) {
 		var interval = setInterval(function() {
+			if(!serverUp) {
+				clearInterval(interval);
+				return;
+			}
 			if(!turret.building.destroyed) {
 				if(!turret.cooldown) {
 					turret.cooldown = true;
@@ -304,6 +374,10 @@ function turretAttackZombie(turret, zombie) {
 		}, turret.speed);
 	} else {
 		var interval = setInterval(function() {
+			if(!serverUp) {
+				clearInterval(interval);
+				return;
+			}
 			if(!turret.building.destroyed) {
 				//Make sure the turret only shoots one zombie at a time
 				if(!turret.cooldown) {
@@ -347,6 +421,10 @@ function animate(zombie){
 
     var interval = setInterval(move, speed);
     function move() {
+		if(!serverUp) {
+			clearInterval(interval);
+			return;
+		}
 		//Failsafe
 		if(zombie.dead) {
 			io.sockets.emit("zombieDied", {

@@ -33,12 +33,14 @@ socket.on('error', function (err) {
 });
 
 socket.on('disconnect', function(data) {
-	stage.removeAllChildren();
-	stage.removeAllEventListeners();
-	loadText.text = "Lost connection to server.";
-	loadText.x = 450;
-	loadText.y = 450;
-	stage.addChild(loadText);
+	if(!gameOver) {
+		stage.removeAllChildren();
+		stage.removeAllEventListeners();
+		loadText.text = "Lost connection to server.";
+		loadText.x = 450;
+		loadText.y = 450;
+		stage.addChild(loadText);
+	}
 });
 
 socket.on('newUser', function(data) {
@@ -61,8 +63,18 @@ socket.on('initialData', function(data) {
 			break;
 		}
 	}
-	if(full) {
-		alert("Game server is already full!!!");
+	var userNotReady = false;
+    for(var x = 0; x < 4; ++x) {
+        if(!usersReady[x]) {
+            userNotReady = true;
+            break;
+        }
+    }
+    if(!userNotReady) {
+		alert("A game is already in progress. Please try again later.");
+		window.location.href = "http://google.com";
+	} else if(full) {
+		alert("Game server is full!");
 		window.location.href = "http://google.com";
 	}
 	if(!loaded) {
