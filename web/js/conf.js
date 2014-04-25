@@ -1,5 +1,7 @@
-server = "http://compute.cs.tamu.edu:56644";
+//server = "http://compute.cs.tamu.edu:56644";
 //server = "http://localhost:56644";
+//server = "http://devins-phoenix.local:56644";
+server = "http://outbreakserver-tuchsen.rhcloud.com:8000"
 
 //Small zombie stats
 smallZombieAttack = 5;
